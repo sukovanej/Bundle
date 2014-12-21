@@ -1,0 +1,28 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext);
+body {background-color:#3498db; font-family:'Open Sans', sans-serif; font-size:15px;}
+div#page {position:absolute; background-color:#fff; color:#222; top:50px; bottom:0; left:0; right:0; overflow:auto;}
+content {display:block; padding:20px;}
+h1 {font-weight:normal; padding:10px; background-color:#333; font-size:30px; color:#fff; text-align:center;}
+h1 img {height:18px;}
+h2 {font-weight:normal; font-size:22px; color:#2980b9; text-align:left; margin-bottom:10px;}
+p {color:#000; padding:20px; line-height:1.5em;}
+h2#error {color:red;}
+div#error {background-color:#eee; border:1px solid #aaa; text-align:left; text-wrap:normal; 
+	font-family: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace; 
+	font-size:13px; width:100%;}
+a {text-decoration:none; color:#A6A330;}
+a:hover {text-decoration:underline;}
+strong {font-weight:bold; color:#1E90FF;}
+table {margin:10px 0px;}
+table tr td {padding:4px; vertical-align:top;}
+hr {border:0; border-top:1px solid #aaa;}
+em {font-style:italic;}
+
+input[type=text], input[type=password] {padding:3px; background-color:#fff; color:#666; border:1px solid #ddd; border-radius:3px;}
+input[type=text]:hover, input[type=password]:hover {border:1px solid #1E90FF; color:#333;}
+
+table.table {width:100%;}
+table.table tr th {border:1px solid #ccc; border-bottom:1px solid #1E90FF; border-top:3px solid #1E90FF; font-weight:bold; text-align:left; background-color:#fff; padding:5px;}
+table.table tr td {border:1px solid #ccc; background-color:#f5f5f5; padding:5px;}
+
+#result-script {overflow:auto; width:100%; height:200px;}
