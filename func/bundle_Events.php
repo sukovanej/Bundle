@@ -17,8 +17,9 @@ class Events {
 	public static function Unregister($data) {
 		$list = Content::ListByData("event", $data);
 		
-		foreach ($list as $item)
-			$item->Delete();
+		if ($list != false)
+			foreach ($list as $item)
+				$item->Delete();
 	}
 	
 	public static function Execute($place, $params = array()) {
@@ -40,7 +41,7 @@ class Events {
 	}
 	
 	public static function BootAllPacks () {
-		$contents = Content::ListByType("event");
+		$contents = array_merge(Content::ListByType("event"), Content::ListByType("package"));
 		if ($contents)
 			foreach($contents as $content) {
 				$package = new Package($content->Data);

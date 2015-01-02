@@ -85,7 +85,7 @@ class HForm {
 		$result = "\n" . '<form method="' . $this->Method . '" ' . $this->generateAttributesString() . ' ' . $this->generateClassesString() . ' >' . "\n\t" . '<table>';
 		
 		if ($style == self::TABLE_STYLE_DEFAULT)
-			$style = "width:100px; white_space:nowrap; vertical-align:top;";
+			$style = "width:100px; white_space:nowrap;";
 			
 		foreach($this->Items as $item) {
 			if ($item->Type == HFormItem::TYPE_NEW_TABLE) {

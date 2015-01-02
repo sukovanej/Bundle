@@ -9,9 +9,9 @@
     
     <!-- Přidat komentář -->
     <div id="add_comment">
-        <?php if (Bundle\User::IsLogged()): ?>
+        <?php if ((Bundle\User::IsLogged() || $Page->AllowUnregistredComments) && $Page->AllowComments): ?>
             <form method="POST">
-                <table>
+                <table class="nostyle">
                     <tr>
                         <td><textarea name="bundle_comment_text"></textarea></td>
                     </tr>

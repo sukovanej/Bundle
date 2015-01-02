@@ -28,4 +28,8 @@ class Admin {
     }
 }
 
+function __POST($var) {
+	return isset($_POST[$var]) ? $_POST[$var] : null;
+}
+
 $Website = new Bundle\Template;

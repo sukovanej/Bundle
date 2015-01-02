@@ -27,7 +27,7 @@ class HDirectory extends HFileSystemItem {
 		return $a_result;
 	}
 	
-	public function uploadFile($file, $name = self::FILE_NAME, $max_size = false, $rewrite = self::REWRITE_OFF) {
+	public function uploadFile($file, $name = self::FILE_NAME, $rewrite = self::REWRITE_OFF, $max_size = false) {
 		$target_file = $this->Path . "/" . basename($file["name"]);
 		
 		if ($name == self::FILE_NAME)
@@ -41,13 +41,15 @@ class HDirectory extends HFileSystemItem {
 		if($max_size != false && $file['size'] > $max_size) {
 			throw new Exception("Překročena maximální velikost souboru " . $max_size . "B.");
 		} else {
-			if (move_uploaded_file($file_name, $target_file))
+			if (!move_uploaded_file($file_name, $target_file))
 				throw new Exception("Neznámá chyba při uploadu.");
 		}
+		
+		return (new HFile($target_file));
 	}
 	
 	public function newDirectory($dir, $mode = 0777, $recursive = false) {
-		if(mkdir($dir, $moe, $recursive))
+		if(mkdir($this->Path . "/" . $dir, $mode, $recursive))
 			return new HDirectory($this->Path);
 			
 		throw new Exception("Složka <em>" . $dir . "</em> nelze vytvořit.");

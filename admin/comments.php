@@ -25,7 +25,9 @@
 	</tr>
 	<?php foreach (Bundle\Comment::GetList() as $Comment): ?>
 	<tr>
-		<td><a href="<?= $Comment->ArticleObj->Url ?>"><?= $Comment->ArticleObj->Title ?></a></td>
+		<td class="comment_td"><a href="<?= $Comment->ArticleObj->Url ?>"><?= $Comment->ArticleObj->Title ?></a>
+			<span class="comment_table"><?= $Comment->Text ?></span>
+		</td>
 		<td><?= $Comment->Datetime ?></td>
 		<td><?= $Comment->AuthorObj->Username ?></td>
 		<td><a onclick="commentSubDelete('<?= $Comment->ID ?>')">Nevhodný komentář</a></td>

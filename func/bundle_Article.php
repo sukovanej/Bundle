@@ -17,6 +17,11 @@ class Article extends DatabaseBase {
         $this->Datetime = (new \DateTime($this->Datetime))->format("d. m. Y  H:i"); 
         $this->CategoriesString = "";
         $this->Perex = explode("<!-- pagebreak -->", $this->Content)[0];
+        $this->Comments = $this->connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID)->fetch_object()->Count;
+        
+        if ($this->Perex == $this->Content)
+			$this->Perex = explode("[perex]", $this->Content)[0];
+        
         $this->Categories();
         
         $this->Statuses = self::getStatuses();
@@ -50,12 +55,8 @@ class Article extends DatabaseBase {
     }
     
     public function Comments() {
-        $Url = Url::InstByUrl($_GET["router"]);
-        $result = $this->connect->query("SELECT ID, Author FROM " . DB_PREFIX . "comments WHERE Page = "
-                . $Url->Data . " ORDER BY Datetime DESC");
+        $result = $this->connect->query("SELECT ID, Author FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID . " ORDER BY Datetime DESC");
         
-        $Page = new Template;
-            
         while($row = $result->fetch_assoc()) {
             $Comment = new Comment($row["ID"]);
 

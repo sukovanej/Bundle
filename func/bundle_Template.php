@@ -262,8 +262,8 @@ class Template {
         
         // Add new comment
         
-        if (isset($_POST["comment_submit"]) && $Article->AllowComments && $this->AllowComments) {
-            $text = $_POST["comment_text"];
+        if (isset($_POST["bundle_comment_submit"]) && $Article->AllowComments && $this->AllowComments) {
+            $text = $_POST["bundle_comment_text"];
             
 			if (!empty($_SERVER['HTTP_CLIENT_IP']))
 				$ip=$_SERVER['HTTP_CLIENT_IP'];

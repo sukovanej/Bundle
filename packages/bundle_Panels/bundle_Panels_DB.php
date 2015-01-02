@@ -1,11 +1,11 @@
 <?php
 
-class bundle_Panels {
+class bundle_Panels_DB {
 	public $panels;
 	
 	public function __construct() {
 		$connect = Bundle\DB::Connect();
-		$result = $connect->query("SELECT ID FROM Bundle\panels");
+		$result = $connect->query("SELECT ID FROM " . DB_PREFIX . "panels");
 			
 		$this->panels = array();
 		
@@ -17,24 +17,25 @@ class bundle_Panels {
 	
 	public static function Create($title, $content) {
 		$connect = Bundle\DB::Connect();
-		$connect->query("INSERT INTO Bundle\panels (Title, Content) VALUES ('" . $title . "', '" . $content . "')");
+		$connect->query("INSERT INTO " . DB_PREFIX . "panels (Title, Content) VALUES ('" . $title . "', '" . $content . "')");
 	}
 	
 	public static function Generate() {
 		$connect = Bundle\DB::Connect();
-		$result = $connect->query("SELECT * FROM Bundle\panels");
+		$result = $connect->query("SELECT * FROM " . DB_PREFIX . "panels");
+		
+		$rresult = array();
 		
 		while($row = $result->fetch_object()) {
-			$panel = new bundle_Panel($row->ID);
-		
-			echo('<div class="panel"><h1 class="panel_title">' . $panel->Title . '</h1>');
-			echo('<div class="panel_content">' . $panel->Content . '</div></div>');
+			$rresult[] = new bundle_Panel($row->ID);
 		}
+		
+		return $rresult;
 	}
 	
 	public static function IsEmpty() {
 		$connect = Bundle\DB::Connect();
-		$result = $connect->query("SELECT COUNT(*) AS Count FROM Bundle\panels");
+		$result = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "panels");
 		
 		if ($result->fetch_object()->Count == 0)
 			return true;
@@ -45,6 +46,6 @@ class bundle_Panels {
 
 class bundle_Panel extends Bundle\DatabaseBase {
 	public function __construct($ID) {
-		parent::__construct($ID, "Bundle\panels");
+		parent::__construct($ID, "panels");
 	}
 }

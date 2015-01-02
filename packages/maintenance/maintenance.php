@@ -3,10 +3,6 @@
 class maintenance extends Bundle\PackageBase {	
 	// Inicialize
 	public function __construct() {
-		$this->includes = array(
-			"maintenance.php"
-		);
-		
 		parent::__construct();
 	}
 	

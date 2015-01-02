@@ -11,8 +11,9 @@ class HConfiguration {
 	public static function set($name, $value) {
 		$c = Bundle\DB::Connect();
 		
-		if (is_string($value))
-            $value = $c->escape_string($value);
+		if (is_string($value)) {
+            $value = "'" . $c->escape_string($value) . "'";
+		}
             
         if (!HConfiguration::exists($name))
 			HConfiguration::create($name, $value);

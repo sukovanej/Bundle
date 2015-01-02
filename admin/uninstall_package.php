@@ -12,11 +12,9 @@
 <?php elseif(isset($_POST["uninstall"])): ?>
 
 	<?php
-		require($Package_dir . "/install.php");
-		
 		$package = Bundle\Package::GetPackageByName($Package_name);
-		$install = new Install();
-		
+		$install = new $Package_name();
+	
 		if (Bundle\Content::ListByData("package", $package->ID) != false) {
 			foreach (Bundle\Content::ListByData("package", $package->ID) as $content) {
 				echo ("<strong class='done'>OK</strong> : Odstranění z umístění  <em>" . $content->Place . "</em>. <br />");
@@ -25,14 +23,6 @@
 		} else {
 			echo ("<strong class='done'>OK</strong> : Balíček nená žádné umístění. <br />");
 		}
-		
-		if ($install->includes)
-			foreach($install->includes as $file) {
-				$include = Bundle\Includes::GetByUrl("./packages/" . $Package_name . "/" . $file);
-				
-				echo ("<strong class='done'>OK</strong> : Odstranění přiložených souborů  <em>" . $include->Url . "</em>. <br />");
-				$include->Delete();
-			}
 			
 		Bundle\Events::Unregister($package->ID);
 		echo ("<strong class='done'>OK</strong> : Handlery událostí pro balík byly odstraněny. <br />");
@@ -46,7 +36,7 @@
 	<br /><br />
 		<p><a href="./administrace-baliky" id="button">Pokračujte na stránce s přehledem balíků.</a></p>
 		
-<?php elseif (file_exists($Package_dir . "/install.php")): ?>
+<?php elseif (file_exists($Package_dir . "/" . $Package_name . ".php")): ?>
 
 	<h2>Závilosti</h2>
 
@@ -55,7 +45,7 @@
 		$error_dependence_packages = array();
 		
 		foreach(Bundle\Package::GetInstalledPackages() as $_pack) {
-			$d = split(" ", $_pack->Config->dependence);
+			$d = explode(" ", $_pack->Config->dependence);
 			
 			foreach($d as $dep) {
 				if ($dep == $Package_name) {

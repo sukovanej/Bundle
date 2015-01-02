@@ -64,11 +64,6 @@
 	</script>
 	
 	<table id="article_table">
-					<tr>
-				<td id="sub-header" colspan="6">
-					Test
-				</td>
-			</tr>
 		<tr>
 			<td>
 				<form method="post" enctype="multipart/form-data">

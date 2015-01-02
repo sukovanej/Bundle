@@ -14,8 +14,6 @@ class Package extends DatabaseBase {
 		
 		$this->IconUrl = "packages/" . $this->Name ."/ico.png";
 		$this->Config = new IniConfig("packages/" . $this->Name ."/info.conf");
-		$package = $this->Name;
-		$this->Obj = new $package();
 		
 		if (!file_exists(getcwd() . "/" . $this->IconUrl))
 			$this->IconUrl = "images/Plugins.png";
@@ -25,8 +23,8 @@ class Package extends DatabaseBase {
 	}
 	
 	public function Generate() {
-		if (Content::GetByData("event", $this->ID))
-			global ${$this->Name}; 
+		
+		global ${$this->Name}; 
 			
 		if (($content = Content::GetByData("package", $this->ID)) == false){
 			require("./packages/" . $this->Name . "/layout.php");

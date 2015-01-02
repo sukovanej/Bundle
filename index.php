@@ -11,15 +11,15 @@
 	// db prefix -> default "bundle_"
 	define("DB_PREFIX", (new Bundle\IniConfig("config.ini"))->db_prefix);
 	
-	//require("helpers/debug/debug.php");		
+	// uncomment to debug pages	
+	require("helpers/debug/debug.php");
 	
-	// Include plugins files
-	foreach(Bundle\Package::GetInstalledPackages() as $package) {
-		require("packages/" . $this->Name . ".php");
-		$class = $this->Name;
-		
-		$package = new $class();
-		$package->obj->IncludeAllFiles();
+	// Include packages files
+	foreach(Bundle\Package::GetInstalledPackages() as $package) {		
+		$package_name = $package->Name;
+		require("packages/" . $package_name. "/" . $package_name . ".php");
+		$obj = new $package_name();
+		$obj->IncludeAllFiles();
 	}
 	
 	// Bundla 1.2: debug bug

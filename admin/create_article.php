@@ -39,11 +39,11 @@
 	<table id="article_table">
 		<tr>
 			<td width="110">Titulek článku</td>
-			<td><input type="text" name="title" value="<?= @$_POST["title"] ?>" /></td>
+			<td><input type="text" name="title" value="<?= __POST("title") ?>" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= @$_POST["content"] ?></textarea>
+				<textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
 			</td>
 		</tr>
 	</table>
@@ -62,7 +62,7 @@
 				<?php endif; ?>
 			</tr>
 			<tr>
-				<td width="120"><input type='checkbox' name='show_in_view' checked /> Povolit zobrazení mezi ostatními články ve výpisu</td>
+				<td width="120"><input type='checkbox' name='show_in_view' checked /> Povolit zobrazení mezi ostatními články ve výpisu (hlavní stránka, kategorie,...)</td>
 			</tr>
 		</table>
 	<h2>Kategorie</h2>

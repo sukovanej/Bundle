@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="<?= $Page->ThemeRoot ?>/style.css?get=get" />
+	<link rel="stylesheet" href="<?= $Page->ThemeRoot ?>/style_default.css" />
+	<link rel="stylesheet" href="<?= $Page->ThemeRoot ?>/style_<?= HConfiguration::Get("DefaultThemeStyleType") ?>.css?get=get" />
 	<link rel="stylesheet" href="<?= $Page->ThemeRoot ?>/reset.css" />
 	<link rel="icon" type="image/png" href="<?= $Page->Icon ?>?new=ico" />
 	<title><?= $Page->Name ?> | <?= $Page->Actual ?></title>
@@ -30,7 +31,6 @@
 					</ul>
 				</content>
 			</div>
-
 			<div id="logo">
 				<h1><?= $Page->Name ?></h1>
 			</div>

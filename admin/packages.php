@@ -1,7 +1,31 @@
 <h1>Balíky</h1>
 <p>Balíky jsou jedním z hlavním stavebních prvků systému Bundle. Konkrétní uspořádání generovacích balíčků naleznete v 
 	<a href="administrace-vzhled">nastavení</a>.</p>
-<table class="table">
+	
+<table>
+	<tr>
+		<td>
+			<input type="text" id="search_input" placeholder="Zde vyhledávejte balíček" class="full_width" />
+		</td>
+	</tr>
+</table>	
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#search_input').keyup(function () {
+			$('table.packages tr').each(function() { $(this).hide(); });
+			
+			$('.package_name:contains('+ $(this).val() +')').parent().parent().show();
+			$('.package_version:contains('+ $(this).val() +')').parent().show();
+			$('.package_author:contains('+ $(this).val() +')').parent().show();
+			$('.package_description:contains('+ $(this).val() +')').parent().show();
+			$('.package_name:contains('+ $(this).val() +')').parent().show();
+		});
+	});
+
+</script>
+	
+<table class="table packages">
 	<tr>
 		<th class="width-long">Název balíku</th>
 		<th>Verze</th>
@@ -24,12 +48,12 @@
 	?>
 	<?php if (!$package->Error): ?>
 	<tr>
-		<td><img class="package-image-info" src="./<?= $icon ?>" /><strong><?= $package->name ?></strong> 
+		<td><img class="package-image-info" src="./<?= $icon ?>" /><strong class="package_name"><?= $package->name ?></strong> 
 			<p class="package-sub-info"><?= $info ?></p></td>
-		<td><?= $package->version ?></td>
-		<td><?= $package->author ?></td>
-		<td><?= $package->description ?></td>
-		<td><em><?= $name ?></em></td>
+		<td class="package_version"><?= $package->version ?></td>
+		<td class="package_author"><?= $package->author ?></td>
+		<td class="package_description"><?= $package->description ?></td>
+		<td class="package_name"><em><?= $name ?></em></td>
 	</tr>
 	<?php else: ?>
 	<tr>

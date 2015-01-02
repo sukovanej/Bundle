@@ -134,14 +134,12 @@
 						<?= $result; ?>
 					</div>
 					<p>Po otevření kořenové adresy webu v prohlížeči by se měl zobrazit již fungující webu se
-						systémem Bundle. Přesvědčte se, že adresář <em>install</em> bude co nejdříve 
-						odstraněn z webu.</p>
+						systémem Bundle. Bezprostředně po dokončení instalace odstrante soubor install.php a složku install.</p>
 					<p>Příjemnou práci se systémem Bundle Vám přeje <strong>Milan Suk</strong>, autor projektu.</p>
 					<p><a href="./">Přejít na web!</a></p>
 				<?php elseif(filesize("config.ini") != 0): ?>
-					<p>Konfigurační soubor je už nastaven, takže se redakční systém považuje za nainstalovaný. Odstraňte tento složku install, aby
+					<p>Konfigurační soubor je už nastaven, takže se redakční systém považuje za nainstalovaný. Odstraňte soubor install.php a složku install, aby
 						v budoucnu nedošlo k bezpečnostním problémům.</p>
-					
 					<p>Pokud jste instalaci ještě neprovedli, odstraňte konfigurační soubor <em>config.ini</em> a vytvořte nový tak, aby byl úplně
 						prázdný. Při dalším pokusu o instalaci by se již měl zobrazit instalační formulář namísto tohoto textu!</p>
 				<?php endif; ?>

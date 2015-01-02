@@ -38,7 +38,7 @@ class Comment extends DatabaseBase{
     
     public static function GetList() {
 		$connect = DB::Connect();
-		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "comments");
+		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "comments ORDER BY Datetime DESC");
 		
 		$array = array();
 		

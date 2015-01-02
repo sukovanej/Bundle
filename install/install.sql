@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `bundle_menu` (
 -- Vypisuji data pro tabulku `bundle_menu`
 --
 
-INSERT INTO `bundle_menu` (`ID`, `MenuOrder`, `Url`, `Parent`) VALUES(1, 0, 1, 0);
+INSERT INTO `bundle_menu` (`ID`, `MenuOrder`, `Url`, `Parent`) VALUES(1, 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -214,13 +214,13 @@ CREATE TABLE IF NOT EXISTS `bundle_pages` (
   `Content` mediumtext COLLATE utf8_czech_ci NOT NULL,
   `Parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
 
 --
 -- Vypisuji data pro tabulku `bundle_pages`
 --
 
-INSERT INTO `bundle_pages` (`ID`, `Title`, `Author`, `Content`, `Parent`) VALUES(1, 'Nová stránka', 1, '<p>Instalátorem vytvořená stránka</p>');
+INSERT INTO `bundle_pages` (`ID`, `Title`, `Author`, `Content`) VALUES(1, 'Nová stránka', 1, '<p>Instalátorem vytvořená stránka</p>');
 -- --------------------------------------------------------
 
 --

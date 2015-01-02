@@ -16,7 +16,13 @@
                 $Page->Update("PagerMax", $_POST["pager"]);
                 $Page->Update("Author", $_POST["author"]);
                 $Page->Update("CommentText", $_POST["comment"]);
-                $Page->Update("Icon", $_POST["icon"]);
+                $Page->Update("Icon", $_POST["icon"]); 
+                
+                if ($Page->Theme != $_POST["theme"]) {
+					require("themes/" . $_POST["theme"] . "/install.php");
+					(new InstallTheme())->Install();
+				}
+				
                 $Page->Update("Theme", $_POST["theme"]);
                 $Page->Update("Homepage", $_POST["homepage"]);	
                 $Page->Update("AllowComments", checked("allow_comments")); 
@@ -63,6 +69,7 @@
                             while (false !== ($entry = readdir($handle))) {
                                 if ($entry != "." && $entry != "..") {
                                     $selected = "";
+                                    
                                     if ($entry == $Page->Theme)
                                         $selected = "selected='selected'";
                                     

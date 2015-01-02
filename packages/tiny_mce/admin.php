@@ -15,11 +15,11 @@
 	<table>
 		<tr>
 			<td>Pluginy</td>
-			<td><textarea class="width-full" name="tiny_mce_plugins"><?= configuration_Helper::Get("tinyMCE_plugins") ?></textarea></td>
+			<td><textarea class="width-full" name="tiny_mce_plugins"><?= HConfiguration::Get("tinyMCE_plugins") ?></textarea></td>
 		</tr>
 		<tr>
 			<td>Toolbar</td>
-			<td><textarea class="width-full" name="tiny_mce_toolbar"><?= configuration_Helper::Get("tinyMCE_toolbar") ?></textarea></td>
+			<td><textarea class="width-full" name="tiny_mce_toolbar"><?= HConfiguration::Get("tinyMCE_toolbar") ?></textarea></td>
 		</tr>
 		<tr>
 			<td></td>

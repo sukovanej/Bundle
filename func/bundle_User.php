@@ -46,7 +46,10 @@ class User extends DatabaseBase{
 		$connect = DB::Connect();
 		$connect->query("INSERT INTO " . DB_PREFIX . "users (Username, Password, Email, Role) VALUES ('"
                 . $username . "', '" . sha1($password) . "', '" . $email . "', 2)");
+        $id = $connect->insert_id;
         $connect->close();
+        
+        return new User($id);
     }
     
     public static function Exists($name, $value) {

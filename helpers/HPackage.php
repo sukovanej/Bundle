@@ -2,8 +2,8 @@
 
 class HPackage {
 	public static function getLastInstalled() {
-		$connect = bundle_DB::Connect();
-		$p = $connect->query("SELECT ID FROM " . DB_PREFIX . "bundle_packages ORDER BY ID DESC LIMIT 1")->fetch_object();
+		$connect = Bundle\DB::Connect();
+		$p = $connect->query("SELECT ID FROM " . DB_PREFIX . "packages ORDER BY ID DESC LIMIT 1")->fetch_object();
 		
 		return $p->ID;
 	}
@@ -19,12 +19,12 @@ class HPackage {
 		
 		if (Bundle\Packages::IsPackageInstalled($Package_name)) {
 			$result[] = array("ERR", "Balíček je už nainstalovaný.");
-		} elseif (file_exists($Package_dir . "/" . $Package_dir . ".php")) {
-			require($Package_dir . "/" . $Package_dir . ".php");
+		} elseif (file_exists($Package_dir . "/" . $Package_name . ".php")) {
+			require($Package_dir . "/" . $Package_name . ".php");
 	
 			$packages = new Bundle\Packages();
 			$config = new Bundle\IniConfig($Package_dir . "/info.conf");
-			$install = new $Package_dir();
+			$install = new $Package_name();
 			
 			$error_dependence = 0;
 			
@@ -59,7 +59,7 @@ class HPackage {
 						$result[] = array("OK", "Zjištěna splněná závilost na balík " . $config->dependence . ".");
 					}
 				}
-			} else if($dependence == false) {
+			} else if($dependences == false) {
 				$result[] = array("WAR", "Sledování závislostí je programem vypnuto");
 			} else {
 				$result[] = array("OK", "Nezjištěny žádné závislosti");
@@ -68,52 +68,25 @@ class HPackage {
 			if($error_dependence > 0) {
 				$result[] = array("ERR", "Máte nevyřešené závislosti mezi balíky (" . $error_dependence . ")");
 			} else {
-				$error = false;
-				$error_file = "";
-				
-				foreach($install->includes as $file) {
-					$_url = "./packages/" . $Package_name . "/" . $file;
-					
-					if (!file_exists($_url)) {
-						$error = true;
-						$result[] = array("ERR", "Soubor " . $file . " nebylo možné uložit.");
-					}
-				}
-				
-				if (!$error) {
-					foreach($install->includes as $file) {
-						$_url = "./packages/" . $Package_name . "/" . $file;
-						
-						Bundle\Includes::Create($_url);
-						$result[] = array("OK", "Soubor " . $_url . " úspěšně uložen.");
-					}
-				}
-					
-				if(!$error) {
-					$result[] = array("OK", "Všechny potřebné soubory byly uloženy.");
-					
-					try {
-						if($install->install()) {
-							if(isset($install->menu_title))
-								$id = $packages->Install($Package_name, $install->menu_title);
-							else
-								$id = $packages->Install($Package_name);
-								
-							if(!isset($install->home_only))
-								$install->home_only = false;
+				try {
+					if($install->install()) {
+						if(isset($install->menu_title))
+							$id = $packages->Install($Package_name, $install->menu_title);
+						else
+							$id = $packages->Install($Package_name);
 							
-							if(isset($install->place) && $install->place != "none") {
-								Bundle\Content::Create("package", $id, $install->place, $install->home_only);
-								$result[] = array("OK", "Úspěšně nastavena oblast pro generování balíčku.");
-							}
-								
-							$result[] = array("OK", "Balík úspěšně nainstalován do systému!</span>");
+						if(!isset($install->home_only))
+							$install->home_only = false;
+						
+						if(isset($install->place) && $install->place != "none") {
+							Bundle\Content::Create("package", $id, $install->place, $install->home_only);
+							$result[] = array("OK", "Úspěšně nastavena oblast pro generování balíčku.");
 						}
-					} catch (Exception $e) {
-						$result[] = array("ERR", "Byla nalezena neošetřená chyba v instalačním souboru ./plugins/" . $Package_name . "/install.php, kvůli které nelze instalaci dokončit!");
+							
+						$result[] = array("OK", "Balík úspěšně nainstalován do systému!</span>");
 					}
-				} else {
-					$result[] = array("ERR", "Instalace nelze dokončit, protože ve složce balíčku se nenachází všechny přiložené soubory.");
+				} catch (Exception $e) {
+					$result[] = array("ERR", "Byla nalezena neošetřená chyba v instalačním souboru ./plugins/" . $Package_name . "/install.php, kvůli které nelze instalaci dokončit!");
 				}
 			}
 		} else {

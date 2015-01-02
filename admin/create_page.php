@@ -33,11 +33,11 @@
     <table id="article_table">
         <tr>
             <td width="110">Titulek stránky</td>
-            <td><input type="text" name="title" value="<?= @$_POST["title"] ?>" /></td>
+            <td><input type="text" name="title" value="<?= __POST("title") ?>" /></td>
         </tr>
         <tr>
             <td colspan="2">
-                <textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= @$_POST["content"] ?></textarea>
+                <textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
             </td>
         </tr>
     </table>

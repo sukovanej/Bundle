@@ -2,6 +2,9 @@
 	$error = "";
 	$result = "";
 	
+	error_reporting(-1);
+	ini_set('display_errors', 'On');
+	
 	if (isset($_POST["submit_1"])) {
 		@$mysqli = new mysqli($_POST["data_host"], $_POST["data_name"], $_POST["data_password"], $_POST["data_db"]);
 		@$mysqli->set_charset("utf8");
@@ -41,16 +44,42 @@
 				$mysqli->select_db($_POST["data_db"]);
 				SplitSQL("install/install.sql", $mysqli);
 				
+				$result .= "Databázová struktura a vstupní data vytvořena <br />";
+				
 				require("func/bundle_Loader.php");
 				require("helpers/HPackage.php");
+				require("helpers/HConfiguration.php");
+				
 				define("DB_PREFIX", (new Bundle\IniConfig("config.ini"))->db_prefix);
 				
-				foreach($_POST["packages"] as $package)
-					$result .= HPackage::installManually($package, false)[1];
+				HConfiguration::Create("BaseURL", str_replace("install.php", "", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"));
+				
+				foreach($_POST["packages"] as $package) {
+					$rresult = (HPackage::installManually($package, false));
 					
-				Bundle\User::Create($_POST["admin_name"], $_POST["admin_password"], $_POST["admin_email"]);
+					$result .= "Nainstalován balíček <strong>" . $package . "</strong>. <br />";
+					
+					foreach ($rresult as $val)
+						$result .= $val[1] . "<br />";
+				}
+					
+				$user = Bundle\User::Create($_POST["admin_name"], $_POST["admin_password"], $_POST["admin_email"]);
+				$user->Update("Role", 0);
 				Bundle\DB::Connect()->query("UPDATE " . DB_PREFIX . "users SET Role = 0");
-				$result .= "Administrátorský účet vytvořen";
+				$result .= "Administrátorský účet vytvořen <br />";
+				
+				require("themes/default/install.php");
+				(new InstallTheme)->Install();
+				
+				$result .= "Šablona nainstalována <br />";
+				
+				$Package = Bundle\Package::GetPackageByName("maintenance");
+				$Package->Update("IsActive", 0);
+				
+				$result .= "Režim údržby vypnut <br />";
+				
+				HConfiguration::Set("Name", @$_POST["web_name"]);
+				HConfiguration::Set("Author", @$_POST["web_author"]);
 				
 				$done = true;
 				$error = $mysqli->error;

@@ -1,6 +1,5 @@
-<?php $generated_time = explode(' ', microtime()); ?>
+<?php $generated_time = explode(' ', microtime()); // Vykreslovací čas ?>
 <?php $generated_time = $generated_time[1] + $generated_time[0]; ?>
-<?php // Vykreslovací čas ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,20 +52,27 @@
         <nav><?php if ($User->Role <= 1): ?>
 			<ul>
 				<li><a href="administrace" title="Přehled systému"><img src="./images/home.png" />Přehled</a></li>				
+				
 				<?php if ($User->Role <= 1): ?>
+				
 				<li><a href="administrace-clanky"><img src="./images/Hard drive.png" />Články</a></li>
 				<li><a href="administrace-komentare"><img src="./images/Bubble chat.png" />Komentáře</a></li>	
 				<li><a href="./administrace-stranky"><img src="./images/Cabinet.png" />Stránky</a></li> 
+				
 				<?php endif; if ($User->Role == 0): ?>
+				
 				<li><a href="./administrace-uzivatele"><img src="./images/User.png" />Uživatelé</a></li> 
 				<li><a href="./administrace-kategorie"><img src="./images/bookmark.png" />Kategorie</a></</li> 
 				<li><a href="./administrace-baliky"><img src="./images/Plugins.png" />Balíky</a></li> 
 				<li><a href="administrace-nastaveni"><img src="./images/blueprint4.png" />Nastavení</a></li>
+				
 				<?php if(file_exists($Page->ThemeRoot . "/admin.php")): ?> 
 				<li><a href="administrace-nastaveni-sablony"><img src="./images/theme_config.png" />Nastavení šablony</a></li>
 				<?php endif; ?>
+				
 				<li><a href="administrace-vzhled"><img src="./images/Console.png" />Generování obsahu</a></li>
 				<li><a href="administrace-menu"><img src="./images/list.png" />Menu</a></li>
+				
 				<?php endif; ?>
 			</ul>
 			<div id="clear-nav"></div>

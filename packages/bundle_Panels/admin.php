@@ -33,7 +33,7 @@
 		if (empty($_POST["title"]) || empty($_POST["content"])) {
 			Admin::ErrorMessage("Všechna pole musí být vyplněna.");
 		} else {
-			bundle_Panels::Create($_POST["title"], $_POST["content"]);
+			bundle_Panels_DB::Create($_POST["title"], $_POST["content"]);
 			
 			Admin::Message("Nový panel úspěšně vytvořen");
 			$_POST["title"] = "";
@@ -57,7 +57,7 @@
 		$_POST["content"] = "";
 	}
 	
-	$panels = new bundle_Panels();
+	$panels = new bundle_Panels_DB();
 ?>
 <?php if(isset($_POST["start_update"])): ?>
 	<h2>Upravit panel</h2>
@@ -68,11 +68,11 @@
 	<table id="article_table">
 		<tr>
 			<td width="120">Titulek panelu</td>
-			<td><input type="text" name="title" value="<?= @$_POST["title"] ?>" /></td>
+			<td><input type="text" name="title" value="<?= __post("title") ?>" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea name="content" cols="80" rows="10" class="editor" id="editor"><?= @$_POST["content"] ?></textarea>
+				<textarea name="content" cols="80" rows="10" class="editor" id="editor"><?= __post("content") ?></textarea>
 			</td>
 		</tr>
 	</table>

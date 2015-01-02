@@ -48,13 +48,13 @@
 			<code>
 				<pre><?php
 					$file = file($err_file);
-					echo "<p><span class='code_line'>" . ($errline - 3) . "</span>" . htmlspecialchars($file[$errline - 4]) . "</p>";
-					echo "<p><span class='code_line'>" . ($errline - 2) . "</span>" . htmlspecialchars($file[$errline - 3]) . "</p>";
-					echo "<p><span class='code_line'>" . ($errline - 1) . "</span>" . htmlspecialchars($file[$errline - 2]) . "</p>";
-					echo "<p class='selected'><span class='code_line'>" . $errline . "</span>" . htmlspecialchars($file[$errline - 1]) . "</p>";
-					echo "<p><span class='code_line'>" . ($errline + 1) . "</span>" . htmlspecialchars($file[$errline ]) . "</p>";
-					echo "<p><span class='code_line'>" . ($errline + 2) . "</span>" . htmlspecialchars($file[$errline +1]) . "</p>";
-					echo "<p><span class='code_line'>" . ($errline + 3) . "</span>" . htmlspecialchars($file[$errline +2]) . "</p>";
+					if (isset($file[$errline - 4])) { echo "<p><span class='code_line'>" . ($errline - 3) . "</span>" . htmlspecialchars($file[$errline - 4]) . "</p>"; }
+					if (isset($file[$errline - 3])) { echo "<p><span class='code_line'>" . ($errline - 2) . "</span>" . htmlspecialchars($file[$errline - 3]) . "</p>"; }
+					if (isset($file[$errline - 2])) { echo "<p><span class='code_line'>" . ($errline - 1) . "</span>" . htmlspecialchars($file[$errline - 2]) . "</p>"; }
+					if (isset($file[$errline - 1])) { echo "<p class='selected'><span class='code_line'>" . $errline . "</span>" . htmlspecialchars($file[$errline - 1]) . "</p>"; }
+					if (isset($file[$errline])) { echo "<p><span class='code_line'>" . ($errline + 1) . "</span>" . htmlspecialchars($file[$errline ]) . "</p>"; }
+					if (isset($file[$errline + 1])) { echo "<p><span class='code_line'>" . ($errline + 2) . "</span>" . htmlspecialchars($file[$errline +1]) . "</p>"; }
+					if (isset($file[$errline + 2])) { echo "<p><span class='code_line'>" . ($errline + 3) . "</span>" . htmlspecialchars($file[$errline +2]) . "</p>"; }
 				?></pre>
 			</code>
 			

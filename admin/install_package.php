@@ -6,16 +6,16 @@
 <?php if (Bundle\Packages::IsPackageInstalled($Package_name)): ?>
 	<?php Admin::ErrorMessage("Tento balík už je v systému nainstalovaný!"); ?>
 	<p><a href="./administrace-baliky" id="button">Zpět</a></p>
-<?php elseif (file_exists($Package_dir . "/" . $Package_dir . ".php")): ?>
+<?php elseif (file_exists($Package_dir . "/" . $Package_name . ".php")): ?>
 <p>Vítejte u instalace balíku <strong><?= $Package_name ?></strong>. Balík nainstalujete kliknutím na tlačítko níže.</p>
 <h2>Závilosti</h2>
 <p>
 <?php
-	require($Package_dir . "/" . $Package_dir . ".php");
+	require($Package_dir . "/" . $Package_name . ".php");
 	
 	$packages = new Bundle\Packages();
 	$config = new Bundle\IniConfig($Package_dir . "/info.conf");
-	$install = new $Package_dir();
+	$install = new $Package_name();
 	
 	$error_dependence = 0;
 	$error_dependence_packages = array();
@@ -73,33 +73,27 @@
 	<h2>Výstup instalace</h2>
 	<p>
 	<?php
-			$error = false;
-			$error_file = "";	
-			if(!$error) {
-				try {
-					if($install->install()) {
-						if(isset($install->menu_title))
-							$id = $packages->Install($Package_name, $install->menu_title);
-						else
-							$id = $packages->Install($Package_name);
-							
-						if(!isset($install->home_only))
-							$install->home_only = false;
-						
-						if(isset($install->place) && $install->place != "none") {
-							Bundle\Content::Create("package", $id, $install->place, $install->home_only);
-							echo "<strong class='done'>OK</strong> : Úspěšně nastavena oblast pro generování balíčku. <br />";
-						}
-							
-						echo "<strong class='done'>OK</strong> : <span class='green'>Balík úspěšně nainstalován do systému!</span>";
-					}
-				} catch (Exception $e) {
-					echo("<p class='error'>Byla nalezena neošetřená chyba v instalačním souboru <em>./plugins/" . $Package_name . "/install.php</em>, kvůli"
-						. "které nelze instalaci dokončit!</p>");
+		try {
+			if($install->install()) {
+				if(isset($install->menu_title))
+					$id = $packages->Install($Package_name, $install->menu_title);
+				else
+					$id = $packages->Install($Package_name);
+					
+				if(!isset($install->home_only))
+					$install->home_only = false;
+				
+				if(isset($install->place) && $install->place != "none") {
+					Bundle\Content::Create("package", $id, $install->place, $install->home_only);
+					echo "<strong class='done'>OK</strong> : Úspěšně nastavena oblast pro generování balíčku. <br />";
 				}
-			} else {
-				echo("<p class='error'>Soubor " . $error_file . " nebyl na uvedené adrese nalezen a proto nelze instalaci dokončit</p>");
+					
+				echo "<strong class='done'>OK</strong> : <span class='green'>Balík úspěšně nainstalován do systému!</span>";
 			}
+		} catch (Exception $e) {
+			echo("<p class='error'>Byla nalezena neošetřená chyba v instalačním souboru <em>./plugins/" . $Package_name . "/install.php</em>, kvůli"
+				. "které nelze instalaci dokončit!</p>");
+		}
 	?></p><br />
 	<p><a href="./administrace-baliky" id="button">Pokračujte na stránce s přehledem balíků.</a></p>
 	<?php else: ?>

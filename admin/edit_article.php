@@ -79,7 +79,7 @@
 			<?php endif; ?>
 		</tr>
 		<tr>
-			<td width="120"><input type='checkbox' name='show_in_view' <?= $inview ?> /> Povolit zobrazení mezi ostatními články ve výpisu</td>
+			<td width="120"><input type='checkbox' name='show_in_view' <?= $inview ?> /> Povolit zobrazení mezi ostatními články ve výpisu (hlavní stránka, kategorie,...)</td>
 		</tr>
 	</table>
 	<h2>Kategorie</h2>

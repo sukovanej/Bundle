@@ -4,8 +4,8 @@ class HFile extends HFileSystemItem {
 	public $Path;
 	
 	public function __construct($path) {
-		$info = pathinfo($file);
-		$this->Path = $file;
+		$info = pathinfo($path);
+		$this->Path = $path;
 		
 		foreach($info as $key => $value)
 			$this->{$key} = ucfirst($value);
