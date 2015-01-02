@@ -41,7 +41,11 @@ class Events {
 	}
 	
 	public static function BootAllPacks () {
-		$contents = array_merge(Content::ListByType("event"), Content::ListByType("package"));
+		$packs = (false != Content::ListByType("package")) ? Content::ListByType("package") : array();
+		$events = (false != Content::ListByType("event")) ? Content::ListByType("event") : array();
+		
+		$contents = array_merge($events, $packs);
+		
 		if ($contents)
 			foreach($contents as $content) {
 				$package = new Package($content->Data);
