@@ -1,0 +1,77 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro&subset=latin,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700&subset=latin,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext);
+
+body {background-color:#efefef;}
+#wrapper {max-width:1200px; margin:0 auto; margin-top:30px;}
+#page {background-color:#fff; box-shadow:0px 0px 5px #aaa;}
+
+#logo {padding:20px;}
+#logo h1 {font-size:35px; font-family:'Source code pro'; color:#333; text-transform:uppercase;}
+
+#header {width:100%;}
+#menu {float:right; font-size:0; font-family:'Lato';}
+#menu content > ul {display:block; padding:20px; height:30px;}
+#menu content > ul > li {display:inline-block;}
+#menu content > ul > li > a {font-size:14px; background-color:#BC3439; color:#fff; text-decoration:none; padding:10px 20px; position:relative; top:10px;
+	font-family:'Lato'; border-right:1px solid #8D1E22;}
+#menu content > ul > li > a.current {background-color:#8D2828; color:#fff;}
+#menu content > ul > li > a.current:hover {background-color:#8D282E; text-decoration:underline;}
+#menu content > ul > li > a:hover {background-color:#DD4249; text-decoration:underline;}
+#menu content > ul > li:last-child a {border:0;}
+#menu ul li:hover ul {display:block; z-index:9999;}
+#menu ul li ul li {display:list-item; background-color:#DE8082; padding:10px; color:#fff;}
+#menu ul li ul li a {font-size:14px; color:#fff; text-decoration:none; border-right:0;}
+#menu ul li ul li a:hover {text-decoration:underline;}
+#menu ul li ul li:last-child a {border:0;}
+#menu ul li ul li:hover {background-color:#E55C5C;}
+#menu ul li ul {display:none; position:absolute; top:86px; box-shadow:2px 2px 2px #666;}
+
+#full_content {width:100%; overflow:hidden; font-family:'Open Sans';}
+#full_content content {padding:20px; display:block;}
+#content {padding:20px; overflow:hidden; font-family:'Open Sans'; color:#333; font-size:14px;}
+#content #text {width:860px; float:left;}
+#content #panel {width:285px; float:right;}
+
+#content p {font-size:14px; margin-bottom:20px; line-height:1.5em; text-align:justify;}
+#content h1 {font-size:23px; margin-bottom:10px; color:#222;}
+a {color:#BF464C; text-decoration:none;}
+a:hover {text-decoration:underline;}
+#content h1 a, #content h1 {font-size:25px; color:#BF464A;}
+#content h2 {font-size:20px; margin-bottom:10px; color:#8F282A;}
+#content ul {margin-bottom:20px; font-size:14px; line-height:1.5em;}
+#content ul li {list-style-type:disc; list-style-position:inside; padding-left:20px; line-height:1.5em;}
+#content ol {margin-bottom:20px; font-size:14px; line-height:1.5em;}
+#content ol li {list-style-type:number; list-style-position:inside; padding-left:20px; line-height:1.5em;}
+#content strong, #content b {font-weight:bold;}
+#content img {max-width:100%; height:auto; margin:0px auto; margin-bottom:10px;}
+#content i, #content em {font-style:italic;}
+#content #add_comment {background-color:#eee; padding:10px; border-top:10px solid #ccc; margin-bottom:10px;}
+#content #add_comment textarea {width:815px; border:1px solid #bbb; resize:none; font-size:14px; padding:10px; margin-bottom:10px;}
+#content #add_comment button, input[type=submit] {background-color:#D02C2A; color:#fff; border:0; border-radius:3px; padding:6px;}
+#content .comment {overflow:hidden; margin-bottom:10px; border-bottom:1px solid #ddd;}
+#content .comment:last-child {border:0;}
+#content .comment-img {float:left; width:80px; border-radius:5px;}
+#content .comment-content {float:right; text-align:left; width:770px;}
+#content .comment-info {color:#666; margin-bottom:5px;}
+#content .comment-info strong {font-weight:bold; color:#B4171B;}
+#content hr {padding:0px 10px; border:0; border-top:1px solid #bbb;}
+
+#panel > div.panel > h1 {font-size:20px; display:inline-block; color:#555; border-left:5px solid #ccc; background-color:#eee; width:100%; padding:10px;}
+#panel > div.panel > div.panel_content {padding:5px;}
+footer {}
+footer content {display:block; padding:10px; color:#222; font-size:14px; line-height:1.5em; font-family:'Open Sans';}
+
+#content h3 {font-size:18px; color:#333; margin-bottom:10px;}
+#content pre code {background-color:#eee; border:1px solid #ccc; border-top:5px solid #ccc; display:block; padding:5px;}
+#content code {font-family:"Courier New", Courier, monospace;}
+#content table {width:100%; background-color:#f5f5f5; margin-bottom:10px; border-top:5px solid #AF5555;}
+#content table tr {border-bottom:1px solid #ddd;}
+#content table tr td {padding:10px;}
+#content table tr th {text-align:left; font-weight:bold; padding:10px; background-color:#e1e1e1; border-bottom:1px solid #ccc;}
+#content blockquote {background-color:#eee; border-left:10px solid #AF5555; padding:10px; margin-bottom:10px;}
+
+#content table.nostyle, caption, #content table.nostyle tbody, #content table.nostyle tfoot, #content table.nostyle thead, #content table.nostyle tr, #content table.nostyle th, 
+	#content table.nostyle td {
+    margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent;
+}
