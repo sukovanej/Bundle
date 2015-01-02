@@ -13,4 +13,5 @@ $ unzip master.zip
 $ rm master.zip
 $ mv -v ./Bundle-master/* ./
 $ rm -r ./Bundle-master
+$ sudo chmod 777 config.ini 
 ```
