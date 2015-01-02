@@ -28,7 +28,7 @@ class Admin {
     }
 }
 
-function __POST($var) {
+function __post($var) {
 	return isset($_POST[$var]) ? $_POST[$var] : null;
 }
 
