@@ -45,7 +45,6 @@ class Events {
 		$events = (false != Content::ListByType("event")) ? Content::ListByType("event") : array();
 		
 		$contents = array_merge($events, $packs);
-		
 		if ($contents)
 			foreach($contents as $content) {
 				$package = new Package($content->Data);

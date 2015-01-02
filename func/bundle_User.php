@@ -32,7 +32,7 @@ class User extends DatabaseBase{
 			$this->Photo = "./upload/users/no-photo.png";
     }
     
-    public function InstByUsername($name) {
+    public static function InstByUsername($name) {
 		$id = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . $name . "'")->fetch_object()->ID;
 		return new User($id);
 	}

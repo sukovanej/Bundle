@@ -8,6 +8,13 @@ class HPackage {
 		return $p->ID;
 	}
 	
+	public static function getAutoIncrementID() {
+		$connect = Bundle\DB::Connect();
+		$p = $connect->query("SHOW TABLE STATUS LIKE '". DB_PREFIX . "packages'")->fetch_object();
+		
+		return $p->Auto_increment;
+	}
+	
 	public static function getPath($pack) {
 		return "./packages/" . $pack;
 	}

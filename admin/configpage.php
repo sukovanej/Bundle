@@ -18,7 +18,7 @@
                 $Page->Update("CommentText", $_POST["comment"]);
                 $Page->Update("Icon", $_POST["icon"]); 
                 
-                if ($Page->Theme != $_POST["theme"]) {
+                if ($Page->Theme != $_POST["theme"] && file_exists("themes/" . $_POST["theme"] . "/install.php")) {
 					require("themes/" . $_POST["theme"] . "/install.php");
 					(new InstallTheme())->Install();
 				}

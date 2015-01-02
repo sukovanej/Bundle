@@ -29,27 +29,27 @@
 	
 	if ($config->dependence != "none") {
 		if (strpos($config->dependence, ',') !== false) {
-			$dependence = preg_split(",", $config->dependence);
+			$dependence = explode(",", $config->dependence);
 			
 			foreach($dependence as $package) {
-				$ok = $packages->IsPackageInstalled($package);
+				$ok = $packages->IsPackageInstalled(trim($package));
 				
 				if(!$ok) {
 					$error_dependence += 1;
 					$error_dependence_packages[] = $package;
-					echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.";
+					echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.<br />";
 				} else {
 					echo "<strong class='done'>OK</strong> : Zjištěna splněná závilost na balík <em>" . $package . "</em>.<br />";
 				}
 			}
 		} else {
 			$package = $config->dependence;
-			$ok = $packages->IsPackageInstalled($package);
+			$ok = $packages->IsPackageInstalled(trim($package));
 			
 			if(!$ok) {
 				$error_dependence += 1;
 				$error_dependence_packages[] = $package;
-				echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.";
+				echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.<br />";
 			} else {
 				echo "<strong class='done'>OK</strong> : Zjištěna splněná závilost na balík <em>" . $config->dependence . "</em>.<br />";
 			}
