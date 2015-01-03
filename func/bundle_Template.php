@@ -29,7 +29,7 @@ class Template {
 		}
 		
         $this->ThemeRoot = "./themes/" . $this->Theme;
-        $this->Bundle = "1.2";
+        $this->Bundle = "1.2.0.1";
     }
     
     public function Update($name, $value) {
