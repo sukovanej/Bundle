@@ -13,8 +13,12 @@ class MenuItem extends DatabaseBase {
     }
     
 	public static function InstByData($data, $type) {
-		$url = DB::Connect()->query("SELECT ID FROM " . $conf->db_prefix . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object()->ID;
-		$r = DB::Connect()->query("SELECT ID FROM menu WHERE Url = '" . $url . "'");
+		$connect = DB::Connect();
+		
+			$type = $connect->real_escape_string($type);
+		
+		$url = $connect->query("SELECT ID FROM " . $conf->db_prefix . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object()->ID;
+		$r = $connect->query("SELECT ID FROM menu WHERE Url = '" . $url . "'");
 		
 		if ($r->num_rows == 0)
 			return false;
@@ -23,8 +27,12 @@ class MenuItem extends DatabaseBase {
 	}
 	
 	public static function InstByUrl($url) {
+		$connect = DB::Connect();
+		
+			$url = $connect->real_escape_string($url);
+		
 		$url = Url::InstByUrl($url)->ID;
-		$r = DB::Connect()->query("SELECT ID FROM " . $conf->db_prefix . "menu WHERE Url = " . $url);
+		$r = $connect->query("SELECT ID FROM " . $conf->db_prefix . "menu WHERE Url = " . $url);
 		
 		if ($r->num_rows == 0)
 			return false;

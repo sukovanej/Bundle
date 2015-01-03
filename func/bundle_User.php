@@ -44,10 +44,14 @@ class User extends DatabaseBase{
     
     public static function Create($username, $password, $email) {
 		$connect = DB::Connect();
+		
+			$username = $connect->real_escape_string($username);
+			$email = $connect->real_escape_string($email);
+			$password = $connect->real_escape_string($password);
+		
 		$connect->query("INSERT INTO " . DB_PREFIX . "users (Username, Password, Email, Role) VALUES ('"
                 . $username . "', '" . sha1($password) . "', '" . $email . "', 2)");
         $id = $connect->insert_id;
-        $connect->close();
         
         return new User($id);
     }
@@ -56,7 +60,7 @@ class User extends DatabaseBase{
         $connect = DB::Connect();
         
         if (is_string($value))
-            $value = "'" . $connect->escape_string($value) . "'";
+            $value = "'" . $connect->real_escape_string($value) . "'";
         
         return ($connect->query("SELECT * FROM " . DB_PREFIX . "users WHERE " . $name . " = " . $value)->num_rows > 0);
     }

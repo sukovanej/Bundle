@@ -18,10 +18,11 @@ class Category extends DatabaseBase{
 	
 	public static function Create($name, $parent = 0) {
 		$connect = DB::Connect();
-		$connect->escape_string($name);
+		
+			$name = $connect->escape_string($name);
+			
 		$connect->query("INSERT INTO " . DB_PREFIX . "categories (Title, Parent) VALUES ('" . $name . "', " . $parent . ")");
 		Url::Create(Page::CreateUrl($name), "category", $connect->insert_id);
-		$connect->close();
 	}
 	
 	public static function ParentsOnly() {

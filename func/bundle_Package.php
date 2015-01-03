@@ -39,7 +39,11 @@ class Package extends DatabaseBase {
 	public function GetPackageConfig() { return new IniConfig(getcwd() . "/packages/" . $this->Name . "/info.conf"); }
 	
 	public static function GetPackageByName($name) {
-		$r = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "packages WHERE Name = '" . $name . "'");
+		$connect = DB::Connect();
+		
+			$name = $connect->real_escape_string($name);
+		
+		$r = $connect->query("SELECT ID FROM " . DB_PREFIX . "packages WHERE Name = '" . $name . "'");
 		return new Package($r->fetch_object()->ID);
 	}
 	

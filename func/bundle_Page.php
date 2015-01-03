@@ -22,13 +22,16 @@ class Page extends DatabaseBase {
     
     public static function Create($title, $content, $menu, $author, $parent) {
         $connect = DB::Connect();
-        $connect->escape_string($title);
-        $connect->escape_string($content);
+        
+			$title = $connect->escape_string($title);
+			$content = $connect->escape_string($content);
+			
         $connect->query("INSERT INTO " . DB_PREFIX . "pages (Title, Content, Author) VALUES "
                 . "('" . $title . "', '" . $content . "', " . $author . ")");
+                
         $id = $connect->insert_id;
+        
         Url::Create(self::CreateUrl($title), "page", $id, $parent, $menu);
-        $connect->close();
         return $id;
     }
     
@@ -45,13 +48,14 @@ class Page extends DatabaseBase {
         $url = strtolower($url) ;
         $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
         $connect = DB::Connect();
+			
+			$url = $connect->real_escape_string($url);
+        
         $count = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Url LIKE '" 
                 . $url . "%'")->fetch_object()->Count;
         
         if ($count != 0)
             $url .= "-" . $count;
-        
-        $connect->close();
         
         return $url;
     }

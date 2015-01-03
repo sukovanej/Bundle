@@ -25,10 +25,12 @@ class Comment extends DatabaseBase{
     
     public static function Create($text, $page, $author, $ip) {
         $connect = DB::Connect();
-        $connect->escape_string($text);
+        
+			$text = $connect->real_escape_string($text);
+			$ip = $connect->real_escape_string($ip);
+			
         $connect->query("INSERT INTO " . DB_PREFIX . "comments (Text, Page, Author, IP) VALUES ('" . $text . "', " 
                 . $page . ", " . $author . ", '" . $ip . "')");
-        $connect->close();
     }
     
     public static function SimpleFormat($text) {

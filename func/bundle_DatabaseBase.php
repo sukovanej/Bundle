@@ -12,10 +12,11 @@ abstract class DatabaseBase {
     public $connect;
     
     public function __construct($ID, $Table) {
+		$this->connect = DB::Connect();
+		
         $this->ID = $ID;
-        $this->Table = $Table;
+        $this->Table = $this->connect->real_escape_string($Table);
         
-        $this->connect = DB::Connect();
         $result = $this->connect->query("SELECT * FROM " . DB_PREFIX . $this->Table . " WHERE ID = " . $ID);
         $row = $result->fetch_assoc();
         

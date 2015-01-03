@@ -93,14 +93,17 @@ class Menu {
 	}		
 	
 	public static function Create($url, $parent = 0, $order = -1) {
+		$connect = DB::Connect();
+		
 		if ($order == -1) {
 			$count = count(self::Items($parent));
 			$order = $count;
 		}
 		
-		$co = DB::Connect();
-		$re = $co->query("INSERT INTO " . DB_PREFIX . "menu (Url, Parent, MenuOrder) VALUES (" . $url . ", " . $parent . ", " . $order . ")");
-		return $co->insert_id;
+			$url = $connect->real_escape_string($url);
+		
+		$re = $connect->query("INSERT INTO " . DB_PREFIX . "menu (Url, Parent, MenuOrder) VALUES (" . $url . ", " . $parent . ", " . $order . ")");
+		return $connect->insert_id;
 	}
 	
 	public function Menu() {
@@ -112,11 +115,15 @@ class Menu {
 	}
 	
 	public static function Exists($data, $type) {
-		$url = DB::Connect()->query("SELECT ID, COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object();
+		$connect = DB::Connect();
+		
+			$type = $connect->real_escape_string($type);
+		
+		$url = $connect->query("SELECT ID, COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object();
 		if ($url->Count == 0)
 			return false;
 		
-		$r = DB::Connect()->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "menu WHERE Url = '" . $url->ID . "'")->fetch_object();
+		$r = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "menu WHERE Url = '" . $url->ID . "'")->fetch_object();
 		
 		if ($r->Count == 0)
 			return false;

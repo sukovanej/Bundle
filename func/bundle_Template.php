@@ -210,8 +210,6 @@ class Template {
         
         if (file_exists("themes/" . $this->Theme . "/pager.php"))
 			require("themes/" . $this->Theme . "/pager.php");
-            
-        $connect->close();
     }
     
     private function ArticlesByCategoryGen($category) {
@@ -245,8 +243,6 @@ class Template {
 			require("themes/" . $this->Theme . "/article_null.php");
 		else
 			require("themes/" . $this->Theme . "/pager.php");
-			
-        $connect->close();
     }
     
     private function PageGen($ID) {

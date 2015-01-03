@@ -14,6 +14,11 @@ class Url extends DatabaseBase {
     
     public static function Create($Url, $Type, $Data) {
 		$c = DB::Connect();
+			
+			$Url = $c->real_escape_string($Url);
+			$Type = $c->real_escape_string($Type);
+			$Data = $c->real_escape_string($Data);
+		
 		$c->query("INSERT INTO " . DB_PREFIX . "urls (Url, Type, Data) VALUES ('" . $Url . "', '" . $Type . "', " . $Data . ")");
 		return $c->insert_id;
     }
@@ -24,14 +29,23 @@ class Url extends DatabaseBase {
 	}
     
     public static function IsDefinedUrl($Url) {
-        if (DB::Connect()->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Url = '" . $Url . "'")->fetch_object()->Count >= 1)
+		$connect = DB::Connect();
+		
+			$Url = $connect->real_escape_string($Url);
+		
+        if ($connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Url = '" . $Url . "'")->fetch_object()->Count >= 1)
             return true;
             
         return false;
     }
     
     public static function InstByData($Data, $Type) {
-        $r = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "urls WHERE Type = '" . $Type . "' AND Data = '" . $Data . "'");
+		$connect = DB::Connect();
+		
+			$Data = $connect->real_escape_string($Data);
+			$Type = $connect->real_escape_string($Type);
+		
+        $r = $connect->query("SELECT ID FROM " . DB_PREFIX . "urls WHERE Type = '" . $Type . "' AND Data = '" . $Data . "'");
         $_r = $r->fetch_object();
         $c = $r->num_rows;
         
@@ -42,7 +56,11 @@ class Url extends DatabaseBase {
     }
     
     public static function InstByUrl($Url) {
-        $r = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "urls WHERE Url = '" . $Url . "'");
+		$connect = DB::Connect();
+		
+			$Ulr = $connect->real_escape_string($Url);
+		
+        $r = $connect->query("SELECT ID FROM " . DB_PREFIX . "urls WHERE Url = '" . $Url . "'");
         $_r = $r->fetch_object();
         $c = $r->num_rows;
         
@@ -65,13 +83,14 @@ class Url extends DatabaseBase {
         $url = strtolower($url) ;
         $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
         $connect = DB::Connect();
+			
+			$url = $connect->real_escape_string($url);
+			
         $count = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Url LIKE '" 
                 . $url . "%'")->fetch_object()->Count;
         
         if ($count != 0)
             $url .= "-" . $count;
-        
-        $connect->close();
         
         return $url;
     }

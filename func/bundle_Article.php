@@ -39,8 +39,14 @@ class Article extends DatabaseBase {
     
     public static function Create($title, $content, $show_datetime, $author, $show_comments, $show_in_view, $status = 2) {
         $connect = DB::Connect();
-        $connect->escape_string($title);
-        $connect->escape_string($content);
+        
+			$title = $connect->escape_string($title);
+			$title = $connect->escape_string($content);
+			$show_datetime = (int)$show_datetime;
+			$show_comments = (int)$show_comments;
+			$show_in_view = (int)$show_in_view;
+			$status = (int)$status;
+			
         $connect->query("INSERT INTO " . DB_PREFIX . "articles (Title, Content, Author, ShowDatetime, AllowComments, ShowInView, Status) VALUES ('" . $title . "', '" 
                 . $content . "', " . $author . ", " . $show_datetime . ", " . $show_comments . ", " . $show_in_view . ", " . $status . ")");
         Url::Create(Page::CreateUrl($title), "article", $connect->insert_id);
