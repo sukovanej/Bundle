@@ -42,6 +42,15 @@
 					. "ručně nastavit práva zápisu.";
 			} else {
 				$mysqli->select_db($_POST["data_db"]);
+				
+				$prefix = $_POST["data_db_prefix"];
+				
+				$str = file_get_contents("install/install.sql");
+				
+				$str = str_replace("bundle_", $prefix, $str);
+				
+				file_put_contents("install/install.sql", $str);
+		
 				SplitSQL("install/install.sql", $mysqli);
 				
 				$result .= "Databázová struktura a vstupní data vytvořena <br />";

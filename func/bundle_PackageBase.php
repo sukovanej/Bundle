@@ -10,7 +10,8 @@ abstract class PackageBase {
 	}
 	
 	public function IncludeAllFiles() {
-		foreach($this->includes as $include)
-			require("packages/" . get_called_class() . "/" . $include);
+		if (is_array($this->includes))
+			foreach($this->includes as $include)
+				require("packages/" . get_called_class() . "/" . $include);
 	}
 }
