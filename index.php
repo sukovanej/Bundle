@@ -11,9 +11,6 @@
 	// db prefix -> default "bundle_"
 	define("DB_PREFIX", (new Bundle\IniConfig("config.ini"))->db_prefix);
 	
-	// uncomment to debug pages	
-	require("helpers/debug/debug.php");
-	
 	// Include packages files
 	foreach(Bundle\Package::GetInstalledPackages() as $package) {		
 		$package_name = $package->Name;
@@ -25,6 +22,8 @@
 	// Bundla 1.2: debug bug
 	if(!isset($_GET["router"]))
 		$_GET["router"] = "";
+	else
+		$_GET["router"] = urlencode($_GET["router"]);
 	
 	// Dynamic url
 	$router = isset($_GET["router"]) ? $_GET["router"] : null;
@@ -32,7 +31,6 @@
 	// Default config object
 	$Page = new Bundle\Template;
 	
-
 	// User object - if (s)he's logged in
 	if (isset($_SESSION["user"])) {
 		$User = new Bundle\User($_SESSION["user"]);

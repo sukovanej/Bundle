@@ -9,19 +9,27 @@
 namespace Bundle; 
  
 class DB {
+	private static $instance;
+	
+	private function __construct() {}
+	
     public static function Connect() {
-        $config = new IniConfig("config.ini");
+		if (!isset(self::$instance)) {		
+			$config = new IniConfig("config.ini");
         
-        $mysqli = new \mysqli(
-			$config->host, // server
-			$config->user, // user name
-			$config->password, // password
-			$config->database // database
-		);
+			$mysqli = new \mysqli(
+				$config->host, // server
+				$config->user, // user name
+				$config->password, // password
+				$config->database // database
+			);
+			
+			$mysqli->set_charset("utf8");
+			
+            self::$instance = $mysqli;
+        }
         
-        $mysqli->set_charset("utf8");
-        
-        return $mysqli;
+        return self::$instance;
     }
     
     public static function Size() {
