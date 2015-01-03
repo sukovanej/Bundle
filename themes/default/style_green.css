@@ -30,8 +30,6 @@ body {background-color:#efefef;}
 #full_content {width:100%; overflow:hidden; font-family:'Open Sans';}
 #full_content content {padding:20px; display:block;}
 #content {padding:20px; overflow:hidden; font-family:'Open Sans'; color:#333; font-size:14px;}
-#content #text {width:860px; float:left;}
-#content #panel {width:285px; float:right;}
 
 #content p {font-size:14px; margin-bottom:20px; line-height:1.5em; text-align:justify;}
 #content h1 {font-size:23px; margin-bottom:10px; color:#222;}
@@ -47,7 +45,7 @@ a:hover {text-decoration:underline;}
 #content img {max-width:100%; height:auto; margin:0px auto; margin-bottom:10px;}
 #content i, #content em {font-style:italic;}
 #content #add_comment {background-color:#eee; padding:10px; border-top:10px solid #ccc; margin-bottom:10px;}
-#content #add_comment textarea {width:815px; border:1px solid #bbb; resize:none; font-size:14px; padding:10px; margin-bottom:10px;}
+#content #add_comment textarea {width:97%; border:1px solid #bbb; resize:none; font-size:14px; padding:10px; margin-bottom:10px;}
 #content #add_comment button, input[type=submit] {background-color:#448C31; color:#fff; border:0; border-radius:3px; padding:6px;}
 #content .comment {overflow:hidden; margin-bottom:10px; border-bottom:1px solid #ddd;}
 #content .comment:last-child {border:0;}

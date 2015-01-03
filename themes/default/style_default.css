@@ -7,3 +7,8 @@
 .panel_content img {margin-bottom:-3px !important;}
 .panel_content * {max-width:100%; height:auto;}
 .coment-text {padding-bottom:5px; line-height:1.2em; text-align:justify;}
+#content i, #content em {color:#888;}
+#content p img {margin-bottom:-2px !important;}
+
+#content #text {width:74%; float:left;}
+#content #panel {width:25%; float:right;
