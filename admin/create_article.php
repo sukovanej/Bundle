@@ -23,9 +23,11 @@
 				
 			$ID = Bundle\Article::Create($_POST["title"], $_POST["content"], $show_datetime, $User->ID, $show_comments, $show_in_view, $_POST["status"]);
 			
-			if (isset($_POST["categories"]))
-				foreach($_POST["categories"] as $cat)
-				Bundle\ArticleCategories::Create ($ID, $cat);
+			if (isset($_POST["categories"])) {
+				foreach($_POST["categories"] as $cat) {
+					Bundle\ArticleCategories::Create ($ID, $cat);
+				}
+			}
 			
 			Admin::Message("Nový článek úspěšně vytvořen. <a href='./administrace-upravit-clanek-" . $ID . "'>Upravit článek</a>");
 			echo('<script>$(document).ready(function() { window.location.replace("./administrace-upravit-clanek-' . $ID . '"); }); </script>');
@@ -69,12 +71,12 @@
 	<table id="article_table">
 		<tr>
 			<td>
-				<?php 
-					while($Category = $result->fetch_object()) {
-						echo "<input type='checkbox' name='categories[]' value='" . $Category->ID 
-							. "' /> " . $Category->Title . "<br />\n ";
-					}
-				?>
+			<?php foreach(Bundle\Category::ParentsOnly() as $category): ?>			
+				<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" <?= $checked ?> /> <?= $category->Title ?><br />
+				<?php foreach($category->Children() as $child_cat): ?>
+					&nbsp; &rarr; &nbsp; <input type="checkbox" name="categories[]" value="<?= $child_cat->ID ?>" <?= $checked ?> /> <?= $child_cat->Title ?><br />
+				<?php endforeach; ?>
+			<?php endforeach; ?> 
 			</td>
 		</tr>
 	</table>

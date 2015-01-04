@@ -22,8 +22,8 @@ if (!isset($_SESSION["user"])) {
         $password = $_POST["pass"];
 
         $connect = Bundle\DB::Connect();
-        $connect->escape_string($name);
-        $connect->escape_string($password);
+			$name = $connect->escape_string($name);
+			$password = $connect->escape_string($password);
 
         $q = $connect->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . $name . "' AND Password = '" . 
             sha1($password) . "'");

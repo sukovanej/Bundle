@@ -11,4 +11,6 @@
 #content p img {margin-bottom:-2px !important;}
 
 #content #text {width:74%; float:left;}
-#content #panel {width:25%; float:right;
+#content #panel {width:25%; float:right;}
+
+#content blockquote {line-height: 1.5em;}

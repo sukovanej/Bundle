@@ -30,9 +30,11 @@
 			
 			$Article->InstUpdate();
 		
-		if (isset($_POST["categories"]))
-			foreach($_POST["categories"] as $cat)
-				Bundle\ArticleCategories::Create($Article->ID, $cat);
+			if (isset($_POST["categories"])) {
+				foreach($_POST["categories"] as $cat) {
+					Bundle\ArticleCategories::Create($Article->ID, $cat);
+				}
+			}
 		
 			$Article->InstUpdate();
 			Admin::Message("Článek <em>" . $Article->Title . "</em> byl úspěšně upraven.");
@@ -89,11 +91,27 @@
 			<?php foreach(Bundle\Category::ParentsOnly() as $category): ?>			
 				<?php	
 					$checked = "";
-					foreach ($Article->Categories() as $c)
-						if ($c->ID == $category->ID)
+					
+					foreach ($Article->Categories() as $c){
+						if ($c->ID == $category->ID) {
 							$checked = "checked";
+						}
+					}
 				?>
 				<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" <?= $checked ?> /> <?= $category->Title ?><br />
+				<?php foreach($category->Children() as $child_cat): ?>
+					<?php	
+						$checked = "";
+						
+						foreach ($Article->Categories() as $c){
+							if ($c->ID == $child_cat->ID) {
+								$checked = "checked";
+							}
+						}
+					?>
+					
+					&nbsp; &rarr; &nbsp; <input type="checkbox" name="categories[]" value="<?= $child_cat->ID ?>" <?= $checked ?> /> <?= $child_cat->Title ?><br />
+				<?php endforeach; ?>
 			<?php endforeach; ?>
 		</td>
 		</tr>

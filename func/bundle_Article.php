@@ -19,11 +19,6 @@ class Article extends DatabaseBase {
         $this->Perex = explode("<!-- pagebreak -->", $this->Content)[0];
         $this->Comments = $this->connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID)->fetch_object()->Count;
         
-        if ($this->Perex == $this->Content) {
-			$this->Perex = explode("[perex]", $this->Content)[0];
-			$this->Content = str_replace("[perex]", "", $this->Content);
-		}
-        
         $this->Categories();
         
         $this->Statuses = self::getStatuses();
