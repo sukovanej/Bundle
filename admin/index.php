@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>Administrační sekce webu</title>
+        <?php header("X-Frame-Options: Deny"); ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

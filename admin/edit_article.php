@@ -4,7 +4,9 @@
 	$Article = new Bundle\Article($ID);
 	
 	if (isset($_POST["edit"])) {
-		if (empty($_POST["title"]) || empty($_POST["content"])) {
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
 			Admin::ErrorMessage("Všechna pole musí být vyplněna.");
 		} else if (Bundle\Url::IsDefinedUrl($_POST["url"]) && $_POST["url"] != $Article->Url) {
 			Admin::ErrorMessage("Tato URL adresa nelze použít");
@@ -19,6 +21,10 @@
 			if (isset($_POST["show_datetime"])) { $show_datetime = 1; }
 			if (isset($_POST["show_comments"])) { $show_comments = 1; }
 			if (isset($_POST["show_in_view"])) { $show_in_view = 1; }
+			
+			// pokud se změní status z "koncept" na "publikován", vygenerovat aktuální datum
+			if ($Article->Status == 2 && $_POST["status"] == 1)
+				$Article->Update("Datetime", date('Y-m-d H:i:s'));
 				
 			$Article->Update("ShowDatetime", $show_datetime);
 			$Article->Update("Title", $_POST["title"]);
@@ -27,6 +33,8 @@
 			$Article->Update("ShowInView", $show_in_view);
 			$Article->Update("Status", $_POST["status"]);
 			$Article->DeleteCategories();
+			
+			
 			
 			$Article->InstUpdate();
 		
@@ -50,6 +58,7 @@
 	if ($Article->ShowInView) { $inview = "checked"; }
 ?>
 <form method="POST">
+	<?= HToken::html() ?>
 	<h2>Základní informace [<a href="<?= $Article->Url ?>" target="_blank">zobrazit článek</a>]</h2>
 	<table id="article_table">
 		<tr>

@@ -11,7 +11,7 @@ if (count(explode("-", $router)) >= 2) {
 if ($subrouter == "odhlasit") {
     session_destroy();
     Bundle\Events::Execute("LogOut");
-    echo "<p>Odhlášení proběhlo úspěšně, nepodařilo se všat přesměrovat stránku na úvodní stránku webu. Prověďte tak prosím ručně.</p>";
+    echo "<p>Odhlášení proběhlo úspěšně, nepodařilo se všat přesměrovat na úvodní stránku webu. Prověďte tak prosím ručně. <a href='./'>Na hlavní stránku</a></p>";
     header("location: ./");
     die();
 }
@@ -22,10 +22,10 @@ if (!isset($_SESSION["user"])) {
         $password = $_POST["pass"];
 
         $connect = Bundle\DB::Connect();
-			$name = $connect->escape_string($name);
-			$password = $connect->escape_string($password);
+			$name = htmlspecialchars($connect->escape_string($name));
+			$password = htmlspecialchars($connect->escape_string($password));
 
-        $q = $connect->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . $name . "' AND Password = '" . 
+        $q = $connect->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . htmlspecialchars($name) . "' AND Password = '" . 
             sha1($password) . "'");
 
         $ID = $q->fetch_assoc()["ID"];

@@ -1,14 +1,18 @@
 <h1>Přehled článků</h1>
 <?php
     if (isset($_POST["article_delete"])) {
-        $ID = $_POST["article_id"];
-        $article = new Bundle\Article($ID);
-        $article->Delete();
-        
-        if (Bundle\Menu::Exists($article->ID, "article"))
-			Bundle\MenuItem::InstByUrl($article->Url)->Delete();
-        
-        Admin::Message("Článek <strong>" . $article->Title . "</strong> byl odstraněn.");
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else {
+			$ID = $_POST["article_id"];
+			$article = new Bundle\Article($ID);
+			$article->Delete();
+			
+			if (Bundle\Menu::Exists($article->ID, "article"))
+				Bundle\MenuItem::InstByUrl($article->Url)->Delete();
+			
+			Admin::Message("Článek <strong>" . $article->Title . "</strong> byl odstraněn.");
+		}
     }
     
     $articles = Bundle\Article::GetAll();
@@ -28,6 +32,6 @@
             <td class="mobile-hide"><?= (new Bundle\User($Article->Author))->Username ?></td>
             <td><a href="./administrace-upravit-clanek-<?= $Article->ID ?>">Upravit</a></td>
             <td><em><?= $Article->StatusString ?></em></td>
-            <td><a onclick="articleDelete('<?= $Article->ID ?>')">Smazat</a></td></tr>
+            <td><a onclick="articleDelete('<?= $Article->ID ?>', <?= HToken::get() ?>)">Smazat</a></td></tr>
 	<?php endforeach; ?>
 </table>

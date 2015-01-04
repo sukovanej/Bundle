@@ -17,7 +17,7 @@ class MenuItem extends DatabaseBase {
 		
 			$type = $connect->real_escape_string($type);
 		
-		$url = $connect->query("SELECT ID FROM " . $conf->db_prefix . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object()->ID;
+		$url = $connect->query("SELECT ID FROM " . DB_PREFIX . "urls WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object()->ID;
 		$r = $connect->query("SELECT ID FROM menu WHERE Url = '" . $url . "'");
 		
 		if ($r->num_rows == 0)
@@ -32,7 +32,7 @@ class MenuItem extends DatabaseBase {
 			$url = $connect->real_escape_string($url);
 		
 		$url = Url::InstByUrl($url)->ID;
-		$r = $connect->query("SELECT ID FROM " . $conf->db_prefix . "menu WHERE Url = " . $url);
+		$r = $connect->query("SELECT ID FROM " . DB_PREFIX . "menu WHERE Url = " . $url);
 		
 		if ($r->num_rows == 0)
 			return false;

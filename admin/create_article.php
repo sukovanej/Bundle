@@ -3,7 +3,9 @@
 	$result = Bundle\DB::Connect()->query("SELECT * FROM bundle_categories ORDER BY Title");
 
 	if (isset($_POST["create"])) {
-		if (empty($_POST["title"]) || empty($_POST["content"])) {
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
 			Admin::ErrorMessage("Všechna pole musí být vyplněna.");
 		} else {
 			$show_datetime = 0;
@@ -37,6 +39,7 @@
 	}
 ?>
 <form method="POST">
+	<?= HToken::html() ?>
 	<h2>Základní informace</h2>
 	<table id="article_table">
 		<tr>

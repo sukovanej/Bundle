@@ -9,7 +9,9 @@
         $check = "checked";
     
     if (isset($_POST["edit"])) {
-        if (empty($_POST["title"]) || empty($_POST["content"])) {
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
             Admin::ErrorMessage("Všechna pole musí být vyplněna.");
         } else if (Bundle\Url::IsDefinedUrl($_POST["url"]) && $_POST["url"] != $Page->Url) {
 			Admin::ErrorMessage("Tato URL adresa nelze použít");
@@ -42,6 +44,7 @@
 ?>
 
 <form method="POST">
+	<?= HToken::html() ?>
     <table id="article_table">
         <tr>
             <td width="130">Titulek stránky</td>

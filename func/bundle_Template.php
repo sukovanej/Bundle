@@ -29,7 +29,13 @@ class Template {
 		}
 		
         $this->ThemeRoot = "./themes/" . $this->Theme;
-        $this->Bundle = "1.2.0.1";
+        $this->Bundle = "1.2.0.2"; // systém verzování = [větev].[verze].[sub-verze].[oprava]
+        
+        /*
+         * Poslední oprava:
+         * 04.01.2015
+         * sukovanej 
+         */
     }
     
     public function Update($name, $value) {

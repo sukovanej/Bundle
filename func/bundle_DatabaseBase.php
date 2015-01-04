@@ -36,6 +36,8 @@ abstract class DatabaseBase {
         
         $this->connect->query("UPDATE " . DB_PREFIX . $this->Table . " SET " . $name . " = " . $value . " WHERE ID = " 
                 . $this->ID);
+                
+        $this->{$name} = $value;
     }
     
     public function InstUpdate() {

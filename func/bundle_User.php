@@ -33,7 +33,11 @@ class User extends DatabaseBase{
     }
     
     public static function InstByUsername($name) {
-		$id = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . $name . "'")->fetch_object()->ID;
+		$connect = DB::Connect();
+		
+			$name = $connect->real_escape_string($name);
+			
+		$id = $connect->query("SELECT ID FROM " . DB_PREFIX . "users WHERE Username = '" . $name . "'")->fetch_object()->ID;
 		return new User($id);
 	}
     
@@ -45,8 +49,8 @@ class User extends DatabaseBase{
     public static function Create($username, $password, $email) {
 		$connect = DB::Connect();
 		
-			$username = $connect->real_escape_string($username);
-			$email = $connect->real_escape_string($email);
+			$username = htmlspecialchars($connect->real_escape_string($username));
+			$email = htmlspecialchars($connect->real_escape_string($email));
 			$password = $connect->real_escape_string($password);
 		
 		$connect->query("INSERT INTO " . DB_PREFIX . "users (Username, Password, Email, Role) VALUES ('"

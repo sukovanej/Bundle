@@ -31,7 +31,9 @@
 		"package" => "Packages"
 	);
 	
-	if (isset($_POST["up_submit"])) {
+	if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
+		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+	} else if (isset($_POST["up_submit"])) {
 		(new Bundle\MenuItem($_POST["menu_item"]))->Up();
 	} else if (isset($_POST["down_submit"])) {
 		(new Bundle\MenuItem($_POST["menu_item"]))->Down();
@@ -99,6 +101,7 @@
 <h2>Přidat položku menu</h2>
 
 <form method="POST">
+	<?= HToken::html() ?>
 	<table>
 		<tr>
 			<td>Položka</td>
@@ -146,6 +149,7 @@
 			-
 			<?php else: ?>
 			<form method="POST">
+				<?= HToken::html() ?>
 				<input type="hidden" name="menu_item" value="<?= $item->ID ?>" />
 				<?php if($item->Order != 0): ?>
 				<input type="submit" name="up_submit" value="&uarr;" class="arrows-img" />
@@ -171,6 +175,7 @@
 			<td class="mobile-hide"><?= $types[$item_ch->Type] ?></td>
 			<td>
 				<form method="POST" class="sub-arrows">
+					<?= HToken::html() ?>
 					<input type="hidden" name="menu_item" value="<?= $item_ch->ID ?>" />
 					<?php if($item_ch->Order != 0): ?>
 					<input type="submit" name="up_submit" value="&uarr;" class="arrows-img" />

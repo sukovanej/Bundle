@@ -11,7 +11,9 @@
 	if (!file_exists(getcwd() . "/" . $icon))
 		$icon = "images/Plugins.png";
 	
-    if (isset($_POST["menu-change-settings"])) {
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
+		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+	} else if (isset($_POST["menu-change-settings"])) {
 		if (empty($Package->Title))
 			$_POST["title-change-settings"] = "none";
 		
@@ -61,6 +63,7 @@
 <?php if (!isset($get_parser->data)): ?>
 <h2>Základní nastavení</h2>
 	<form method="POST">
+		<?= HToken::html() ?>
 		<table>
 			<tr>
 				<td>Balík aktivní</td>

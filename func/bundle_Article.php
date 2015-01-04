@@ -37,7 +37,7 @@ class Article extends DatabaseBase {
     public static function Create($title, $content, $show_datetime, $author, $show_comments, $show_in_view, $status = 2) {
         $connect = DB::Connect();
         
-			$title = $connect->escape_string($title);
+			$title = htmlspecialchars($connect->escape_string($title));
 			$content = $connect->escape_string($content);
 			$show_datetime = (int)$show_datetime;
 			$show_comments = (int)$show_comments;

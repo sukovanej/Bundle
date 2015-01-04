@@ -19,6 +19,7 @@ class Url extends DatabaseBase {
 			$Type = $c->real_escape_string($Type);
 		
 		$c->query("INSERT INTO " . DB_PREFIX . "urls (Url, Type, Data) VALUES ('" . $Url . "', '" . $Type . "', " . $Data . ")");
+		
 		return $c->insert_id;
     }
     

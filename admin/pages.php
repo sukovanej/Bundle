@@ -1,6 +1,8 @@
 <h1>Přehled podstránek</h1>
 <?php
-    if (isset($_POST["page_delete"])) {
+	if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
+		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+	} else if (isset($_POST["page_delete"])) {
         $ID = $_POST["page_id"];
         $page = new Bundle\Page($ID);
         
@@ -24,7 +26,7 @@
 			<td><img src="./images/page-document.png" class="user-role-img" /><a href="./<?= $Page->Url ?>"><?= $Page->Title ?></a></td>
 			<td><?= (new Bundle\User($Page->Author))->Username ?></td>
 			<td><a href="./administrace-upravit-stranku-<?= $Page->ID ?>">Upravit</a></td>
-			<td><a onclick="pageDelete('<?= $Page->ID ?>')">Smazat</a></td>
+			<td><a onclick="pageDelete('<?= $Page->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 		</tr>
 		<?php foreach($Page->Children() as $PageChild): ?>
 			<tr class="menu-table-sub">
@@ -32,7 +34,7 @@
 					<a href="./<?= $PageChild->Url ?>"><?= $PageChild->Title ?></a></td>
 				<td><?= (new Bundle\User($PageChild->Author))->Username ?></td>
 				<td><a href="./administrace-upravit-stranku-<?= $PageChild->ID ?>">Upravit</a></td>
-				<td><a onclick="pageDelete('<?= $PageChild->ID ?>')">Smazat</a></td>
+				<td><a onclick="pageDelete('<?= $PageChild->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 			</tr>
 		<?php endforeach; ?>
     <?php endforeach; ?>

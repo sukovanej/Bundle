@@ -1,7 +1,13 @@
 <h1>Profil</h1>
 <?php 
+
+	$output = getcwd() . "/upload/users/";
+	$file = "user-" . $User->ID;
+	
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["update_info"]) && !empty($_POST["update_info"])) {
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token. Zkuste formulář odeslat znovu.");
+        } else if (isset($_POST["update_info"]) && !empty($_POST["update_info"])) {
             $User->Update("Email", $_POST["email"]); 
             $User->InstUpdate();
             Admin::Message("Informace úspěšně upraveny.");
@@ -16,33 +22,33 @@
                 Admin::Message("Heslo úspěšně změňeno.");
                 $User->Update("Password", sha1($_POST["new_pass"]));
             }
-        }
-    }
-    
-	$output = getcwd() . "/upload/users/";
-	$file = "user-" . $User->ID;
-
-	if (isset($_POST["submit_photo"]) && $Page->AllowUserPhoto) {
-		$file .= "." . end((explode(".", $_FILES["file"]["name"])));
-		
-		if ($_FILES["file"]["error"] > 0) {
-			Admin::ErrorMessage("Chyba : " . $_FILES["file"]["error"]);
-		} else if($_FILES["file"]["size"] / 1024 > $Page->UserPhotoMaxSize) {
-			Admin::ErrorMessage("Maximální velikost obrázku je v systému nastavena na " . $Page->UserPhotoMaxSize . "kB. Tento limit nelze překročit");
-		} else {
-			if (file_exists($output . $file)) {
-				unlink($output . $file);
-				move_uploaded_file($_FILES["file"]["tmp_name"], $output . $file);
-			} else {
-				move_uploaded_file($_FILES["file"]["tmp_name"], $output . $file);
-			}
+        } else if (isset($_POST["submit_photo"]) && $Page->AllowUserPhoto) {
+			$file .= "." . end((explode(".", $_FILES["file"]["name"])));
 			
-			$User->Update("Photo", "./upload/users/" . $file);
-			Admin::Message("Fotografie byla úspěšně aktualizována.");
+			$exts = array("png", "jpg", "gif", "jpeg");
+			
+			if ($_FILES["file"]["error"] > 0) {
+				Admin::ErrorMessage("Chyba : " . $_FILES["file"]["error"]);
+			} else if($_FILES["file"]["size"] / 1024 > $Page->UserPhotoMaxSize) {
+				Admin::ErrorMessage("Maximální velikost obrázku je v systému nastavena na " . $Page->UserPhotoMaxSize . "kB. Tento limit nelze překročit");
+			} else if (!in_array(strtolower(end((explode(".", $_FILES["file"]["name"])))), $exts)) {
+				Admin::ErrorMessage("Povolené formáty jsou PNG, JPG, JPEG a GIF.");
+			} else {
+				if (file_exists($output . $file)) {
+					unlink($output . $file);
+					move_uploaded_file($_FILES["file"]["tmp_name"], $output . $file);
+				} else {
+					move_uploaded_file($_FILES["file"]["tmp_name"], $output . $file);
+				}
+				
+				$User->Update("Photo", "./upload/users/" . $file);
+				Admin::Message("Fotografie byla úspěšně aktualizována.");
+			}
 		}
 	}
 ?>
 <form method="POST" enctype="multipart/form-data" />
+	<?= HToken::html() ?>
 	<?php if($Page->AllowUserPhoto): ?>
 	<h2>Fotografie</h2>
 	<table>

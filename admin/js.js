@@ -71,68 +71,74 @@ function CloseDialog() {
     $("#dialog").hide();
 }
 
-function articleDelete(id) {
+function articleDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete článek smazat?</h1><p>Článek bude nenávratně odstraněn, skutečně si přejete\n\
         článek smazat? Pro odstranění stiskněte tlačítko \n\
         <em>Odstranit</em>.</p><form method='POST'><input type='hidden' name='article_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='article_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function contentDelete(id) {
+function contentDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete prvek smazat?</h1><p>Pokračujte stisknutím tlačítka \n\
         <em>Odstranit</em>.</p><form method='POST'><input type='hidden' name='content_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='content_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function commentDelete(id) {
+function commentDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete komentář smazat?</h1><p>Komentář bude nenávratně odstraněn, přejete si pokračovat?\n\
         </p><form method='POST'><input type='hidden' name='comment_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='comment_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function menuItemDelete(id) {
+function menuItemDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete položku odstranit?</h1><p>Přejete si pokračovat?\n\
         </p><form method='POST'><input type='hidden' name='menu_item_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='menu_item_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function commentSubDelete(id) {
+function commentSubDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete komentář označit jako nevhodný?</h1><p>Text komentáře bude nenávratně upraven\n\
         na varující text definovaný v nastavení webu.</p><form method='POST'><input type='hidden' \n\
         name='comment_id' value='" + id + "' /><input type='submit' value='Provést operaci' name='comment_subdelete' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function userRole(id) {
+function userRole(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Zvolte, jakou roli chcete uživateli udělit.</h1>\n\
         <form method='POST'>\n\
         <div style='margin:10px;'><input type='hidden' name='user_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='radio' name='role' value='2' checked> Uživatel <br />\n\
         <input type='radio' name='role' value='1'> Redaktor <br />\n\
         <input type='radio' name='role' value='0'> Administrátor <br /></div>\n\
@@ -142,35 +148,38 @@ function userRole(id) {
     $("#dialog").show();
 }
 
-function userDelete(id) {
+function userDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete uživatelský účet smazat?</h1><p>Účet bude nenávratně odstraněn, přejete si pokračovat?\n\
         </em></p><form method='POST'><input type='hidden' name='user_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='user_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function categoryDelete(id) {
+function categoryDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete kategorii smazat?</h1><p>Kategorii bude nenávratně odstraněna a s ní i \n\
         všechny vazby na články. Přejete si pokračovat?</p><form method='POST'>\n\
         <input type='hidden' name='category_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='category_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );
     $("#dialog").show();
 }
 
-function pageDelete(id) {
+function pageDelete(id, token) {
     $("#dialog-bg").show();
     $("#dialog").html(
         "<h1>Opravdu chcete stránku smazat?</h1><p>Stránka bude nenávratně odstraněna. \n\
         Přejete si pokračovat?</p><form method='POST'>\n\
         <input type='hidden' name='page_id' value='" + id + "' />\n\
+        <input type='hidden' name='token' value='" + token + "' />\n\
         <input type='submit' value='Odstranit' name='page_delete' />\n\
         <input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
     );

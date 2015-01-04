@@ -2,9 +2,11 @@
 <div id="dynamic-content">
     <?php
         if (isset($_POST["update"])) {
-            if (empty($_POST["name"]) || empty($_POST["author"])) {
-                Admin::ErrorMessage("Je potřeba vyplnit všechny hodnoty.");
-            } else {
+			if (!HToken::checkToken()) {
+				Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+			} else if (empty($_POST["name"]) || empty($_POST["author"])) {
+				Admin::ErrorMessage("Je potřeba vyplnit všechny hodnoty.");
+			} else {
 				function checked($post) {
 					if(isset($_POST[$post]))
 						return 1;
@@ -42,6 +44,7 @@
         }
     ?>
 <form method="POST">
+	<?= HToken::html() ?>
     <h2>Základní nastavení webu</h2>
     <table>
         <tr>

@@ -7,8 +7,9 @@
 		"main" => "Hlavní obsah",
 		"package" => "Balík"
 	);	
-	
-	if (isset($_POST["up-submit"])) {
+	if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
+		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+	} else if (isset($_POST["up-submit"])) {
 		$order = $_POST["order"];
 		$place = $_POST["place"];
 		
@@ -70,6 +71,7 @@
 <h2>Přidat generátor</h2>
 
 <form method="POST">
+	<?= HToken::html() ?>
 	<table>
 		<tr>
 			<td>Obsah</td>
@@ -145,6 +147,7 @@
 			<td><?= $view ?></td>
 			<td>
 				<form method="POST">
+					<?= HToken::html() ?>
 					<input type="hidden" name="order" value="<?= $item->ContentOrder  ?>" />
 					<input type="hidden" name="place" value="<?= $place  ?>" />
 					<?php if($item->ContentOrder != 0): ?>
@@ -155,7 +158,7 @@
 					<?php endif; ?>
 				</form>
 			</td>
-			<td><a onclick="contentDelete('<?= $item->ID ?>')">Smazat</a></td>
+			<td><a onclick="contentDelete('<?= $item->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 		</tr>
 		<?php endforeach; endif; ?>
 	</table>

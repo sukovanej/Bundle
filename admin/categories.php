@@ -1,15 +1,28 @@
 <h1>Správa kategorií</h1>
 <?php
 	if (isset($_POST["category_delete"])) {
-		$ID = $_POST["category_id"];
-		$category = new Bundle\Category($ID);
-		$category->Delete();
-		Admin::Message("Kategorie <strong>" . $category->Title . "</strong> byla odstraněna.");
-	} else if (isset($_POST["category_create"]) && !empty($_POST["category_name"])) {
-		$Name = $_POST["category_name"];
-		$Parent = $_POST["category_parent"];
-		Bundle\Category::Create($Name, $Parent);
-		Admin::Message("Nová kategorie bylá úspěšně vytvořena.");
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else {
+			$ID = $_POST["category_id"];
+			$category = new Bundle\Category($ID);
+			$category->Delete();
+			
+			Admin::Message("Kategorie <strong>" . $category->Title . "</strong> byla odstraněna.");
+		}
+	}
+	
+	if (isset($_POST["category_create"]) && !empty($_POST["category_name"])) {
+		if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else {
+			$Name = $_POST["category_name"];
+			$Parent = $_POST["category_parent"];
+			
+			Bundle\Category::Create($Name, $Parent);
+			
+			Admin::Message("Nová kategorie bylá úspěšně vytvořena.");
+		}
 	} else if (isset($_POST["category_create"]) && empty($_POST["category_name"])) {
 		Admin::ErrorMessage("Nová kategorie nemohla být vytvořena. Nebyl zadán <strong>název</strong>.");
 	} else if (isset($_POST["category_change_id"])) {
@@ -35,14 +48,14 @@
 	<?php foreach($categories as $category): ?>
 		<tr>
 			<td><img class="user-role-img" src="./images/category.png" /><span data="<?= $category->ID ?>" class="category-title"><?= $category->Title ?></span></td>
-			<td><a onclick="categoryDelete('<?= $category->ID ?>')">Smazat</a></td>
+			<td><a onclick="categoryDelete('<?= $category->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 		</tr>
 		<?php foreach($category->Children() as $category_child): ?>
 		<tr class="menu-table-sub">
 			<td class="menu-table-sub-td"><img class="user-role-img" src="./images/category-sub.png" />
 				<span data="<?= $category_child->ID ?>" class="category-title"><?= $category_child->Title ?></span>
 			</td>
-			<td><a onclick="categoryDelete('<?= $category_child->ID ?>')">Smazat</a></td>
+			<td><a onclick="categoryDelete('<?= $category_child->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 		</tr>
 		<?php endforeach; ?>
 		<?php $categories_dialog .= "<option value='" . $category->ID . "'>" . $category->Title . "\\n\\"; ?>
@@ -86,6 +99,7 @@
 			<form method='POST'>Název kategorie<input type='text' style='margin:10px 5px;' name='category_name' /><br />\n\
 			Nadřazená kategorie <select name='category_parent'><option value='0'>Žádná nadřazená\n\<?= $categories_dialog ?></select><br />\n\
 			<input type='submit' value='Vytvořit' name='category_create' />\n\
+			<input type='hidden' value='<?= HToken::get() ?>' name='token' />\n\
 			<input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
 		);
 		$("#dialog").show();

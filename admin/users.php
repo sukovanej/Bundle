@@ -1,6 +1,8 @@
 <h1>Správa uživatelských účtů</h1>
 <?php
-	if (isset($_POST["user_delete"])) {
+	if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
+		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+	} else if (isset($_POST["user_delete"])) {
 		$ID = $_POST["user_id"];
 		$SelectedUser = new Bundle\User($ID);
 		$SelectedUser->Delete();
@@ -26,8 +28,8 @@
 			<td class="mobile-hide"><?= $SelectedUser->Email ?></td>
 			<td class="mobile-hide"><?= $SelectedUser->RoleString ?></td>
 			<?php if ($User->Username != $SelectedUser->Username): ?>
-			<td><a onclick="userRole(<?= $SelectedUser->ID ?>)">Změnit roli</a></td>
-			<td><a onclick="userDelete(<?= $SelectedUser->ID ?>)">Smazat</a></td>
+			<td><a onclick="userRole(<?= $SelectedUser->ID ?>, '<?= HToken::get() ?>')">Změnit roli</a></td>
+			<td><a onclick="userDelete(<?= $SelectedUser->ID ?>, '<?= HToken::get() ?>')">Smazat</a></td>
 			<?php else: ?>
 			<td><em title="U vlastního profilu nelze provádět změny">Změnit roli</em></td>
 			<td><em title="U vlastního profilu nelze provádět změny">Smazat</em></td>

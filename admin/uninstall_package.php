@@ -5,7 +5,12 @@
 
 <h1>Odinstalace balíku <?= $Package_name ?></h1>
 
-<?php if (!Bundle\Packages::IsPackageInstalled($Package_name)): ?>
+<?php if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()): ?>
+
+	<?php Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu."); ?>
+		
+<?php elseif (!Bundle\Packages::IsPackageInstalled($Package_name)): ?>
+
 	<?php Admin::ErrorMessage("Tento balík ještě není v systému nainstalovaný!"); ?> <br />
 	<p><a href="./administrace-baliky" id="button">Zpět</a></p>
 	
@@ -69,6 +74,7 @@
 		<strong class='done'>OK</strong> : Na tento balík neexistují závislosti <br /><br />
 		
 		<form method="POST">
+			<?= HToken::html() ?>
 			<input type="submit" name="uninstall" value="Odinstalovat balík" />
 		</form>
 	<?php endif; ?>

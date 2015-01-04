@@ -1,7 +1,9 @@
 <h1>Vytvořit stránku</h1>
 <?php
     if (isset($_POST["create"])) {
-        if (empty($_POST["title"]) || empty($_POST["content"])) {
+        if (!HToken::checkToken()) {
+			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
+		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
             Admin::ErrorMessage("Všechna pole musí být vyplněna.");
         } else {
             $menu = 0;
@@ -29,6 +31,7 @@
     $pages = Bundle\Page::ParentsOnly();
 ?>
 <form method="POST">
+	<?= HToken::html() ?>
 	<h2>Základní informace</h2>
     <table id="article_table">
         <tr>

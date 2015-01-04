@@ -1,51 +1,54 @@
 <?php 
 /**
- * bundle_Content
+ * Content
  *
  * @author sukovanej
  */
-class bundle_Content extends bundle_DatabaseBase {
+ 
+namespace Bundle; 
+ 
+class Content extends DatabaseBase {
 	public function __construct($ID) {
-		parent::__construct($ID, "bundle_content");
+		parent::__construct($ID, "content");
 	}
 	
 	public static function Create($type, $data, $place, $home_only = false) {
-		$connect = bundle_DB::Connect();
+		$connect = DB::Connect();
 		
 		$h_only = 0;
 		if ($home_only)
 			$h_only = 1;
 			
-		$count_re = $connect->query("SELECT COUNT(*) AS Count FROM bundle_content WHERE Place = '" . $place . "'")->fetch_object();
-		$create_re = $connect->query("INSERT INTO bundle_content (Type, Data, HomeOnly, ContentOrder, Place) VALUES ('" . $type . "'," . $data . "," 
+		$count_re = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "content WHERE Place = '" . $place . "'")->fetch_object();
+		$create_re = $connect->query("INSERT INTO " . DB_PREFIX . "content (Type, Data, HomeOnly, ContentOrder, Place) VALUES ('" . $type . "'," . $data . "," 
 			. $h_only . "," . $count_re->Count . ", '" . $place . "')");
 		
 		return $connect->insert_id;
 	}
 	
 	public static function GetByData($type, $data) {
-		$connect = bundle_DB::Connect();
-		$row = $connect->query("SELECT ID, COUNT(*) as Count FROM bundle_content WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object();
+		$connect = DB::Connect();
+		$row = $connect->query("SELECT ID, COUNT(*) as Count FROM " . DB_PREFIX . "content WHERE Data = " . $data . " AND Type = '" . $type . "'")->fetch_object();
 		if ($row->Count == 0)
 			return false;
 			
-		return new bundle_Content($row->ID);
+		return new Content($row->ID);
 	}
 	
 	public static function GetByOrderPlace($place, $order) {
-		$connect = bundle_DB::Connect();
-		$row = $connect->query("SELECT ID, COUNT(*) as Count FROM bundle_content WHERE ContentOrder = " . $order . " AND Place = '" . $place . "'")->fetch_object();
+		$connect = DB::Connect();
+		$row = $connect->query("SELECT ID, COUNT(*) as Count FROM " . DB_PREFIX . "content WHERE ContentOrder = " . $order . " AND Place = '" . $place . "'")->fetch_object();
 		
 		if ($row->Count == 0)
 			return false;
 			
-		return new bundle_Content($row->ID);
+		return new Content($row->ID);
 	}
 	
 	public static function ListByPlace($place) {
-		$connect = bundle_DB::Connect();
+		$connect = DB::Connect();
 		
-		$re = $connect->query("SELECT ID FROM bundle_content WHERE Place = '" . $place . "' ORDER BY ContentOrder");
+		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "content WHERE Place = '" . $place . "' ORDER BY ContentOrder");
 		
 		if ($re->num_rows == 0)
 			return false;
@@ -53,15 +56,47 @@ class bundle_Content extends bundle_DatabaseBase {
 		$array = array();
 		
 		while($row = $re->fetch_object())
-			$array[] = new bundle_Content($row->ID);
+			$array[] = new Content($row->ID);
+			
+		return $array;
+	}
+	
+	public static function ListByType($type) {
+		$connect = DB::Connect();
+		
+		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "content WHERE Type = '" . $type . "' ORDER BY ContentOrder");
+		
+		if ($re->num_rows == 0)
+			return false;
+		
+		$array = array();
+		
+		while($row = $re->fetch_object())
+			$array[] = new Content($row->ID);
+			
+		return $array;
+	}
+	
+	public static function ListByData($type, $data) {
+		$connect = DB::Connect();
+		
+		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "content WHERE Type = '" . $type . "' AND Data = " . $data . " ORDER BY ContentOrder");
+		
+		if ($re->num_rows == 0)
+			return false;
+		
+		$array = array();
+		
+		while($row = $re->fetch_object())
+			$array[] = new Content($row->ID);
 			
 		return $array;
 	}
 	
 	public static function CountByPlace($place) {
-		$connect = bundle_DB::Connect();
+		$connect = DB::Connect();
 		
-		$re = $connect->query("SELECT COUNT(*) AS Count FROM bundle_content WHERE Place = '" . $place . "' ORDER BY ContentOrder");
+		$re = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "content WHERE Place = '" . $place . "' ORDER BY ContentOrder");
 		
 		return $re->fetch_object()->Count;
 	}
@@ -69,13 +104,13 @@ class bundle_Content extends bundle_DatabaseBase {
 	public function Delete() {
 		parent::Delete();
 		
-		bundle_DB::Connect()->query("UPDATE bundle_content SET ContentOrder = ContentOrder - 1 WHERE Place = '" 
+		DB::Connect()->query("UPDATE " . DB_PREFIX . "content SET ContentOrder = ContentOrder - 1 WHERE Place = '" 
 			. $this->Place . "' AND ContentOrder > " . $this->ContentOrder);
 	}
 	
 	public static function CountAll() {
-		$connect = bundle_DB::Connect();
-		$re = $connect->query("SELECT COUNT(*) AS Count FROM bundle_content")->fetch_object();
+		$connect = DB::Connect();
+		$re = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "content")->fetch_object();
 		return $re->Count;
 	}
 }
