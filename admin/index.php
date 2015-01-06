@@ -9,9 +9,7 @@
         <meta name="viewport" content="width=device-width">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<link rel="stylesheet" href="./admin/reset.css" />
-        <link media="only screen and (min-device-width: 500px)" rel="stylesheet" href="./admin/style.css" />
-		<link media="only screen and (max-device-width: 500px)" href="./admin/mobile-style.css" 
-			type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="./admin/style.css" />
         <link rel="icon" type="image/png" href="./images/icon.png?get=ico" />
         <script type="text/javascript" src="./admin/jquery.js"></script>
         <script type="text/javascript" src="./admin/js.js"></script>
@@ -25,24 +23,22 @@
     <body>
         <div id="dialog-bg"></div>
         <div id="dialog"></div>
-        <div id="mobile-menu" onclick="toggle_menu()">
-			<a>Zobrazit navigaci &rsaquo; </a>
-		</div>
         <div id="head">
             <div id="head-content">
-				<a href="http://bundle-cms.cz/" target="_blank"><img src="./images/logo.png" class="logo_" /></a>
+				<a href="http://bundle-cms.cz/" class="header" target="_blank"><img src="./images/logo.png" class="logo_" /></a>
                 <div id="menu">
 					<?php if ($User->Role <= 1): ?>
 					<ul>
-						<li><a href="administrace-vytvorit-clanek"><img src="./images/plus.png" />Vytvořit článek</a></li>
-						<li><a href="./administrace-vytvorit-stranku"><img src="./images/Empty document new.png" />Vytvořit stránku</a></li>
+						<li class="navigation"><a><img src="./images/category.png" /></a></li>
+						<li><a href="administrace-vytvorit-clanek"><img src="./images/plus.png" /><span class="res_close">Vytvořit článek</span></a></li>
+						<li><a href="./administrace-vytvorit-stranku"><img src="./images/Empty document new.png" /><span class="res_close">Vytvořit stránku</span></a></li>
 						<?php Bundle\Events::Execute("AdminLeftTopNav") ?>	
 					</ul>
 					<?php endif; ?>
 					<ul class="right_top">
 						<?php Bundle\Events::Execute("AdminRightTopNav") ?>
-						<li><a href="./" target="_blank"><img src="./images/home.png" />Navštívit web</a></li>
-						<li ><a href="./administrace-profil" title="Upravit profil"><img src="./images/heart.png" />Upravit profil</a></li>
+						<li><a href="./" target="_blank"><img src="./images/home.png" /><span class="res_close">Navštívit web</span></a></li>
+						<li ><a href="./administrace-profil" title="Upravit profil"><img src="./images/heart.png" /><span class="res_close">Upravit profil</span></a></li>
 						<li class="no-space"><a href="administrace-odhlasit" title="Odhlásit"><img src="./images/Badge-multiply.png" /></a></li>
 						<li><a title="<?= $User->RoleString ?>"><img src="<?= $User->Photo ?>" /><strong><?= $User->Username ?></strong></a></li>
 					</ul>

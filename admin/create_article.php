@@ -75,7 +75,7 @@
 		<tr>
 			<td>
 			<?php foreach(Bundle\Category::ParentsOnly() as $category): ?>			
-				<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" <?= $checked ?> /> <?= $category->Title ?><br />
+				<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" /> <?= $category->Title ?><br />
 				<?php foreach($category->Children() as $child_cat): ?>
 					&nbsp; &rarr; &nbsp; <input type="checkbox" name="categories[]" value="<?= $child_cat->ID ?>" <?= $checked ?> /> <?= $child_cat->Title ?><br />
 				<?php endforeach; ?>

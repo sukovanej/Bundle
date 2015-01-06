@@ -64,7 +64,35 @@ $(document).ready(function() {
 			e.preventDefault();
 		}
 	});
+	
+	responsive();
 });
+
+function responsive() {
+	var width = $(window).width();
+	var nav = $("nav");
+	
+	if (width < 950) {
+		$(".res_close").hide();
+	}
+	
+	if (width < 700) {
+		$(".header").hide();
+		$(".navigation").show();
+		
+		nav.hide();
+		nav.css("position", "absolute");
+		nav.css("z-index", "100000");
+		
+		$("footer").hide();
+		$("#content h1").css("left", "0");
+		$("body").css("padding-left", "0");
+		
+		$(".navigation").click(function() {
+			nav.toggle(100);
+		});
+	}
+}
 
 function CloseDialog() {
     $("#dialog-bg").hide();
