@@ -18,7 +18,7 @@
     $articles = Bundle\Article::GetAll();
 ?>
 
-<?php if(Bundle\Article::CountAll() > 0s): ?>
+<?php if(Bundle\Article::CountAll() > 0): ?>
 <table class="table">
     <tr>
         <th>Název článku</th>
