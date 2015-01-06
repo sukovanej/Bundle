@@ -1,4 +1,7 @@
 <?php
+	if(!defined("_BD"))
+		die();
+		
 	$output = getcwd() . "/upload/";
 
 	if (isset($_POST["submit"])) {

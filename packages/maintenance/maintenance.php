@@ -1,4 +1,6 @@
 <?php
+if(!defined("_BD"))
+	die();
 
 class maintenance extends Bundle\PackageBase {	
 	// Inicialize

@@ -1,4 +1,6 @@
 <?php
+if(!defined("_BD"))
+	die();
 
 class tiny_mce extends Bundle\PackageBase {
 	

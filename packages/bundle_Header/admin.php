@@ -1,4 +1,7 @@
 <?php
+	if(!defined("_BD"))
+		die();
+		
 	$dir = new HDirectory("upload");
 	
 	if (isset($_POST["file_submit"])) {

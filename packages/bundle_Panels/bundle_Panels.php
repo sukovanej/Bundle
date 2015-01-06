@@ -1,4 +1,7 @@
 <?php
+if(!defined("_BD"))
+	die();
+
 class bundle_Panels extends Bundle\PackageBase {
 	public $includes;
 	public $place;

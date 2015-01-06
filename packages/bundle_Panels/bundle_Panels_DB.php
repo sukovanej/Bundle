@@ -1,5 +1,7 @@
 <?php
-
+if(!defined("_BD"))
+	die();
+		
 class bundle_Panels_DB {
 	public $panels;
 	

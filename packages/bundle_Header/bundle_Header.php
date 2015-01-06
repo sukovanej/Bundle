@@ -1,4 +1,7 @@
 <?php
+	if(!defined("_BD"))
+		die();
+		
 	class bundle_Header extends Bundle\PackageBase {
 		public function __construct() {
 			$this->includes = array();

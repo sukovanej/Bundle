@@ -1,3 +1,9 @@
+<?php
+if(!defined("_BD"))
+	die();
+
+?>
+
 <script>
 	function panelDelete(id) {
 		$("#dialog-bg").show();

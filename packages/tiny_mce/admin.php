@@ -1,3 +1,8 @@
+<?php
+if(!defined("_BD"))
+	die();
+?>
+
 <h2>Plguiny</h2>
 
 <?php

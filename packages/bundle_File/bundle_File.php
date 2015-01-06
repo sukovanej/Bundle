@@ -1,4 +1,7 @@
 <?php
+	if(!defined("_BD"))
+		die();
+		
 	class bundle_File extends Bundle\PackageBase {
 		// Inicialize
 		public function __construct() {
