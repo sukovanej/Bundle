@@ -1,5 +1,14 @@
 <?php
 	ob_start();
+	
+	define("_BD", "bundle");
+	
+	/** uncomment to enable PHP errors
+	ini_set('display_startup_errors',1);
+	ini_set('display_errors',1);
+	error_reporting(-1);
+	**/
+	
 	if(filesize("config.ini") == 0)
 		header("location: ./install.php");
 	
@@ -31,7 +40,7 @@
 	// Default config object
 	$Page = new Bundle\Template;
 	
-	// User object - if (s)he's logged in
+	// User object - if user's logged in
 	if (isset($_SESSION["user"])) {
 		$User = new Bundle\User($_SESSION["user"]);
 	}

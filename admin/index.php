@@ -29,7 +29,7 @@
                 <div id="menu">
 					<?php if ($User->Role <= 1): ?>
 					<ul>
-						<li class="navigation"><a><img src="./images/category.png" /></a></li>
+						<li class="navigation"><a onclick="show_nav()"><img src="./images/category.png" /></a></li>
 						<li><a href="administrace-vytvorit-clanek"><img src="./images/plus.png" /><span class="res_close">Vytvořit článek</span></a></li>
 						<li><a href="./administrace-vytvorit-stranku"><img src="./images/Empty document new.png" /><span class="res_close">Vytvořit stránku</span></a></li>
 						<?php Bundle\Events::Execute("AdminLeftTopNav") ?>	

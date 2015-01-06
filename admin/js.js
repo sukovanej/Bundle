@@ -66,31 +66,50 @@ $(document).ready(function() {
 	});
 	
 	responsive();
+	
+	$(window).resize(function() {
+		responsive();
+	});
 });
+
+function show_nav() {
+	$("nav").toggle(100);
+}
 
 function responsive() {
 	var width = $(window).width();
 	var nav = $("nav");
 	
-	if (width < 950) {
-		$(".res_close").hide();
+	if (width > 950) {
+		$(".navigation").hide();
+		$(".res_close").show();
+		nav.show();
+		$(".header").show();
+		
+		$("footer").show();
+		$("#content h1").css("left", "210");
+		$("body").css("padding-left", "210");
 	}
 	
-	if (width < 700) {
+	if (width < 950) {
+		$(".res_close").hide();
+		$(".navigation").hide();
+		nav.show();
+		$(".header").show();
+		
+		$("footer").show();
+		$("#content h1").css("left", "210");
+		$("body").css("padding-left", "210");
+	}
+	
+	if (width < 600) {
 		$(".header").hide();
 		$(".navigation").show();
-		
 		nav.hide();
-		nav.css("position", "absolute");
-		nav.css("z-index", "100000");
 		
 		$("footer").hide();
 		$("#content h1").css("left", "0");
 		$("body").css("padding-left", "0");
-		
-		$(".navigation").click(function() {
-			nav.toggle(100);
-		});
 	}
 }
 

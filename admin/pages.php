@@ -15,6 +15,8 @@
     
     $parents = Bundle\Page::ParentsOnly();
 ?>
+
+<?php if(Bundle\Page::CountAll() > 0): ?>
 <table class="table">
     <tr>
         <th>Titulek stránky</th>
@@ -39,3 +41,6 @@
 		<?php endforeach; ?>
     <?php endforeach; ?>
 </table>
+<?php else: ?>
+<em>Žádná stránka zatím nevytvořena</em>
+<?php endif; ?>

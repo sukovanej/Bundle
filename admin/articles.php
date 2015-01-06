@@ -17,6 +17,8 @@
     
     $articles = Bundle\Article::GetAll();
 ?>
+
+<?php if(Bundle\Article::CountAll() > 0s): ?>
 <table class="table">
     <tr>
         <th>Název článku</th>
@@ -35,3 +37,6 @@
             <td><a onclick="articleDelete('<?= $Article->ID ?>', <?= HToken::get() ?>)">Smazat</a></td></tr>
 	<?php endforeach; ?>
 </table>
+<?php else: ?>
+<em>Žádné články zatím nevytvořeny...</em>
+<?php endif; ?>
