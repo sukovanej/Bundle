@@ -4,6 +4,7 @@ class HForm {
 	const METHOD_GET = 'GET';
 	
 	const TABLE_STYLE_DEFAULT = "default";
+	const TABLE_STYLE_NONE = "none";
 	
 	const ERROR_REQUIRE = "e_require";
 	
@@ -42,7 +43,8 @@ class HForm {
 						$item->removeAttribute("checked");
 					}
 				} else {
-					$item->Value = $this->getDataArray()[$item->Name];
+					if ($item->Type != HFormItem::TYPE_FILE)
+						$item->Value = $this->getDataArray()[$item->Name];
 				}
 			}
 		}

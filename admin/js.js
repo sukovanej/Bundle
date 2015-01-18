@@ -102,7 +102,7 @@ function responsive() {
 		$("body").css("padding-left", "210");
 	}
 	
-	if (width < 600) {
+	if (width < 900) {
 		$(".header").hide();
 		$(".navigation").show();
 		nav.hide();

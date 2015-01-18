@@ -109,7 +109,7 @@ class HFormItem {
 		} else if ($this->Type == self::TYPE_NEW_TABLE) {
 			$result = '</table><table ' . $this->generateClassesString() . '>';
 		} else {
-			$result = '<input name="' . $this->Name . '" type="' . $this->Type . '" value="' . $this->Value . '" ' . $this->generateClassesString() . ' ' . $this->generateAttributesString() . ' value="' . $this->Value . '" />';
+			$result = '<input name="' . $this->Name . '" type="' . $this->Type . '" ' . $this->generateClassesString() . ' ' . $this->generateAttributesString() . ' value="' . $this->Value . '" />';
 		}
 		
 		return $result;

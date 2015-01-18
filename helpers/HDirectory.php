@@ -28,12 +28,14 @@ class HDirectory extends HFileSystemItem {
 	}
 	
 	public function uploadFile($file, $name = self::FILE_NAME, $rewrite = self::REWRITE_OFF, $max_size = false) {
-		$target_file = $this->Path . "/" . basename($file["name"]);
-		
+		$file_name = $file["tmp_name"];
+
 		if ($name == self::FILE_NAME)
-			$file_name = $file["tmp_name"];
+			$f_name = basename($file["name"]);
 		else
-			$file_name = $name;
+			$f_name = $name;
+
+		$target_file = $this->Path . "/" . $f_name;
 		
 		if (!$rewrite && file_exists($target_file))
 			throw new Exception("Soubor " . $target_file . " už existuje.");
@@ -42,7 +44,7 @@ class HDirectory extends HFileSystemItem {
 			throw new Exception("Překročena maximální velikost souboru " . $max_size . "B.");
 		} else {
 			if (!move_uploaded_file($file_name, $target_file))
-				throw new Exception("Neznámá chyba při uploadu.");
+				throw new Exception("Neznámá chyba při uploadu." . $target_file);
 		}
 		
 		return (new HFile($target_file));

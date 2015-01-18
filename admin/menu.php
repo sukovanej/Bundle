@@ -162,7 +162,7 @@
 		</td>
 		<td>
 			<?php if($item->Title != $Page->HomeMenuTitle): ?>
-			<a onclick="menuItemDelete('<?= $item->ID ?>')">Smazat</a>
+			<a onclick="menuItemDelete('<?= $item->ID ?>', <?= HToken::get() ?>)">Smazat</a>
 			<?php else: ?>
 			-
 			<?php endif; ?>
@@ -185,7 +185,7 @@
 					<?php endif; ?>
 				</form>
 			</td>
-			<td><a onclick="menuItemDelete('<?= $item_ch->ID ?>')">Smazat</a></td>
+			<td><a onclick="menuItemDelete('<?= $item_ch->ID ?>', <?= HToken::get() ?>)">Smazat</a></td>
 		</tr>
 		<?php endforeach; ?>
 	<?php endforeach; ?>

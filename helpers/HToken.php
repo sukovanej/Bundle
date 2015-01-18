@@ -10,7 +10,7 @@ class HToken {
 	}
 	
 	public static function html() {
-		$html = '<input type="hidden" name="token" value="' . $_SESSION["token"] . '" />';
+		$html = '<input type="hidden" name="token" value="' . self::get() . '" />';
 		return $html;
 	}
 	

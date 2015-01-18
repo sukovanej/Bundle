@@ -39,7 +39,7 @@
 		<td><?= $Comment->Datetime ?></td>
 		<td><?= $Comment->AuthorObj->Username ?></td>
 		<td><a onclick="commentSubDelete('<?= $Comment->ID ?>', '<?= HToken::get() ?>')">Nevhodný komentář</a></td>
-		<td><a onclick="commentDelete('<?= $Comment->ID ?>' '<?= HToken::get() ?>')">Smazat</a></td>
+		<td><a onclick="commentDelete('<?= $Comment->ID ?>', '<?= HToken::get() ?>')">Smazat</a></td>
 	</tr>
 	<?php endforeach; ?>
 </table>
