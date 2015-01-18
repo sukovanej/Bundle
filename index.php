@@ -3,11 +3,11 @@
 	
 	define("_BD", "bundle");
 	
-	/** uncomment to enable PHP errors
+	/** uncomment to enable PHP errors **/
 	ini_set('display_startup_errors',1);
 	ini_set('display_errors',1);
 	error_reporting(-1);
-	**/
+	/**/
 	
 	if(filesize("config.ini") == 0)
 		header("location: ./install.php");
@@ -24,8 +24,8 @@
 	foreach(Bundle\Package::GetInstalledPackages() as $package) {		
 		$package_name = $package->Name;
 		require("packages/" . $package_name. "/" . $package_name . ".php");
-		$obj = new $package_name();
-		$obj->IncludeAllFiles();
+		${$package_name} = new $package_name();
+		${$package_name}->IncludeAllFiles();
 	}
 	
 	// Bundla 1.2: debug bug
