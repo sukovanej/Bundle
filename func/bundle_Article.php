@@ -77,7 +77,10 @@ class Article extends DatabaseBase {
 				$Author = new User($row["Author"]);
 			}
 			
-            require("./themes/" . (new Template())->Theme . "/comment.php");
+            if (file_exists("./themes/" . (new Template())->Theme . "/comment.php"))
+                require("./themes/" . (new Template())->Theme . "/comment.php");
+            else
+                require("func/defaults/comment.php");
         }
     }
     

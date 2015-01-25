@@ -60,7 +60,7 @@
             <td><input type="text" size="45" value="<?= $Page->Icon ?>" name="icon" 
                        onchange="changeImg()" />
                 <img style="float:right; width:24px; margin-left:5px;" 
-                     src="<?= ("./" . $Page->Icon) ?>" id="admin_img_icon" />
+                     src="<?= ($Page->Icon) ?>" id="admin_img_icon" />
             </td>
         </tr>
         <tr>

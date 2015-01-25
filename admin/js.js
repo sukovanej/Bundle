@@ -234,7 +234,7 @@ function pageDelete(id, token) {
 }
 
 function changeImg() {
-    $('#admin_img_icon').attr('src', ('./' + $("input[name=icon]").val()));
+    $('#admin_img_icon').attr('src', ($("input[name=icon]").val()));
 }
 
 function set_content(page) {

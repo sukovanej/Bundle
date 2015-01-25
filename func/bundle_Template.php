@@ -22,6 +22,8 @@ class Template {
         
 		if (isset($_POST["pager_int"]))
 			$this->PagerInt = $_POST["pager_int"];
+		else if (isset($_GET["pager_int"]))
+			$this->PagerInt = $_GET["pager_int"];
             
         if ($e == 0) {
 			$_menu = new Menu();
@@ -29,11 +31,11 @@ class Template {
 		}
 		
         $this->ThemeRoot = "./themes/" . $this->Theme;
-        $this->Bundle = "1.2.0.4"; // systém verzování = [větev].[verze].[sub-verze].[oprava]
+        $this->Bundle = "1.2.0.5"; // systém verzování = [větev].[verze].[sub-verze].[oprava]
         
         /*
          * Poslední oprava:
-         * 04.01.2015
+         * 19.01.2015
          * sukovanej 
          */
     }
@@ -66,7 +68,10 @@ class Template {
 			$Url = Url::InstByUrl($router);
 			
 			if (!$Url) {
-				require("themes/" . $this->Theme . "/error.php");
+				if (file_exists("themes/" . $this->Theme . "/error.php"))
+					require("themes/" . $this->Theme . "/error.php");
+				else
+					require("func/defaults/error.php");
 			} else {
 				if ($Url->Type == "category") {
 					$this->ArticlesByCategoryGen($Url->Data);
@@ -77,10 +82,14 @@ class Template {
 				} else {
 					$package = new Package($Url->Data);
 					
-					if ($package->IsActive)
+					if ($package->IsActive) {
 						$package->Generate();
-					else
-						require("themes/" . $this->Theme . "/error.php");
+					} else {
+						if (file_exists("themes/" . $this->Theme . "/error.php"))
+							require("themes/" . $this->Theme . "/error.php");
+						else
+							require("func/defaults/error.php");
+					}
 				}
 			}
 		}
@@ -206,16 +215,25 @@ class Template {
 			. ($this->PagerInt * $this->PagerMax) . ", " . $this->PagerMax);
 
         if ($result->num_rows == 0)
-			require("themes/" . $this->Theme . "/article_null.php");
+        	if (file_exists("themes/" . $this->Theme . "/article_null.php"))
+				require("themes/" . $this->Theme . "/article_null.php");
+			else
+				require("func/defaults/article_null.php");
             
         while($row = $result->fetch_assoc()) {
             $Article = new Article($row["ID"]);
             $Author = new User($row["Author"]);
-            require("themes/" . $this->Theme . "/article.php");
+            
+            if (file_exists("themes/" . $this->Theme . "/article.php"))
+				require("themes/" . $this->Theme . "/article.php");
+			else
+				require("func/defaults/article.php");
         }
         
         if (file_exists("themes/" . $this->Theme . "/pager.php"))
 			require("themes/" . $this->Theme . "/pager.php");
+		else
+			require("func/defaults/pager.php");
     }
     
     private function ArticlesByCategoryGen($category) {
@@ -240,21 +258,37 @@ class Template {
             
             if ($Article->ShowInView && $Article->Status == 1) {
 				$Author = new User($Article->Author);
-				require("themes/" . $this->Theme . "/article.php");
+				
+				if (file_exists("themes/" . $this->Theme . "/article.php"))
+					require("themes/" . $this->Theme . "/article.php");
+				else
+					require("func/defaults/article.php");
+
 				$i++;
 			}
         }
         
-		if ($i == 0)
-			require("themes/" . $this->Theme . "/article_null.php");
-		else
-			require("themes/" . $this->Theme . "/pager.php");
+		if ($i == 0) {
+			if (file_exists("themes/" . $this->Theme . "/article_null.php"))
+				require("themes/" . $this->Theme . "/article_null.php");
+			else
+				require("func/defaults/article_null.php");
+		} else {
+			if (file_exists("themes/" . $this->Theme . "/pager.php"))
+				require("themes/" . $this->Theme . "/pager.php");
+			else
+				require("func/defaults/pager.php");
+		}
     }
     
     private function PageGen($ID) {
         $Page = new Page($ID);
         Events::Execute("Page", array(&$Page));
-        require("themes/" . $this->Theme . "/page_single.php");
+
+        if (file_exists("themes/" . $this->Theme . "/page_single.php"))
+        	require("themes/" . $this->Theme . "/page_single.php");
+        else
+        	require("func/defaults/page_single.php");
     }
     
     private function ArticleGen($ID) {
@@ -285,7 +319,12 @@ class Template {
                 Events::Execute("CommentSubmitError");
             }
         }
-        
-        require("themes/" . $this->Theme . "/article_single.php");
+
+        if (file_exists("themes/" . $this->Theme . "/article_single.php")) {
+        	require("themes/" . $this->Theme . "/article_single.php");
+        } else {
+			require("func/defaults/article_single.php");
+        }
+
     }
 }

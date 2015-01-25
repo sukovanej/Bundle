@@ -70,6 +70,7 @@
 		<tr>
 			<td>
 				<form method="post" enctype="multipart/form-data">
+					<?php HToken::html(); ?>
 					<label for="file">Soubor k uložení: </label>
 					<input type="file" name="files[]" multiple="multiple" id="file"><br>
 					<input type="submit" name="submit" value="Uložit soubor">

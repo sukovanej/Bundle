@@ -18,7 +18,8 @@ class GetParser {
 				if (!isset($d[1]))
 					$d[1] = false;
 				
-				$this->{$d[0]} = $d[1];
+				if (!empty($d[0]))
+					$this->{$d[0]} = $d[1];
 			}
 		}
 		
