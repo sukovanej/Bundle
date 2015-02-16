@@ -31,7 +31,7 @@ class Article extends DatabaseBase {
     }
     
     public static function getStatuses() {
-		return array(1 => "Publikován", 2 => "Koncept");
+		return array(1 => \HLoc::l("Published"), 2 => \HLoc::l("Concept"));
 	}
     
     public static function Create($title, $content, $show_datetime, $author, $show_comments, $show_in_view, $status = 2) {
@@ -57,7 +57,9 @@ class Article extends DatabaseBase {
         parent::Delete();
         $this->connect->query("DELETE FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID);
         $this->connect->query("DELETE FROM " . DB_PREFIX . "article_categories WHERE Article = " . $this->ID);
-        $this->connect->query("DELETE FROM " . DB_PREFIX . "urls WHERE Type = 'article' AND Data = " . $this->ID);
+        
+        $url = Url::InstByData($this->ID, "article");
+        $url->Delete();
     }
     
     public function Comments() {

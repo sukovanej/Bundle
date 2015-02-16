@@ -24,8 +24,10 @@ class Url extends DatabaseBase {
     }
     
     public function Delete() {
+        if(($menu = MenuItem::InstByUrl($this->Url)) != false)
+            $menu->Delete();
+        
 		parent::Delete();
-		$this->connect->query("DELETE FROM " . DB_PREFIX . "menu WHERE Url = " . $this->ID);
 	}
     
     public static function IsDefinedUrl($Url) {
@@ -83,8 +85,10 @@ class Url extends DatabaseBase {
         $url = strtolower($url) ;
         $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
         $connect = DB::Connect();
+
+        $url = str_replace("administration", "a-administration", $url);
 			
-			$url = $connect->real_escape_string($url);
+	    $url = $connect->real_escape_string($url);
 			
         $count = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "urls WHERE Url LIKE '" 
                 . $url . "%'")->fetch_object()->Count;

@@ -20,10 +20,10 @@ class User extends DatabaseBase{
 		}
 		
 		$this->Roles = array(
-			"0" => "Administrátor",
-			"1" => "Redaktor",
-			"2" => "Uživatel",
-			"-1" => "Anonym"
+			"0" => \HLoc::l("Administrator"),
+			"1" => \HLoc::l("Editor"),
+			"2" => \HLoc::l("User"),
+			"-1" => \HLoc::l("Anonymous")
 		);
 					
 		$this->RoleString = $this->Roles[$this->Role];
@@ -103,7 +103,7 @@ class User extends DatabaseBase{
 	public static function Anonymous() {
 		$user = new \stdclass();
 		$user->ID = -1;
-		$user->Username = "Anonymní uživatel";
+		$user->Username = HLoc::l("Anonymous");
 		$user->Role = 3;
 		
 		return $user;

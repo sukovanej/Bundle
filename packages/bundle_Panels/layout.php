@@ -1,4 +1,10 @@
 <?php foreach($bundle_Panels->Generate() as $panel): ?>
-	<div class="panel"><h1 class="panel_title"><?= $panel->Title ?></h1>
-	<div class="panel_content"><?= $panel->Content ?></div></div>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?= $panel->Title ?></h3>
+	</div>
+	<div class="panel-body">
+		<?= $panel->Content ?>
+	</div>
+</div>
 <?php endforeach; ?>

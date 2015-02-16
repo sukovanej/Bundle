@@ -8,7 +8,7 @@
         <?php require("install/func.php"); ?>
     </head>
     <body>
-		<h1>Instalace redakčního systému <strong>BUNDLE</strong> 1.2</h1> 
+		<h1>Instalace redakčního systému <strong>BUNDLE</strong> 1.2.1</h1> 
         <div id="page">
 			<content>
 				<?php require("install/controller.php"); ?>
@@ -18,7 +18,7 @@
 					www.bundle-cms.cz</a>, nebo nový soubor config.ini vytvořte ručně v kořenovém aresáři systému. Poté instalaci opakujte.</p>
 				<?php elseif (!isset($done) && @filesize("config.ini") == 0): ?>
 					<form method="POST">
-						<p>Vítejte na stránce instalátoru redakčního systému <strong>Bundle 1.2</strong>. Vyplňte,
+						<p>Vítejte na stránce instalátoru redakčního systému <strong>Bundle 1.2.1</strong>. Vyplňte,
 						 prosím, následující údaje, které jádro systému potřebuje pro vytvoření konfiguračního
 						souboru, nastavení základních informací webu a vytvoření defaultního administrátorského 
 						účtu. Po úspěšné instalaci <strong>si přečtěte pečlivě informace o stavu stránek</strong>.

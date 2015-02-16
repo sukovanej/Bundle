@@ -59,4 +59,20 @@ class Category extends DatabaseBase{
 		$re = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "categories")->fetch_object();
 		return $re->Count;
 	}
+
+	public function Articles() {
+        $result = $this->connect->query("SELECT Article FROM " . DB_PREFIX . "article_categories WHERE Category = " . $this->ID);
+
+        $return = array();
+            
+        while($row = $result->fetch_object()) {
+            $Article = new Article($row->Article);
+            
+            if ($Article->ShowInView && $Article->Status == 1) {
+            	$return[] = $Article;
+			}
+        }
+
+        return $return;
+	}
 }

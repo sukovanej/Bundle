@@ -8,10 +8,10 @@ if (count(explode("-", $router)) >= 2) {
     $subrouter = "null";
 }
 
-if ($subrouter == "odhlasit") {
+if ($subrouter == "logout") {
     session_destroy();
     Bundle\Events::Execute("LogOut");
-    echo "<p>Odhlášení proběhlo úspěšně, nepodařilo se všat přesměrovat na úvodní stránku webu. Prověďte tak prosím ručně. <a href='./'>Na hlavní stránku</a></p>";
+    echo "<p><a href='./'>" . HLoc::l("Homepage") . "</a></p>";
     header("location: ./");
     die();
 }
@@ -35,15 +35,13 @@ if (!isset($_SESSION["user"])) {
             $User = new Bundle\User($_SESSION["user"]);
             Bundle\Events::Execute("LogIn");
         } else {
-            header("location: ./prihlaseni");
-            echo "<p>Nepodařilo se přesměrovat stránku na přihlašovací stránku. Prověďte tak prosím ručně zadaním přidáním <em>/administrace</em> za doménu
-            stránky</p>";
+            header("location: ./login?error");
+            echo "<p><a href='./'>" . HLoc::l("Homepage") . "</a></p>";
             die();
         }
     } else {
-		echo "<p>Nepodařilo se přesměrovat stránku na přihlašovací stránku. Prověďte tak prosím ručně zadaním přidáním <em>/administrace</em> za doménu
-            stránky</p>";
-        header("location: ./prihlaseni");
+		echo "<p><a href='./'>" . HLoc::l("Homepage") . "</a></p>";
+        header("location: ./login");
         die();
     }
 }

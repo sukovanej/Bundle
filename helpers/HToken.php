@@ -15,7 +15,7 @@ class HToken {
 	}
 	
 	public static function checkToken() {
-		if ($_POST["token"] != $_SESSION["token"])
+		if (!isset($_POST["token"]) || $_POST["token"] != self::get())
 			return false;
 			
 		return true;

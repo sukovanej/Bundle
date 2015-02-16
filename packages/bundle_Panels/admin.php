@@ -1,39 +1,4 @@
-<?php
-if(!defined("_BD"))
-	die();
-
-?>
-
-<script>
-	function panelDelete(id) {
-		$("#dialog-bg").show();
-		$("#dialog").html(
-			"<h1>Opravdu chcete panel odstranit?</h1><p>Pro odstranění stiskněte tlačítko \n\
-			<em>Odstranit</em>.</p><form method='POST'><input type='hidden' name='panel_id' value='" + id + "' />\n\
-			<input type='submit' value='Odstranit' name='panel_delete' />\n\
-			<input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
-		);
-		$("#dialog").show();
-	}
-	
-	function panelEdit(id, title, text) {
-		$("#dialog-bg").show();
-		$("#dialog").html(
-			"<h1>Upravit panel <em>" + title + "</em></h1>\n\
-			<form method='POST'>Titulek panelu <input type='text' name='title' value=" + title + " />\n\
-			<textarea name='content' rows='6' class='editor' id='editor'>" + text + "</textarea>\n\
-			<input type='submit' value='Upravit panel' name='edit' />\n\
-			<input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
-		);
-		$("#dialog").show();
-	}
-</script>
-<style>
-	#hyperlink-like {border:0; background-color:transparent; padding:0; margin:0; color:#208050;}
-	#hyperlink-like:hover {text-decoration:underline;}
-</style>
-
-
+<?php if(!defined("_BD")) die(); ?>
 <?php
 	if (isset($_POST["create"])) {
 		if (empty($_POST["title"]) || empty($_POST["content"])) {
@@ -49,6 +14,7 @@ if(!defined("_BD"))
 		$ID = $_POST["panel_id"];
 		$panel = new bundle_Panel($ID);
 		$panel->Delete();
+
 		Admin::Message("Panel <strong>" . $panel->Title . "</strong> byl odstraněn.");
 	} else if (isset($_POST["start_update"])) {
 		$panel = new bundle_Panel($_POST["panel_id"]);
@@ -61,6 +27,8 @@ if(!defined("_BD"))
 		
 		$_POST["title"] = "";
 		$_POST["content"] = "";
+
+		Admin::Message("Panel byl úspěšně upraven.");
 	}
 	
 	$panels = new bundle_Panels_DB();
@@ -71,40 +39,48 @@ if(!defined("_BD"))
 	<h2>Přidat panel</h2>
 <?php endif; ?>
 <form method="POST">
-	<table id="article_table">
+	<?= HToken::html() ?>
+	<table class="table">
 		<tr>
 			<td width="120">Titulek panelu</td>
-			<td><input type="text" name="title" value="<?= __post("title") ?>" /></td>
+			<td><input type="text" class="form-control" name="title" value="<?= __post("title") ?>" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
 				<textarea name="content" cols="80" rows="10" class="editor" id="editor"><?= __post("content") ?></textarea>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<?php if(isset($_POST["start_update"])): ?>
+					<input type="submit" class="btn btn-primary" value="Upravit panel" name="update" />
+					<input type="hidden" class="btn btn-primary" name="panel_id" value="<?= $panel->ID ?>" />
+				<?php else: ?>
+					<input type="submit" class="btn btn-primary" value="Vytvořit panel" name="create" />
+				<?php endif; ?>
+			</td>
+		</tr>
 	</table>
-	<?php if(isset($_POST["start_update"])): ?>
-		<input type="submit" value="Upravit panel" name="update" />
-		<input type="hidden" name="panel_id" value="<?= $panel->ID ?>" />
-	<?php else: ?>
-		<input type="submit" value="Vytvořit panel" name="create" />
-	<?php endif; ?>
 </form>
 
 <h2>Správa panelů</h2>
 <?php if(count($panels->panels) != 0) { ?>
-<table class="table">
-	<tr>
-		<th>Panel</th>
-		<th colspan="2">Upravit</th>
-	</tr>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Panel</th>
+			<th>Upravit</th>
+		</tr>
+	</thead>
 	<?php foreach($panels->panels as $panel): ?>
 	<tr>
 		<td><?= $panel->Title ?></td>
-		<td><a onclick="panelDelete(<?= $panel->ID ?>)">Smazat</a></td>
 		<td>
 			<form method="POST">
+				<?= HToken::html() ?>
 				<input type="hidden" name="panel_id" value="<?= $panel->ID ?>" />
-				<input type="submit" id="hyperlink-like" name="start_update" value="Upravit" />
+				<input type="submit" class="btn btn-danger btn-xs" value="<?= HLoc::l("Delete") ?>" name="panel_delete" />
+				<input type="submit" class="btn btn-primary btn-xs" name="start_update" value="Upravit" />
 			</form>
 		</td>
 	</tr>

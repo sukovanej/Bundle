@@ -92,7 +92,7 @@ INSERT INTO `bundle_categories` (`ID`, `Title`, `Parent`) VALUES(1, 'Novinky', 0
 CREATE TABLE IF NOT EXISTS `bundle_comments` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Author` int(11) NOT NULL,
-  `IP` int(11) varchar(200) COLLATE utf8_czech_ci,
+  `IP` int(11) NOT NULL,
   `Datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Text` varchar(2000) COLLATE utf8_czech_ci NOT NULL,
   `Page` int(11) NOT NULL,
@@ -141,6 +141,7 @@ INSERT INTO `bundle_config` (`ID`, `Name`, `Value`) VALUES(16, 'CategoriesMenu',
 INSERT INTO `bundle_config` (`ID`, `Name`, `Value`) VALUES(17, 'PagesMenu', '1');
 INSERT INTO `bundle_config` (`ID`, `Name`, `Value`) VALUES(18, 'PackagesMenu', '1');
 INSERT INTO `bundle_config` (`ID`, `Name`, `Value`) VALUES(19, 'ArticlesMenu', '1');
+INSERT INTO `bundle_config` (`ID`, `Name`, `Value`) VALUES(20, 'Localization', 'en_gb');
 
 -- --------------------------------------------------------
 

@@ -20,28 +20,22 @@ class HPackage {
 	}
 	
 	public static function installManually($Package_name, $dependences = true) {
-		$Package_dir = getcwd() . "/packages/" . $Package_name;
+		$Package_dir = "./packages/" . $Package_name;
 		
 		$result = array();
 		
 		if (Bundle\Packages::IsPackageInstalled($Package_name)) {
-			$result[] = array("ERR", "Balíček je už nainstalovaný.");
-		} elseif (file_exists($Package_dir . "/" . $Package_name . ".php")) {
+			$result[] = array("ERR", HLoc::l("Package is already installed."));
+		} elseif (file_exists($Package_dir . "/" . $Package_name . ".php") && file_exists($Package_dir . "/info.conf")) {
 			require($Package_dir . "/" . $Package_name . ".php");
-	
+
 			$packages = new Bundle\Packages();
 			$config = new Bundle\IniConfig($Package_dir . "/info.conf");
 			$install = new $Package_name();
 			
 			$error_dependence = 0;
 			
-			if (isset($install->place) && $install->place != "none")
-				$result[] = array("OK", "Balík <strong>" . $config->name . "</strong> se bude vykreslovat v oblasti " . $install->place . ".");
-			
-			if (isset($install->home_only) && $install->home_only)
-				$result[] = array("OK", "Balík bude generovat obsah pouze na hlavní stránce webu " . $install->place . ".");
-			
-			if ($config->dependence != "none" && $dependences == true) {
+			if (isset($config->dependence) && $config->dependence != "none" && $dependences == true) {
 				if (strpos($config->dependence, ',') !== false) {
 					$dependence = preg_split(",", $config->dependence);
 					
@@ -50,9 +44,7 @@ class HPackage {
 						
 						if(!$ok) {
 							$error_dependence += 1;
-							$result[] = array("ERR", "Zjištěna nesplněná závislost na balík " . $package . ".");
-						} else {
-							$result[] = array("OK", "Zjištěna splněná závilost na balík " . $package . ".");
+							$result[] = array("ERR", HLoc::l("Dependence error") . ": " . $package . ".");
 						}
 					}
 				} else {
@@ -61,19 +53,17 @@ class HPackage {
 					
 					if(!$ok) {
 						$error_dependence += 1;
-						$result[] = array("ERR", "Zjištěna nesplněná závislost na balík " . $package . ".");
-					} else {
-						$result[] = array("OK", "Zjištěna splněná závilost na balík " . $config->dependence . ".");
+						$result[] = array("ERR", HLoc::l("Dependence error") . ": " . $package . ".");
 					}
 				}
 			} else if($dependences == false) {
-				$result[] = array("WAR", "Sledování závislostí je programem vypnuto");
+				$result[] = array("WAR", HLoc::l("Dependencies are disabled"));
 			} else {
-				$result[] = array("OK", "Nezjištěny žádné závislosti");
+				$result[] = array("OK", HLoc::l("No dependencies"));
 			}
 
 			if($error_dependence > 0) {
-				$result[] = array("ERR", "Máte nevyřešené závislosti mezi balíky (" . $error_dependence . ")");
+				$result[] = array("ERR", HLoc::l("Dependence error") . " (" . $error_dependence . ")");
 			} else {
 				try {
 					if($install->install()) {
@@ -87,17 +77,16 @@ class HPackage {
 						
 						if(isset($install->place) && $install->place != "none") {
 							Bundle\Content::Create("package", $id, $install->place, $install->home_only);
-							$result[] = array("OK", "Úspěšně nastavena oblast pro generování balíčku.");
 						}
 							
-						$result[] = array("OK", "Balík úspěšně nainstalován do systému!</span>");
+						$result[] = array("OK", HLoc::l("Package has been successfully installed") . ".");
 					}
 				} catch (Exception $e) {
-					$result[] = array("ERR", "Byla nalezena neošetřená chyba v instalačním souboru ./plugins/" . $Package_name . "/install.php, kvůli které nelze instalaci dokončit!");
+					$result[] = array("ERR", HLoc::l("Unhandled error in") . " ./plugins/" . $Package_name . "/install.php.");
 				}
 			}
 		} else {
-			$result[] = array("ERR", "Balíček " . $Package_name . " ve složce balíčků neexistuje.");
+			$result[] = array("ERR", HLoc::l("Package") . " " . $Package_name . " " . HLoc::l("doesn't exist") . " .");
 		}
 		
 		return $result;

@@ -10,7 +10,7 @@ class maintenance extends Bundle\PackageBase {
 	
 	// Install
 	public function install() {
-		Bundle\Events::Register(HPackage::getLastInstalled() + 1, "Boot");
+		Bundle\Events::Register(HPackage::getAutoIncrementID(), "Boot");
 		return true;
 	}
 	
@@ -20,9 +20,13 @@ class maintenance extends Bundle\PackageBase {
 	
 	// event_Boot handler
 	public function handle_Boot() {
-		if (substr(@$_GET["router"], 0, strlen("administrace")) != "administrace") {
+		if (self::startsWith(@$_GET["router"], "administration") && @$_GET["router"] != "login" && @$_GET["router"] != "register") {
 			require(HPackage::getPath("maintenance") . "/layout.php");
 			die();
 		}
+	}
+
+	public static function startsWith($text, $with) {
+		return substr($text, 0, strlen($with)) != $with;
 	}
 }

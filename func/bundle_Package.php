@@ -120,6 +120,9 @@ class Packages {
 		$result = array();
 	
 		foreach($dirs as $dir) {
+			if (!file_exists($dir . "/info.conf"))
+				continue;
+
 			$config = new IniConfig($dir . "/info.conf");
 			
 			$result[basename($dir)] = $config;

@@ -1,17 +1,22 @@
-=<?php 
+<?php 
 	$Package_name = @explode("-", $subrouter)[2]; 
 	$Package_dir = getcwd() . "/packages/" . $Package_name;
 ?>
-<h1>Instalace balíku <?= $Package_name ?></h1>
+<h1 class="page-header"><?= HLoc::l("Install") ?> <?= $Package_name ?></h1>
 <?php if (Bundle\Packages::IsPackageInstalled($Package_name)): ?>
+	<div class="progress">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">100% <?= HLoc::l("Canceled") ?></span></div>
+	</div>
 
-	<?php Admin::ErrorMessage("Tento balík už je v systému nainstalovaný!"); ?>
-	<p><a href="./administrace-baliky" id="button">Zpět</a></p>
+	<?php Admin::ErrorMessage(HLoc::l("This package is already installed") . "."); ?>
+	<p><a href="./administration-packages" id="button"><?= HLoc::l("Back") ?></a></p>
 	
 <?php elseif (file_exists($Package_dir . "/" . $Package_name . ".php")): ?>
+	
+	<div class="progress">
+        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"><?= HLoc::l("Ready to install") ?>...</span></div>
+	</div>
 
-	<p>Vítejte u instalace balíku <strong><?= $Package_name ?></strong>. Balík nainstalujete kliknutím na tlačítko níže.</p>
-	<h2>Závilosti</h2>
 	<p>
 	<?php
 		require($Package_dir . "/" . $Package_name . ".php");
@@ -23,14 +28,7 @@
 		$error_dependence = 0;
 		$error_dependence_packages = array();
 		
-		if (isset($install->place) && $install->place != "none") {
-			echo ("<strong class='done'>OK</strong> : Balík se bude vykreslovat v oblasti <em>" . $install->place . "</em>. <br />");
-		}
-		
-		if (isset($install->home_only) && $install->home_only)
-			echo ("<strong class='done'>OK</strong> : Balík bude generovat obsah pouze na hlavní stránce webu. <br />");
-		
-		if ($config->dependence != "none") {
+		if (isset($config->dependence) && $config->dependence != "none") {
 			if (strpos($config->dependence, ',') !== false) {
 				$dependence = explode(",", $config->dependence);
 				
@@ -40,9 +38,7 @@
 					if(!$ok) {
 						$error_dependence += 1;
 						$error_dependence_packages[] = $package;
-						echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.<br />";
-					} else {
-						echo "<strong class='done'>OK</strong> : Zjištěna splněná závilost na balík <em>" . $package . "</em>.<br />";
+						Admin::ErrorMessage(HLoc::l("Dependence error") .  ": <em>" . $package . "</em>.");
 					}
 				}
 			} else {
@@ -52,34 +48,16 @@
 				if(!$ok) {
 					$error_dependence += 1;
 					$error_dependence_packages[] = $package;
-					echo "<strong class='error'>ERR</strong> : Zjištěna nesplněná závislost na balík <em>" . $package . "</em>.<br />";
-				} else {
-					echo "<strong class='done'>OK</strong> : Zjištěna splněná závilost na balík <em>" . $config->dependence . "</em>.<br />";
+					Admin::ErrorMessage(HLoc::l("Dependence error") .  ": <em>" . $package . "</em>.");
 				}
 			}
-		} else {
-			echo "<strong class='done'>OK</strong> : Nezjištěny žádné závislosti<br />";
 		}
 	?>
 	</p>
 
-	<?php if($error_dependence > 0): ?>
-
-		<p>Máte nevyřešené závislosti mezi balíky (<?= $error_dependence ?>):</p>
-		<ul>
-			<?php foreach($error_dependence_packages as $package): ?>
-			<li><?= $package ?></li>
-			<?php endforeach; ?>
-		</ul>
-	
-	<?php else: ?>
-		<?php if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()): ?>
-		
-			<?php Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu."); ?>
-			
-		<?php elseif (isset($_POST["install"])): ?>
-		
-			<h2>Výstup instalace</h2>
+	<?php if($error_dependence == 0): ?>
+		<?php if (isset($_POST["install"])): ?>
+			<h2><?= HLoc::l("Installation") ?></h2>
 			<p>
 			<?php
 				try {
@@ -94,33 +72,47 @@
 						
 						if(isset($install->place) && $install->place != "none") {
 							Bundle\Content::Create("package", $id, $install->place, $install->home_only);
-							echo "<strong class='done'>OK</strong> : Úspěšně nastavena oblast pro generování balíčku. <br />";
 						}
 							
-						echo "<strong class='done'>OK</strong> : <span class='green'>Balík úspěšně nainstalován do systému!</span>";
+						Admin::Message(HLoc::l("Package has been successfully installed") . ".");
+
+						$result = "success";
 					}
 				} catch (Exception $e) {
-					echo("<p class='error'>Byla nalezena neošetřená chyba v instalačním souboru <em>./plugins/" . $Package_name . "/install.php</em>, kvůli"
-						. "které nelze instalaci dokončit!</p>");
+					Admin::ErrorMessage(HLoc::l("Unhandled error in") . " ./plugins/" . $Package_name . "/install.php.");
+					$result = "danger";
 				}
 			?>
 			</p><br />
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var obj = $(".progress-bar");
+					obj.removeClass("progress-bar-warning").addClass("progress-bar-<?= $result ?>");
+					obj.attr("aria-valuenow", "100");
+					obj.css("width", "100%");
+					obj.text("<?= HLoc::l('Package has been successfully installed') ?>...");
+				});
+			</script>
 			
-			<p><a href="./administrace-baliky" id="button">Pokračujte na stránce s přehledem balíků.</a></p>
+			<p><a href="./administration-packages" class="btn btn-block btn-success" id="button"><?= HLoc::l("Continue") ?></a></p>
 			
 		<?php else: ?>
-		
+
 			<form method="POST">
 				<?= HToken::html(); ?>
-				<input type="submit" value="Instalovat balík" name="install">
+				<input type="submit" class="btn btn-block btn-primary" value="<?= HLoc::l("Install") ?>" name="install">
 			</form>
 			
 		<?php endif; ?>
 	<?php endif; ?>
 	
 <?php else: ?>
+	<div class="progress">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">100% <?= HLoc::l("Canceled") ?></span></div>
+	</div>
 
-	<?php Admin::ErrorMessage("Instalační soubor nebyl nebyl nalezen!"); ?>
-	<p><a href="./administrace-baliky" id="button">Zpět</a></p>
+	<?php Admin::ErrorMessage(HLoc::l("Package") . " " . $Package_name . " " . HLoc::l("doesn't exist") . " ."); ?>
+	<p><a href="./administration-packages" id="button"><?= HLoc::l("Back") ?></a></p>
 	
 <?php endif; ?>

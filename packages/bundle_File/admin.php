@@ -40,7 +40,7 @@
 		}
 	}
 ?>
-<h2>Nahrávání souborů</h2>
+<h2 class="page-header"><?= HLoc::l("Upload a new file") ?></h2>
 	<script type="text/javascript">
 		function delete_file(file) {
 			$("#dialog-bg").show();
@@ -54,46 +54,66 @@
 		}
 		
 		function update_file(file) {
-			$("#dialog-bg").show();
-			$("#dialog").html(
-				"<h1>Nahrát revizi</h1><p>Zvolte soubor, kterým má být soubor <em>" + file + "</em> nahrazen.\n\
-				</p><form method='POST' enctype='multipart/form-data'><input type='hidden' name='file' value='" + file + "' />\n\
-				<input type='file' name='new_file' id='new_file'><br>\n\
-				<input type='submit' value='Nahrát revizi' name='update_file' />\n\
-				<input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
-			);
-			$("#dialog").show();
+			$(".input_origin_file").val(file);
+			$(".origin_file").text(file);
 		}
 	</script>
 	
-	<table id="article_table">
+	<table class="table">
 		<tr>
 			<td>
 				<form method="post" enctype="multipart/form-data">
-					<?php HToken::html(); ?>
-					<label for="file">Soubor k uložení: </label>
+					<?= HToken::html() ?>
 					<input type="file" name="files[]" multiple="multiple" id="file"><br>
-					<input type="submit" name="submit" value="Uložit soubor">
+					<input type="submit" class="btn btn-primary"  name="submit" value="<?= HLoc::l("Save") ?>">
 				</form>
 			</td>
 		</tr>
 	</table>
 	
-<h2>Nahrané soubory</h2>
+<h2 class="page-header"><?= HLoc::l("Uploaded files") ?></h2>
 
 <?php $scanned_directory = array_diff(scandir($output), array('..', '.')); ?>
 <table class="table">
-	<tr>
-		<th>Soubor</th>
-		<th colspan="2">Úpravy</th>
-	</tr>
+	<thead>
+		<tr>
+			<th><?= HLoc::l("File") ?></th>
+			<th colspan="2"><?= HLoc::l("Edit") ?></th>
+		</tr>
+	</thead>
 	<?php foreach($scanned_directory as $file): ?>
 	<?php if(is_file("./upload/" . $file)): ?>
 	<tr>
 		<td><a target="_blank" href="./upload/<?= $file ?>"><?= $file ?></a></td>
-		<td><a onclick="delete_file('<?= $file ?>')">Smazat</a></td> 
-		<td><a onclick="update_file('<?= $file ?>')">Nahrát revizi</a></td>
+		<td><form method='POST'><input type='hidden' name='file' value='<?= $file ?>' /><?= HToken::html() ?>
+			<input type='submit' class="btn btn-danger btn-xs" value='Odstranit' name='delete_file' /></form></td> 
+		<td><a data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-xs" 
+			onclick="update_file('<?= $file ?>')"><?= HLoc::l("Upload revision") ?></a></td>
 	</tr>
 	<?php endif; ?>
 	<?php endforeach; ?>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="myModalLabel"><?= HLoc::l("Upload revision") ?></h4>
+      		</div>
+      		<form method='POST' enctype='multipart/form-data'>
+		      	<div class="modal-body">
+		      		<p><?= HLoc::l("Original file") ?>: <strong><span class="origin_file"></span></strong></p>
+		      		<input type='hidden' name='file' class="input_origin_file" />
+					<input type='file' name='new_file' />
+					<?= HToken::html() ?>
+	      		</div>
+	      		<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal"><?= HLoc::l("Close") ?></button>
+		       	 	<button type="submit" class="btn btn-success" name='update_file'><?= HLoc::l("Save") ?></button>
+		      	</div>
+      		</form>
+    	</div>
+  	</div>
+</div>

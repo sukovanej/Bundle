@@ -1,9 +1,11 @@
 <?php
+	define("_BD", "budnle");
 	$error = "";
 	$result = "";
 	
+	ini_set('display_startup_errors',1);
+	ini_set('display_errors',1);
 	error_reporting(-1);
-	ini_set('display_errors', 'On');
 	
 	if (isset($_POST["submit_1"])) {
 		@$mysqli = new mysqli($_POST["data_host"], $_POST["data_name"], $_POST["data_password"], $_POST["data_db"]);
@@ -30,12 +32,12 @@
 			$error .= "Hesla se musí shodovat";
 		} else {
 			@file_put_contents("config.ini", 
-					  "user=" . $_POST["data_name"] . "\n"
-					. "password=" . $_POST["data_password"] . "\n"
-					. "host=" . $_POST["data_host"] . "\n"
-					. "database=" . $_POST["data_db"] . "\n"
-					. "db_prefix=" . $_POST["data_db_prefix"]
-					);
+				  "user=" . $_POST["data_name"] . "\n"
+				. "password=" . $_POST["data_password"] . "\n"
+				. "host=" . $_POST["data_host"] . "\n"
+				. "database=" . $_POST["data_db"] . "\n"
+				. "db_prefix=" . $_POST["data_db_prefix"]
+				);
 			
 			if(filesize("config.ini") == 0) {
 				$error .= "Nepodařilo se uložit konfigurační soubor <em>config.ini</em>, musíte pro něj"
@@ -58,6 +60,7 @@
 				require("func/bundle_Loader.php");
 				require("helpers/HPackage.php");
 				require("helpers/HConfiguration.php");
+				require("helpers/HLoc.php");
 				
 				define("DB_PREFIX", (new Bundle\IniConfig("config.ini"))->db_prefix);
 				
@@ -77,7 +80,7 @@
 				Bundle\DB::Connect()->query("UPDATE " . DB_PREFIX . "users SET Role = 0");
 				$result .= "Administrátorský účet vytvořen <br />";
 				
-				require("themes/default/install.php");
+				require("themes/bootstrap/install.php");
 				(new InstallTheme)->Install();
 				
 				$result .= "Šablona nainstalována <br />";

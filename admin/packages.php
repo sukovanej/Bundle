@@ -1,69 +1,68 @@
-<h1>Balíky</h1>
-<p>Balíky jsou jedním z hlavním stavebních prvků systému Bundle. Konkrétní uspořádání generovacích balíčků naleznete v 
-	<a href="administrace-vzhled">nastavení</a>.</p>
+<h1 class="page-header"><?= HLoc::l("Packages") ?> <span class="badge badge-head"><?= count((new Bundle\Packages)->GetPackages()) ?></h1>
 	
-<table>
-	<tr>
-		<td>
-			<input type="text" id="search_input" placeholder="Zde vyhledávejte balíček" class="full_width" />
-		</td>
-	</tr>
-</table>	
+<input type="text" class="form-control" id="search_input" placeholder="<?= HLoc::l("Search packages") ?>..." />
+
+<br />
 
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#search_input').keyup(function () {
-			$('table.packages tr').each(function() { $(this).hide(); });
+			$('table.packages tbody tr').each(function() { $(this).hide(); });
 			
 			$('.package_name:contains('+ $(this).val() +')').parent().parent().show();
 			$('.package_version:contains('+ $(this).val() +')').parent().show();
 			$('.package_author:contains('+ $(this).val() +')').parent().show();
 			$('.package_description:contains('+ $(this).val() +')').parent().show();
 			$('.package_name:contains('+ $(this).val() +')').parent().show();
+			$('.package_title:contains('+ $(this).val() +')').parent().show();
 		});
 	});
-
 </script>
 	
-<table class="table packages">
-	<tr>
-		<th class="width-long">Název balíku</th>
-		<th>Verze</th>
-		<th class="width-small">Autor</th>
-		<th>Krátký popis</th>
-		<th>Definice</th>
-	</tr>
-	<?php 
-		$packages = new Bundle\Packages;
-		foreach($packages->GetPackages() as $name => $package) {
-			$info = "<a class='green' href='administrace-instalovat-balik-" . $name . "'>Instalovat</a>";
-			$icon = "packages/" . $name ."/ico.png";
-			
-			if ($packages->IsPackageInstalled($name))
-				$info = "<a style='color:#216AA6' href='administrace-spravovat-baliky-" . $name . "'>Spravovat</a> <span class='light'>|</span>
-				<a class='red' href='administrace-odinstalovat-balik-" . $name . "'>Odinstalovat</a>";	
+<table class="table table-condensed packages">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th><?= HLoc::l("Title") ?></th>
+			<th><?= HLoc::l("Version") ?></th>
+			<th><?= HLoc::l("Author") ?></th>
+			<th><?= HLoc::l("Description") ?></th>
+			<th><?= HLoc::l("Real name") ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php $packages = new Bundle\Packages; foreach($packages->GetPackages() as $name => $package): (isset($i) ? $i++ : $i = 1) ?>
+			<?php
+				$info = "<a class='btn btn-xs btn-success' href='administration-install-package-" . $name . "'>" . HLoc::l("Install") . "</a>";
+				$icon = "packages/" . $name ."/ico.png";
 				
-			if (!file_exists(getcwd() . "/" . $icon))
-				$icon = "images/Plugins.png";
-	?>
-	<?php if (!$package->Error): ?>
-	<tr>
-		<td><img class="package-image-info" src="./<?= $icon ?>" /><strong class="package_name"><?= $package->name ?></strong> 
-			<p class="package-sub-info"><?= $info ?></p></td>
-		<td class="package_version"><?= $package->version ?></td>
-		<td class="package_author"><?= $package->author ?></td>
-		<td class="package_description"><?= $package->description ?></td>
-		<td class="package_name"><em><?= $name ?></em></td>
-	</tr>
-	<?php else: ?>
-	<tr>
-		<td><img class="package-image-info" src="./images/Plugins.png" /><strong><?= $name ?></strong><p class="package-sub-info">
-				<span class="red">Chybný balíček</span></p></td>
-		<td><span class="red">-</span></td>
-		<td><span class="red">-</span></td>
-		<td><span class="red">-</span></td>
-		<td><?= $name ?></td>
-	</tr>
-	<?php endif; ?>
-	<?php } ?>
+				if ($packages->IsPackageInstalled($name))
+					$info = "<a class='btn btn-primary btn-xs' href='administration-package-" . $name . "'>" . HLoc::l("Manage") . "</a> <span class='light'></span>
+					<a class='btn btn-danger btn-xs' href='administration-uninstall-package-" . $name . "'>" . HLoc::l("Uninstall") . "</a>";	
+					
+				if (!file_exists(getcwd() . "/" . $icon))
+					$icon = "images/Plugins.png";
+			?>
+		<?php if (!$package->Error): ?>
+		<tr>
+			<td style="vertical-align:middle;"><strong><?= $i ?></strong></td>
+			<td class="package_main"><img class="package-image-info" src="./<?= $icon ?>" /><strong class="package_title"><?= HLoc::l($package->name) ?></strong> 
+				<p class="package-sub-info"><?= $info ?></p></td>
+			<td class="package_version"><?= $package->version ?></td>
+			<td class="package_author"><?= $package->author ?></td>
+			<td class="package_description"><?= HLoc::l($package->description) ?></td>
+			<td class="package_name"><em><?= $name ?></em></td>
+		</tr>
+		<?php else: ?>
+		<tr>
+			<td><img class="package-image-info" src="./images/Plugins.png" /><strong><?= $name ?></strong><p class="package-sub-info">
+					<span class="red"><?= HLoc::l("Error") ?></span></p></td>
+			<td><span class="red">-</span></td>
+			<td><span class="red">-</span></td>
+			<td><span class="red">-</span></td>
+			<td><?= $name ?></td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+	<?php endforeach; ?>
 </table>

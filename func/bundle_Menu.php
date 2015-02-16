@@ -73,11 +73,12 @@ class Menu {
 		$obj->Data = $Data;
 		$obj->Children = $Children;
 		$obj->ID = $ID;
+		$obj->HasChildren = (count($obj->Children) > 0);
 		
+		$obj->Current = "";
+
 		if ($Current)
-			$obj->Current = 'class="current"';
-		else
-			$obj->Current = '';
+			$obj->Current = "active";
 		
 		return $obj;
 	}

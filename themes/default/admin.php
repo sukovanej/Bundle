@@ -1,57 +1,38 @@
 <?php
-	$form = new HForm("colorForm");
-	
-		$select = new HFormItem('DefaultThemeStyleType', HFormItem::TYPE_SELECT);
-		$select
-			->setValue(HConfiguration::Get("DefaultThemeStyleType"))
-			->setLabel("Barva");
-		
-		$colors = array
-		(
-			"red" => "červená", 
-			"blue" => "modrá",
-			"green" => "zelená"
-		);	
-		
-		foreach($colors as $color => $s_color) {
-			$option = new HFormItem($color, HFormItem::TYPE_OPTION);
-			$option->setValue($s_color);
-			
-			if (HConfiguration::Get("DefaultThemeStyleType") == $color)
-				$option->setAttribute("selected");
-			
-			$select->addSubItem($option);
-		}
-		
-		$submit = new HFormItem('submitButton', HFormItem::TYPE_SUBMIT);
-		$submit->setValue("Uložit");
-	
-	$form
-		->addItem($select)
-		->addItem($submit)
-		->onSubmit(
-			function($obj) {
-				global $select, $colors;
-				$obj->SaveAsConfiguration();
-				
-				$i = 0;
-				
-				foreach($colors as $color => $s_color) {
-					$option = new HFormItem($color, HFormItem::TYPE_OPTION);
-					$option->setValue($s_color);
-					
-					$select->removeSubItem($i);
-					$i++;
-					
-					if (HConfiguration::Get("DefaultThemeStyleType") == $color)
-						$option->setAttribute("selected");
-					
-					$select->addSubItem($option);
-				}
-			}
-		);
+	if (isset($_POST["save_jumbrotron"])) {
+		if (isset($_POST["jumbotron"]))
+			HConfiguration::set("bootstrap_theme_config_show_jumbotron", 1);
+		else
+			HConfiguration::set("bootstrap_theme_config_show_jumbotron", -1);
+
+		HConfiguration::set("bootstrap_theme_config_show_jumbotron_title", $_POST["title"]);
+		HConfiguration::set("bootstrap_theme_config_show_jumbotron_text", $_POST["text"]);
+
+		Admin::Message(HLoc::l("Changes have been successfully saved") . ".");
+	}
+
+	$checked = (HConfiguration::get("bootstrap_theme_config_show_jumbotron") != -1) ? "checked" : "";
 ?>
 
-<h2>Barevná varianta</h2>
-
-<?php $form->render(); ?>
+<h4><?= HLoc::l("Set up") ?> jumbotron</h4>
+<form method="POST">
+	<?= HToken::html() ?>
+	<table class="table">
+		<tr>
+			<td><?= HLoc::l("Allow") ?> <abbr title="The big area on the top in your website">jumbotronu</abbr></td>
+			<td><input type="checkbox" value="1" name="jumbotron" <?= $checked ?> /></td>
+		</tr>
+		<tr>
+			<td><?= HLoc::l("Title") ?></td>
+			<td><input type="text" class="form-control" name="title" 
+				value="<?= HConfiguration::get("bootstrap_theme_config_show_jumbotron_title") ?>" /></td>
+		</tr>	
+		<tr>
+			<td><?= HLoc::l("Content") ?></td>
+			<td><textarea class="form-control editor" name="text"><?= HConfiguration::get("bootstrap_theme_config_show_jumbotron_text") ?></textarea></td>
+		</tr>	
+		<tr>
+			<td colspan="2"><button type="submit" class="btn btn-primary" name="save_jumbrotron"><?= HLoc::l("Save") ?></button></td>
+		</tr>
+	</table>
+</form>

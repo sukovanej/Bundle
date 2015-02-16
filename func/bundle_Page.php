@@ -62,7 +62,8 @@ class Page extends DatabaseBase {
     
     public function Delete() {
         parent::Delete();
-        $this->connect->query("DELETE FROM " . DB_PREFIX . "urls WHERE Type = 'page' AND Data = " . $this->ID);
+        $url = Url::InstByData($this->ID, "page");
+        $url->Delete();
     }
     
 	public static function CountAll() {

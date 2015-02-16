@@ -1,10 +1,8 @@
-<h1>Vytvořit stránku</h1>
+<h1 class="page-header"><?= HLoc::l("New page") ?></h1>
 <?php
     if (isset($_POST["create"])) {
-        if (!HToken::checkToken()) {
-			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
-		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
-            Admin::ErrorMessage("Všechna pole musí být vyplněna.");
+        if (empty($_POST["title"]) || empty($_POST["content"])) {
+            Admin::ErrorMessage(HLoc::l("You must complete all fields"));
         } else {
             $menu = 0;
             if (isset($_POST["menu"]))
@@ -20,8 +18,8 @@
 				Bundle\MenuItem::InstByData($Page->ID, "page")->Delete();
 			}
 			
-            Admin::Message("Nová stránka úspěšně vytvořen. Upravit ji můžete na <a href='administrace-upravit-stranku-" . $id . "'>této stránce</a>.");
-            echo('<script>$(document).ready(function() { window.location.replace("./administrace-upravit-stranku-' . $id . '"); }); </script>');
+            Admin::Message(HLoc::l("New page has been created") . "...");
+            echo('<script>$(document).ready(function() { window.location.replace("./administration-edit-page-' . $id . '"); }); </script>');
             
             $_POST["title"] = "";
             $_POST["content"]= "";
@@ -32,36 +30,42 @@
 ?>
 <form method="POST">
 	<?= HToken::html() ?>
-	<h2>Základní informace</h2>
-    <table id="article_table">
-        <tr>
-            <td width="110">Titulek stránky</td>
-            <td><input type="text" name="title" value="<?= __POST("title") ?>" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
-            </td>
-        </tr>
-    </table>
-    <h2>Ostatní nastavení</h2>
-    <table id="article_table">    
-        <tr>
-            <td width="130">Přidat do menu</td>
-            <td><input type="checkbox" value="1" name="menu" checked="" /></td>
-        </tr> 
-        <tr>
-			<td>Nadřazená stránka</td>
-			<td>
-				<select name="pages">
-					<option value="0">Žádná nadřazená</option>
-					<?php foreach($pages as $page): ?>
-					<option value="<?= $page->ID ?>"><?= $page->Title ?></option>"
-					<?php endforeach; ?>
-				</select>
-			</td>
-        </tr>
-    </table>
-    <input type="submit" value="Vytvořit stránku" name="create" />
+    <div class="col-md-8 pull-left">
+        <table class="table">
+            <tr>
+                <td width="110"><span class="table-td-title"><?= HLoc::l("Title") ?></span></td>
+                <td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4 pull-right">
+        <div class="well">
+            <h4><?= HLoc::l("Options") ?></h4>
+            <table>    
+                <tr>
+                    <td width="130"><?= HLoc::l("Add to a navigation") ?></td>
+                    <td><input type="checkbox" value="1" name="menu" checked="" /></td>
+                </tr> 
+                <tr>
+        			<td><?= HLoc::l("Parent page") ?></td>
+        			<td>
+        				<select class="form-control" name="pages">
+        					<option value="0"> - </option>
+        					<?php foreach($pages as $page): ?>
+        					<option value="<?= $page->ID ?>"><?= $page->Title ?></option>"
+        					<?php endforeach; ?>
+        				</select>
+        			</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <input type="submit" class="btn btn-lg btn-success btn-block" value="<?= HLoc::l("Save") ?>" name="create" />
    
 </form>

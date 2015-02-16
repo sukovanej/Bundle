@@ -1,12 +1,10 @@
-<h1>Vytvořit článek</h1>
+<h1 class="page-header"><?= HLoc::l("New article") ?></h1>
 <?php
 	$result = Bundle\DB::Connect()->query("SELECT * FROM bundle_categories ORDER BY Title");
 
 	if (isset($_POST["create"])) {
-		if (!HToken::checkToken()) {
-			Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
-		} else if (empty($_POST["title"]) || empty($_POST["content"])) {
-			Admin::ErrorMessage("Všechna pole musí být vyplněna.");
+		if (empty($_POST["title"]) || empty($_POST["content"])) {
+			Admin::ErrorMessage(HLoc::l("You must complete all fields"));
 		} else {
 			$show_datetime = 0;
 			
@@ -31,8 +29,8 @@
 				}
 			}
 			
-			Admin::Message("Nový článek úspěšně vytvořen. <a href='./administrace-upravit-clanek-" . $ID . "'>Upravit článek</a>");
-			echo('<script>$(document).ready(function() { window.location.replace("./administrace-upravit-clanek-' . $ID . '"); }); </script>');
+			Admin::Message(HLoc::l("New article has been created") . "...");
+			echo('<script>$(document).ready(function() { window.location.replace("./administration-edit-article-' . $ID . '"); }); </script>');
 			$_POST["title"] = "";
 			$_POST["content"] = "";
 		}
@@ -40,55 +38,72 @@
 ?>
 <form method="POST">
 	<?= HToken::html() ?>
-	<h2>Základní informace</h2>
-	<table id="article_table">
-		<tr>
-			<td width="110">Titulek článku</td>
-			<td><input type="text" name="title" value="<?= __POST("title") ?>" /></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
-			</td>
-		</tr>
-	</table>
-	<h2>Doplňující nastavení</h2>
-		<table id="article_table">
+	<div class="col-md-8 pull-left">
+		<table class="table">
 			<tr>
-				<td width="120"><input type='checkbox' name='show_datetime' checked /> 
-					Zveřejnit datum</td>
+				<td width="110"><span class="table-td-title"><?= HLoc::l("Title") ?></span></td>
+				<td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" /></td>
 			</tr>
 			<tr>
-				<?php if($Page->AllowComments): ?>
-				<td width="120"><input type='checkbox' name='show_comments' checked /> Povolit komentáře</td>
-				<?php else: ?>
-				<td width="120"><input type='checkbox' name='show_comments' title="Komentáře jsou vypnuty pro celý systém" 
-					style="cursor:help;" readonly /> Povolit komentáře</td>
-				<?php endif; ?>
-			</tr>
-			<tr>
-				<td width="120"><input type='checkbox' name='show_in_view' checked /> Povolit zobrazení mezi ostatními články ve výpisu (hlavní stránka, kategorie,...)</td>
+				<td colspan="2">
+					<textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
+				</td>
 			</tr>
 		</table>
-	<h2>Kategorie</h2>
-	<table id="article_table">
-		<tr>
-			<td>
-			<?php foreach(Bundle\Category::ParentsOnly() as $category): ?>			
-				<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" /> <?= $category->Title ?><br />
-				<?php foreach($category->Children() as $child_cat): ?>
-					&nbsp; &rarr; &nbsp; <input type="checkbox" name="categories[]" value="<?= $child_cat->ID ?>" <?= $checked ?> /> <?= $child_cat->Title ?><br />
-				<?php endforeach; ?>
-			<?php endforeach; ?> 
-			</td>
-		</tr>
-	</table>
+	</div>
+	<div class="col-md-4 pull-left">
+		<div class="well">
+			<h4><?= HLoc::l("Options") ?></h4>
+				<div class="checkbox">
+					<label>
+						<input type='checkbox' name='show_datetime' checked /><?= HLoc::l("Enable datetime") ?>
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+				<?php if($Page->AllowComments): ?>
+					<input type='checkbox' name='show_comments' checked /> <?= HLoc::l("Enable comments") ?>
+				<?php else: ?>
+				<div class="checkbox">
+					<label>
+					<input type='checkbox' name='show_comments' title="<?= HLoc::l("Comments are disabled by the system") ?>" 
+						style="cursor:help;" readonly /> <?= HLoc::l("Enable comments") ?>
+				<?php endif; ?>
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type='checkbox' name='show_in_view' checked /> <?= HLoc::l("Show with other articles") ?>
+					</label>
+				</div>
+				<select class="form-control" name="status">
+					<?php foreach(Bundle\Article::getStatuses() as $id => $status) : ?>
+						<option value="<?= $id ?>"><?= $status ?></option>
+					<?php endforeach; ?>
+				</select>
+			</table>
+		</div>
+		<div class="well">
+			<h4><?= HLoc::l("Categories") ?></h4>
+			<div class="list-overflow-y">
+				<?php foreach(Bundle\Category::ParentsOnly() as $category): ?>
+					<div class="checkbox">
+						<label>		
+							<input type="checkbox" name="categories[]" value="<?= $category->ID ?>" /> <?= $category->Title ?>
+						</label>
+					</div>
+					<?php foreach($category->Children() as $child_cat): ?>
+				      	<div class="checkbox">
+							<label>
+								&nbsp; &nbsp; &nbsp; <input type="checkbox" name="categories[]" value="<?= $child_cat->ID ?>" /> <?= $child_cat->Title ?>
+							</label>
+						</div>
+					<?php endforeach; ?>
+				<?php endforeach; ?> 
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
 	
-	<select name="status">
-	<?php foreach(Bundle\Article::getStatuses() as $id => $status) : ?>
-		<option value="<?= $id ?>"><?= $status ?></option>
-	<?php endforeach; ?>
-	</select>
-	
-	<input type="submit" value="Vytvořit článek" name="create" />
+	<input type="submit" class="btn btn-lg btn-success btn-block" value="<?= HLoc::l("Save") ?>" name="create" />
 </form>

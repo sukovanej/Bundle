@@ -20,10 +20,10 @@ class Template {
         while ($row = $re->fetch_object())
 			$this->{$row->Name} = $row->Value;
         
-		if (isset($_POST["pager_int"]))
-			$this->PagerInt = $_POST["pager_int"];
-		else if (isset($_GET["pager_int"]))
-			$this->PagerInt = $_GET["pager_int"];
+		if (isset($_POST["pager"]))
+			$this->PagerInt = $_POST["pager"];
+		else if (isset($_GET["pager"]))
+			$this->PagerInt = $_GET["pager"];
             
         if ($e == 0) {
 			$_menu = new Menu();
@@ -31,11 +31,11 @@ class Template {
 		}
 		
         $this->ThemeRoot = "./themes/" . $this->Theme;
-        $this->Bundle = "1.2.0.5"; // systém verzování = [větev].[verze].[sub-verze].[oprava]
+        $this->Bundle = "1.2.1"; // systém verzování = [větev].[verze].[sub-verze].[oprava]
         
         /*
          * Poslední oprava:
-         * 19.01.2015
+         * 12.01.2015
          * sukovanej 
          */
     }
@@ -127,6 +127,13 @@ class Template {
 			}
 			
 		Events::Execute("AfterHeader");
+	}
+
+	// navigation
+
+	public function Navigation($type = "default") {
+		global $Page, $User;
+		require_once("func/defaults/navigation.php");
 	}
     
     // Content

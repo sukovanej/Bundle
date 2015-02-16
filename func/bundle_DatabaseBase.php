@@ -18,6 +18,10 @@ abstract class DatabaseBase {
         $this->Table = $this->connect->real_escape_string($Table);
         
         $result = $this->connect->query("SELECT * FROM " . DB_PREFIX . $this->Table . " WHERE ID = " . $ID);
+
+        if (@$result->num_rows < 1)
+            throw new \Exception("Not found");
+
         $row = $result->fetch_assoc();
         
         foreach ($row as $key => $value)

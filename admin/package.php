@@ -1,5 +1,5 @@
 <?php 
-	$Package_name = @explode("-", $subrouter)[2];
+	$Package_name = @explode("-", $subrouter)[1];
 	$Package = Bundle\Package::GetPackageByName($Package_name);
 	$config = new Bundle\IniConfig(getcwd() . "/packages/" . $Package_name . "/info.conf");
 	
@@ -11,14 +11,12 @@
 	if (!file_exists(getcwd() . "/" . $icon))
 		$icon = "images/Plugins.png";
 	
-    if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
-		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
-	} else if (isset($_POST["menu-change-settings"])) {
+    if (isset($_POST["menu-change-settings"])) {
 		if (empty($Package->Title))
 			$_POST["title-change-settings"] = "none";
 		
 		if (empty($_POST["title-change-settings"])) {
-			Admin::ErrorMessage("Titulek nesmí být prázdný!");
+			Admin::ErrorMessage(HLoc::l("You must complete all fields"));
 		} else {
 			$admin_menu = 0;
 			$active = 0;
@@ -42,7 +40,7 @@
 			if(!empty($Package->Title))
 				$Package->Update("Title", $_POST["title-change-settings"]);
 				
-			Admin::Message("Nastavení bylo uloženo. Změny se projeví při dalším načtení stránky. Pokračujte <a href='./administrace-baliky'>zde</a>!");
+			Admin::Message(HLoc::l("Changes have been saved") . ". " . HLoc::l("Please, refresh page") . ".");
 			$Package = new Bundle\Package($Package->ID);
 		}
     }
@@ -59,36 +57,67 @@
 
 	$get_parser = new Bundle\GetParser;
 ?>
-<h1><img class="package-img" src="./<?= $icon ?>" /><?= $config->name ?> <small>(balík)</small></h1>
-<?php if (!isset($get_parser->data)): ?>
-<h2>Základní nastavení</h2>
+<h1 class="page-header"><img class="package-img" src="./<?= $icon ?>" /><?= $config->name ?> <small>(<?= HLoc::l("package") ?>)</small></h1>
+
+<script>
+	$(document).ready(function() {
+		<?php if(file_exists(getcwd() . "/packages/" . $Package_name . "/admin.php")): ?>
+		$("#package-config").hide();
+		<?php else: ?>
+		$("ul.nav > li[role=presentation]").addClass("active");
+		<?php endif; ?>
+
+		$(".nav-tabs li").click(function() {
+			$(".nav-tabs li").each(function() {
+				var obj = $(this);
+				obj.removeClass("active");
+
+				$("#" + obj.attr("data")).hide();
+			});
+
+			var n_obj = $(this);
+			n_obj.addClass("active");
+
+			$("#" + n_obj.attr("data")).show();
+		});
+	});
+</script>
+
+<ul class="nav nav-tabs nav-tabs-package" role="tablist">
+	<?php if(file_exists(getcwd() . "/packages/" . $Package_name . "/admin.php")): ?>
+    	<li role="presentation" class="active" data="package-content"><a href="#"><?= HLoc::l("Package") ?></a></li>
+	<?php endif; ?>
+    <li role="presentation" data="package-config"><a href="#"><?= HLoc::l("Configuration") ?></a></li>
+</ul>
+
+<div id="package-config">
 	<form method="POST">
 		<?= HToken::html() ?>
-		<table>
+		<table class="table table-striped">
 			<tr>
-				<td>Balík aktivní</td>
+				<td><?= HLoc::l("Active") ?></td>
 				<td colspan="2"><input type="checkbox" name="active-change-settings" <?= $checked_active ?> /></td>
 			</tr>
 			<tr> 
-				<td>Zobrazit v administračním menu</td>
+				<td><?= HLoc::l("Show in the admin navigation") ?></td>
 				<td colspan="2"><input type="checkbox" name="admin-menu-change-settings" <?= $checked_admin ?> /></td>
 			</tr>
 			<?php if(!empty($Package->Title)): ?>
 			<tr> 
-				<td>Zobrazit odkaz v navigaci na stránce</td>
+				<td><?= HLoc::l("Show in the navigation") ?></td>
 				<td colspan="2"><input type="checkbox" name="web-menu-change-settings" <?= $checked_web ?> /></td>
 			</tr>
 			<tr>
-				<td>Titulek v menu</td>
-				<td><input type="text" name="title-change-settings" value="<?= $Package->Title ?>" /></td>
+				<td><?= HLoc::l("Title") ?></td>
+				<td><input type="text" class="form-control" name="title-change-settings" value="<?= $Package->Title ?>" /></td>
 			</tr>
 			<?php endif; ?>
 		</table>
-		<input type="submit" value="Uložit nastavení" name="menu-change-settings" />
+		<input type="submit" class="btn btn-primary btn-block" value="<?= HLoc::l("Save") ?>" name="menu-change-settings" />
 	</form>
+</div>
+<?php if(file_exists(getcwd() . "/packages/" . $Package_name . "/admin.php")): ?>
+	<div id="package-content">
+		<?php @require_once(getcwd() . "/packages/" . $Package_name . "/admin.php"); ?>
+	</div>	
 <?php endif; ?>
-<?php 
-	if(file_exists(getcwd() . "/packages/" . $Package_name . "/admin.php")) {
-		@require_once(getcwd() . "/packages/" . $Package_name . "/admin.php"); 
-	}	
-?>

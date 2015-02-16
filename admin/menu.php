@@ -1,4 +1,4 @@
-<h1>Menu</h1>
+<h1 class="page-header"><?= HLoc::l("Navigation") ?></h1>
 
 <?php 
 	function GetIMG($type, $data) {
@@ -18,12 +18,13 @@
 	} 
 	
 	$types = array(
-		"page" => "Stránka",
-		"package" => "Balík",
-		"article" => "Článek",
-		"category" => "Kategorie"
+		"page" => HLoc::l("Page"),
+		"package" => HLoc::l("Package"),
+		"article" => HLoc::l("Article"),
+		"category" => HLoc::l("Category")
 	);	
 	
+	// do NOT translate these words - its for the program
 	$words_config = array(
 		"article" => "Articles",
 		"page" => "Pages",
@@ -31,22 +32,30 @@
 		"package" => "Packages"
 	);
 	
-	if ($_SERVER['REQUEST_METHOD'] == "POST" && !HToken::checkToken()) {
-		Admin::ErrorMessage("Neplatný token, zkuste formulář odeslat znovu.");
-	} else if (isset($_POST["up_submit"])) {
+	if (isset($_POST["up_submit"])) {
 		(new Bundle\MenuItem($_POST["menu_item"]))->Up();
 	} else if (isset($_POST["down_submit"])) {
 		(new Bundle\MenuItem($_POST["menu_item"]))->Down();
 	} else if (isset($_POST["create_submit"])) {
-		$_data = preg_split("[\\-]", $_POST["data"]);
-		$type = $_data[0];
-		$data = $_data[1];
-		
-		Bundle\Menu::Create(Bundle\Url::InstByData($data, $type)->ID, $_POST["add_parent"]);
+		if (isset($_POST["data"])) {
+			$_data = preg_split("[\\-]", $_POST["data"]);
+
+			$type = $_data[0];
+			$data = $_data[1];
+
+			Bundle\Menu::Create(Bundle\Url::InstByData($data, $type)->ID, $_POST["add_parent"]);
+			Admin::Message(HLoc::l("New item has been successfully added") . ".");
+		} else {
+			Admin::ErrorMessage(HLoc::l("Something went wrong") . "...");
+		}
 	} else if (isset($_POST["menu_item_delete"])) {
-		$menu_item = new Bundle\MenuItem($_POST["menu_item_id"]);
-		$menu_item->Delete();
-		Admin::Message("Položka menu byla úspěšně odstraněna.");
+		try {
+			$menu_item = new Bundle\MenuItem($_POST["menu_item_id"]);
+			$menu_item->Delete();
+			Admin::Message(HLoc::l("The item has been removed") . ".");
+		} catch (Exception $e) {
+			Admin::ErrorMessage(HLoc::l("Error") . ": " . $e->getMessage());
+		}
 	}
 	
 	function CreateMenuClass($name, $data, $title, $disabled) {
@@ -98,15 +107,15 @@
 	$parent_items += $menu_gen->Menu();
 ?>
 
-<h2>Přidat položku menu</h2>
+<h3><?= HLoc::l("Add new item") ?></h3>
 
 <form method="POST">
 	<?= HToken::html() ?>
-	<table>
+	<table class="table">
 		<tr>
-			<td>Položka</td>
+			<td><span class="table-td-title"><?= HLoc::l("Item") ?></span></td>
 			<td>
-				<select name="data">
+				<select class="form-control" name="data">
 				<?php foreach($content_items as $item): ?>
 					<option value="<?= $item->Type ?>-<?= $item->Data ?>"<?php if($item->Disabled) { echo " disabled"; } ?>><?= $types[$item->Type]?> <?= $item->Title . "\n" ?>
 				<?php endforeach; ?>
@@ -114,9 +123,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Nadřazená položka</td>
+			<td><span class="table-td-title"><?= HLoc::l("Parent item") ?></span></td>
 			<td>
-				<select name="add_parent">
+				<select class="form-control" name="add_parent">
 				<?php foreach($parent_items as $item): ?>
 					<option value="<?= $item->ID ?>"><?= $item->Title . "\n" ?>
 				<?php endforeach; ?>
@@ -124,21 +133,20 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"><input type="submit" value="Přidat položku do menu" name="create_submit" /></td>
+			<td colspan="2"><input type="submit" class="btn btn-success" value="<?= HLoc::l("Add") ?>" name="create_submit" /></td>
 		</tr>
 	</table>
 </form>
 
-<h2>Uspořádání menu</h2>
-<table class="table">
+<h3><?= HLoc::l("Arrangement") ?></h3>
+<table class="table table-striped">
+	<thead>
 	<tr>
-		<td colspan="6" id="sub-header">Navigační menu</td>
+		<th style="min-width:150px;" class="width-long"><?= HLoc::l("Title") ?></th>
+		<th class="mobile-hide width-middle" width="130"><?= HLoc::l("Type") ?></th>
+		<th colspan="2"><?= HLoc::l("Edit") ?></th>
 	</tr>
-	<tr>
-		<th style="min-width:150px;" class="width-long">Titulek</th>
-		<th class="mobile-hide width-middle" width="130">Typ položky</th>
-		<th colspan="2">Upravit</th>
-	</tr>
+	</thead>
 	<?php foreach($menu_gen->Menu() as $item): ?>
 	<tr>
 		<td><img class="user-role-img" src="<?= GetIMG($item->Type, $item->Data) ?>" />
@@ -152,40 +160,50 @@
 				<?= HToken::html() ?>
 				<input type="hidden" name="menu_item" value="<?= $item->ID ?>" />
 				<?php if($item->Order != 0): ?>
-				<input type="submit" name="up_submit" value="&uarr;" class="arrows-img" />
+				<input type="submit" class="btn btn-default btn-xs" name="up_submit" value="&uarr;" class="arrows-img" />
 				<?php endif; ?>
 				<?php if($item->Order != count(Bundle\Menu::ParentsOnly()) - 1): ?>
-				<input type="submit" name="down_submit" value="&darr;" class="arrows-img" />
+				<input type="submit" class="btn btn-default btn-xs" name="down_submit" value="&darr;" class="arrows-img" />
 				<?php endif; ?>
 			</form>
 			<?php endif; ?>
 		</td>
 		<td>
-			<?php if($item->Title != $Page->HomeMenuTitle): ?>
-			<a onclick="menuItemDelete('<?= $item->ID ?>', <?= HToken::get() ?>)">Smazat</a>
-			<?php else: ?>
-			-
-			<?php endif; ?>
+			<form method="POST">
+				<?= HToken::html() ?>
+				<?php if($item->Title != $Page->HomeMenuTitle): ?>
+					<input type="hidden" name="menu_item_id" value="<?= $item->ID ?>" />
+					<input type="submit" value="<?= HLoc::l("Remove") ?>" name="menu_item_delete" class="btn btn-xs btn-danger" />
+				<?php else: ?>
+					<input type="submit" value="<?= HLoc::l("Remove") ?>" class="btn btn-xs btn-danger disabled" disabled />
+				<?php endif; ?>
+			</form>
 		</td>
 	</tr>
 		<?php foreach($item->Children as $item_ch): ?>
-		<tr class="menu-table-sub">
-			<td class="menu-table-sub-td"><img class="user-role-img" src="<?= GetIMG($item_ch->Type, $item->Data) ?>" />
+		<tr>
+			<td> &nbsp; &nbsp; &nbsp; &nbsp;<img class="user-role-img" src="<?= GetIMG($item_ch->Type, $item->Data) ?>" />
 				<a href="<?= $item_ch->Url ?>" target="_blank"><?= $item_ch->Title ?></a></td>
-			<td class="mobile-hide"><?= $types[$item_ch->Type] ?></td>
+			<td><?= $types[$item_ch->Type] ?></td>
 			<td>
 				<form method="POST" class="sub-arrows">
 					<?= HToken::html() ?>
 					<input type="hidden" name="menu_item" value="<?= $item_ch->ID ?>" />
 					<?php if($item_ch->Order != 0): ?>
-					<input type="submit" name="up_submit" value="&uarr;" class="arrows-img" />
+					<input type="submit" class="btn btn-default btn-xs" name="up_submit" value="&uarr;" class="arrows-img" />
 					<?php endif; ?>
 					<?php if($item_ch->Order != count($item->Children) - 1): ?>
-					<input type="submit" name="down_submit" value="&darr;" class="arrows-img" />
+					<input type="submit" class="btn btn-default btn-xs" name="down_submit" value="&darr;" class="arrows-img" />
 					<?php endif; ?>
 				</form>
 			</td>
-			<td><a onclick="menuItemDelete('<?= $item_ch->ID ?>', <?= HToken::get() ?>)">Smazat</a></td>
+			<td>
+				<form method="POST">
+					<input type="hidden" name="menu_item_id" value="<?= $item_ch->ID ?>" />
+					<?= HToken::html() ?>
+       				<input type="submit" value="<?= HLoc::l("Remove") ?>" name="menu_item_delete" class="btn btn-xs btn-danger" />
+       			</form>
+       		</td>
 		</tr>
 		<?php endforeach; ?>
 	<?php endforeach; ?>

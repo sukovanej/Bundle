@@ -3,11 +3,11 @@
 	
 	define("_BD", "bundle");
 	
-	/** uncomment to enable PHP errors **
+	/** uncomment to enable PHP errors **/
 	ini_set('display_startup_errors',1);
 	ini_set('display_errors',1);
 	error_reporting(-1);
-	**/
+	/**/
 	
 	if(filesize("config.ini") == 0)
 		header("location: ./install.php");
@@ -49,11 +49,11 @@
 	Bundle\Events::Execute("Boot");
 
 	// Generate content
-	if (substr($router, 0, strlen("administrace")) === "administrace") {
+	if (substr($router, 0, strlen("administration")) === "administration") {
 		require("admin/index.php");
-	} else if ($router == "prihlaseni") {
+	} else if ($router == "login") {
 		require("pages/bundle_Login.php");
-	} else if ($router == "registrace") {
+	} else if ($router == "register") {
 		require("pages/bundle_Register.php");
 	} else { 
 		if (Bundle\Url::IsDefinedUrl($router)) {
@@ -70,7 +70,7 @@
 				Bundle\Events::Execute("Page", array(new Bundle\Page($Url->Data)));
 				
 			} else if ($Url->Type == "category") {
-				$Page->Actual = "Články v kategorii " . (new Bundle\Category($Url->Data))->Title;
+				$Page->Actual = HLoc::l("Articles in") . " " . (new Bundle\Category($Url->Data))->Title;
 				
 				Bundle\Events::Execute("Category", array(new Bundle\Category($Url->Data)));
 				
@@ -81,7 +81,7 @@
 				
 			}
 		} else {
-			$Page->Actual = "Hlavní stránka";
+			$Page->Actual = HLoc::l("Homepage");
 			
 			Bundle\Events::Execute("Home");
 			

@@ -8,23 +8,26 @@
 class Admin {
     public static function PasswordError($type) {
         if ($type == 0) 
-            self::ErrorMessage("Staré heslo není správné.");
+            self::ErrorMessage(HLoc::l("The password is not corrent."));
         else if ($type == 1)
-            self::ErrorMessage("Nová hesla se neshodují.");
+            self::ErrorMessage(HLoc::l("Passwords must match."));
         else if ($type == 2)
-            self::ErrorMessage ("Všechny údaje musí být vyplněné.");
+            self::ErrorMessage (HLoc::l("All information must by filled in."));
     }
     
     public static function Message($text) {
-        echo "<div id='done'><p>" . $text . "</p></div>";
+        echo "<div class='alert alert-success' role='alert'>" . $text  
+        . '<button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
     }
     
     public static function ErrorMessage($text) {
-        echo "<div id='error'><p>" . $text . "</p></div>";
+        echo "<div class='alert alert-danger' role='alert'>" . $text 
+        . '<button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
     }
     
     public static function WarningMessage($text) {
-        echo "<div id='warning'><p>" . $text . "</p></div>";
+        echo "<div class='alert alert-warning' role='alert'>" . $text 
+        . '<button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
     }
 }
 
