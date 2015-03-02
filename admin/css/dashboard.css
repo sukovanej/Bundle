@@ -1,0 +1,135 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+    border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    display: none;
+}
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 50px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        padding-top: 0px;
+        overflow-x: hidden;
+        overflow-y: auto; 
+        background-color: #f5f5f5;
+        box-shadow:3px -3px 5px #999;
+    }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+.nav-sidebar > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.nav-sidebar > li > a > img {
+    width:18px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+    padding: 20px;
+}
+.main .page-header {
+    margin-top: 10px;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.placeholders h4 {
+    margin-bottom: 0;
+}
+.placeholder {
+    margin-bottom: 20px;
+}
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.comment_table {display:block;}
+.badge-head {padding:7px 10px; position:relative; bottom:7px;}
+.btn-no-padding {padding:0;}
+.btn-no-style {background-color:transparent;}
+.nav .badge {background-color:#428BCA;}
+.active .badge {background-color:#fff; color:#428BCA;}
+.user-role-img {width:20px; margin:0px 3px;}
+
+.nav-header-creates {display:none;}
+.navbar-brand {font-size:23px; color:#fff !important;}
+.checkbox, .radio {margin-bottom: 5px;}
+.table-td-title {position:relative; top:5px;}
+.list-overflow-y {overflow:auto; height:150px; background-color:#fff; border:1px solid #ddd; padding:0px 10px; border-radius:3px;}
+.menu-table-sub {position:relative; left:20px;}
+..well {background-image:transparent !important;}
+.package-img {height:40px; margin:5px; float:left; position:relative; bottom:5px;}
+.package-image-info {height:40px; margin:10px; margin-top:5px; margin-left:0; float:left;}
+.package_main {min-width:250px;}
+.package_title {margin-bottom:5px; display:block;}
+.user-image-table {width:100px;}
+.nav-tabs-package {margin-bottom:10px;}
+.desktop-only {display:none !important;}
+
+@media (min-width: 768px) {
+    .nav-header-creates {display:block; float:left; margin:7px; position:fixed; left:100px;}
+    .mobile-only {display:none !important;}
+    .desktop-only {display:inline-block !important;}
+}
+
+.green {border-left:10px solid #55AA22;}
+.orange {border-left:10px solid #962323;}

@@ -35,9 +35,11 @@
 		$_GET["router"] = urlencode($_GET["router"]);
 	
 	// Dynamic url
+	global $router;
 	$router = isset($_GET["router"]) ? $_GET["router"] : null;
 
 	// Default config object
+	global $Page;
 	$Page = new Bundle\Template;
 	
 	// User object - if user's logged in
@@ -77,8 +79,7 @@
 			} else if ($Url->Type == "package") {
 				$Page->Actual = (new Bundle\Package($Url->Data))->Title;
 				
-				Bundle\Events::Execute("Package", array( new Bundle\Package($Url->Data)));
-				
+				Bundle\Events::Execute("Package", array( new Bundle\Package($Url->Data)));	
 			}
 		} else {
 			$Page->Actual = HLoc::l("Homepage");

@@ -48,7 +48,7 @@ class Package extends DatabaseBase {
 	}
 	
 	public static function IsActive($name) {
-		$package = self::get_package_by_title($name);
+		$package = self::GetPackageByName($name);
 		return $package->IsActive;
 	}
 	

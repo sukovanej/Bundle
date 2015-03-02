@@ -1,0 +1,253 @@
+% index
+Log out=Odhlásit
+Profile=Profil
+New article=Nový článek
+New page=Nová stránka
+Comments=Komentáře
+Articles=Články
+Pages=Stránky
+Users=Uživatelé
+Categories=Kategorie
+Packages=Balíčky
+Content generating=Generování obsahu
+Navigation=Navigace
+Page generated in=Stránka vygenerována za
+Toggle navigation=Přepnout navigaci
+Administration=Administrace
+Bad token! Try it again=Špatný token! Zkuste to znovu
+Error=Chyba
+You're not logged in=Nejste přihlášen
+is up-to-date=je aktuální
+
+% set up theme
+Allow=Povolit
+Set up=Nastavit
+Theme options=Nastavení šablony
+
+% articles
+Create new article=Vytvořit nový článek
+Adding articles to a navigation is enabled=Přidávání článků do navigace je povoleno
+Title=Titulek
+Creation date=Datum vytvoření
+Author=Autor
+Status=Stav
+Edit=Upravit
+Article has been removed=Článek byl odstraněn
+
+% edit page
+Page=Stránka
+Edit page=Upravit stránku
+The URL is already used=Tato URL adresa je už použitá
+Page has been created=Stránka byla vytvořena
+Options=Možnosti
+View the page=Zobrazit stránku
+Add to the navigation=Přidat do navigace
+Parent page=Nadřazená stránka
+
+% edit article
+Edit article=Upravit článek
+Article=Článek
+has been updated=byl upraven
+View the article=Zobrazit článek
+Enable datetime=Povolit datum
+Enable comments=Povolit komentáře
+Comments are disabled by system=Komentáře jsou systémem zakázány
+Show with other articles=Zobrazit s ostatními články
+Concept=Koncept
+Published=Publikováno
+
+% create article
+New page has been created=Nová stránka byla úspěšně vytvořena
+New article has been created=Nový článek byl vytvořen
+
+% create page
+Add to a navigation=Přidat do navigace
+
+% comments
+Comments are enabled=Komentáře jsou povoleny
+Comments are diabled=Komentáře jsou zakázány
+Only registred users can add comments=Pouze registrovaní mohou přidávat komentáře
+Unregistred users can add comments=Neregistrovaní uživatelé mohou přidávat komentáře
+No comment has been created yet=Žádný komentář ještě nebyl vytvořen
+Datetime=Datum a čas
+Author=Autor
+Comment has been deleted=Komentář byl odstraněn
+Comment has been flagged as inappropriate comment=Komentář byl označen jako nevhodný
+
+
+% configpage
+Configuration=Nastavení
+Name=Název
+Author=Autor
+Icon=Ikona
+Basic configuration=Základní nastavení
+Template=Šablona
+Language=Jazyk
+Footer text=Text v patičce
+Content=Obsah
+Articles on the page=Článků na stránku
+Main page=Hlavní stránka
+Save=Uložit
+Latest articles=Poslední články
+Allow comments=Povolit komentáře
+Inappropriate comment=Nevhodný komentář
+Unregistered users can add comment=Neregistrovaní uživatelé mohou přidávat komentáře
+Enable homepage=Přidat hlavní stránku
+Title of the main page=Titulek hlavní stránky
+Enable pages=Povolit stránky
+Enable packages=Povolit balíčky
+Enable articles=Povolit články
+Enable registration=Povolit registrace
+Enable profile photos=Povolit profilové fotografie
+Max profile photos size (kB)=Maximální velikost fotografií (kB)
+Changes have been saved=Změny byly uloženy
+Default=Výchozí
+
+% info
+Welcome back=Vítej zpět
+Latest comments=Poslední komentáře
+System Bundle=Systém Bundle
+need upgrade=potřebuje aktualizaci
+no data=žádná data
+
+% login & register
+Login=Přihlášení
+failed=selhalo
+username=uživatelské jméno
+password=heslo
+Log in=Přihlásit
+Register=Registrovat
+Back=Zpět
+password again=heslo znovu
+You must complete all fields=Musíte vyplnit všechna pole
+The passwords must match=Hesla se musí shodovat
+The email has an incorrect format=Email je v nesprávném formátu
+The email is already used=Vybraný email je již použitý
+The username is already used=Vybrané uživatelské jméno je již použeité
+Your account has been created=Váš uživatelský účet byl vytvořen
+Now you can=Nyní se můžete
+log in=přihlásit
+Thank you for registering on our website=Děkujeme za registraci na naší webové stránce
+Your login details are=Vaše přihlašovací údaje jsou
+
+% install package
+Install=Instalovat
+Ready to install=Připraveno k instalaci
+Canceled=Zrušeno
+This package is already installed=Tento balíček je již nainstalovaný
+Dependence error=Chyba v závislostech
+Installation=Instalace
+Package has been successfully installed=Balíček byl úspěšně nainstalován
+Unhandled error in=Neodchycená chyba v
+Continue=Pokračovat
+Back=Zpět
+Package=Balíček
+doesn't exist=neexistuje
+
+% login
+Homepage=Hlavní stránka
+
+% email
+
+% content generating
+Main content=Hlavní obsah
+Add new=Přidat
+Main content can be generated only in main areas=Hlavní obsah může být generován pouze do hlavních oblastí
+New generator has be successfully=Nový generátor byl úspěšně
+created=vytvořen
+Item has been=Položka byla
+removed=odstraněna
+Something went wrong=Něco se pokazilo
+On homepage only=Pouze na hlavní stránce
+Add new content=Přidat nový obsah
+Arrangement on the website=Rozmístění na stránce
+Type of the content=Typ obsahu
+Active=Aktivní
+Shown=Zobrazení
+Allways=Vždy
+Yes=Ano
+Delete=Odstranit
+Homepage only=Pouze na hl. stránce
+No=Ne
+
+% categories
+Category=Kategorie
+has been removed=byla odstraněna
+Create a new category=Vytvořit novou kategorii
+short title of a new category=krátký název nové kategorie
+Parent category=Nadřazená kategorie
+Category has been created=Nová kategorie byla úspěšně vytvořena
+Category has been updated=Kategorie byla úspěšně upravena
+
+% profile
+Editor=Redaktor
+User=Uživatel
+Administrator=Administrátor
+Profile has been successfully updated=Profil byl úspěšně aktualizován
+Password has been successfully updated=Heslo bylo úspěšně upraveno
+Max profile photo size is=Maximální velikost fotografie je
+Allowed formats are=Povolené formáty jsou
+Photo=Fotografie
+Profile photo has been successfully saved=Fotografie byla úspěšně aktualizována
+You are administrator=Jste administrátor
+You can't delete your account=Nemůžete smazat svůj účet
+Thank you for using this website, continue to the homepage=Děkujeme za používání našich, pokračujte na hlavní stránku
+Upload=Nahrát
+Profile photos are not enabled=Fotografie nejsou povoleny
+Basic information=Základní informace
+Username=Uživatelské jméno
+Change password=Změnit heslo
+Old password=Staré heslo
+New password=Nové heslo
+New password again=Nové heslo znovu
+Change password=Změnit heslo
+Random password=Náhodné heslo
+Delete account=Smazat účet
+Are you sure you want to remove your account=Opravdu chete svůj účet smazat
+Yes, delete=Ano, smazat
+No, back=Ne, zpět
+
+% menu
+Add new item=Přidat novou položku
+New item has been successfully added=Nová položka byla úspěšně přidána
+The item has been removed=Položka byla odstraněna
+Item=Položka
+Parent item=Nadřazená položka
+Add=Přidat
+Arrangement=Uspořádání
+Type=Typ
+Remove=Odstranit
+
+% package
+Changes have been saved=Změny byly uloženy
+Please, refresh page=Prosím, obnovte stránku
+package=balíček
+Package=Balíček
+Show in the admin navigation=Zobrazit v navigaci administrace
+Show in the navigation=Zobrazit v navigaci
+
+% packages
+Search packages=Hledat balíčky
+Version=Verze
+Description=Popis
+Real name=Skutečný název
+Manage=Spravovat
+Uninstall=Odinstalovat
+Error=Chyba
+
+% pages
+Page has been deleted=Stránka byla smazána
+Create new page=Vytvořit novou stránku
+No page has been created yet=Žádná stránka ještě nebyla vytvořena
+
+% uninstall package
+Package isn't installed yet=Balíček ještě není nainstalovaný
+Package has been successfully uninstalled=Balíček byl úspěšně odinstalován
+
+% users
+has been successfully deleted=byl úspěšně odstraněn
+has become=se stal
+Role=Pozice
+Change the role=Změnit roli
+You can't change your own profile=Nemůžeš měnit svůj vlastní profil
+is=je

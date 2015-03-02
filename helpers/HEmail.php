@@ -2,7 +2,7 @@
 
 class HEmail {
 	public $To; // acceptor of the email
-	public $From; // your own/website's main mail = mail sender
+	public $From; // your own/website's main email = mail sender
 	public $Subject; // subject of the email
 	public $Message; // the message
 	public $Headers; // type of header - see below

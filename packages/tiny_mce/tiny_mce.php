@@ -12,9 +12,9 @@ class tiny_mce extends Bundle\PackageBase {
 	// Install
 	public function install() {
 		HConfiguration::Create('tinyMCE_plugins', 
-			'"advlist autolink link image lists charmap print preview hr anchor pagebreak",'
+			'advlist autolink link image lists charmap print preview hr anchor pagebreak",'
 			. '"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",'
-			. '"save table contextmenu directionality emoticons paste textcolor"');
+			. '"save table contextmenu directionality emoticons paste textcolor');
 			 
 		HConfiguration::Create('tinyMCE_toolbar', 
 			'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | '
@@ -33,7 +33,7 @@ class tiny_mce extends Bundle\PackageBase {
 		echo('
 <script type="text/javascript" src="' . HPackage::getPath("tiny_mce") . '/editor/tinymce.min.js"></script>
 <script type="text/javascript">
-	tinymce.init({ selector: "textarea#editor", plugins: [ ' . HConfiguration::get("tinyMCE_plugins") . "\n\t\t\t" . ' ], 
+	tinymce.init({ selector: "textarea#editor", plugins: [ "' . HConfiguration::get("tinyMCE_plugins") . '"' . "\n\t\t\t" . ' ], 
 		toolbar: "' . HConfiguration::get("tinyMCE_toolbar") . '",
 		language : "cs", content_css : "css/custom_content.css", 
 		init : function(ed) {

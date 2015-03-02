@@ -153,7 +153,7 @@
 			<a href="<?= $item->Url ?>" target="_blank"><?= $item->Title ?></a></td>
 		<td class="mobile-hide"><?= $types[$item->Type] ?></td>
 		<td>
-			<?php if($item->Title == $Page->HomeMenuTitle): ?>
+			<?php if($item->ID == 0): ?>
 			-
 			<?php else: ?>
 			<form method="POST">
@@ -171,7 +171,7 @@
 		<td>
 			<form method="POST">
 				<?= HToken::html() ?>
-				<?php if($item->Title != $Page->HomeMenuTitle): ?>
+				<?php if($item->ID != 0): ?>
 					<input type="hidden" name="menu_item_id" value="<?= $item->ID ?>" />
 					<input type="submit" value="<?= HLoc::l("Remove") ?>" name="menu_item_delete" class="btn btn-xs btn-danger" />
 				<?php else: ?>

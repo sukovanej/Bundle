@@ -40,19 +40,8 @@
 		}
 	}
 ?>
-<h2 class="page-header"><?= HLoc::l("Upload a new file") ?></h2>
+<h3><?= HLoc::l("Upload a new file") ?></h3>
 	<script type="text/javascript">
-		function delete_file(file) {
-			$("#dialog-bg").show();
-			$("#dialog").html(
-				"<h1>Opravdu chcete soubor odstranit?</h1><p>Pro odstranění stiskněte tlačítko \n\
-				<em>Odstranit</em>.</p><form method='POST'><input type='hidden' name='file' value='" + file + "' />\n\
-				<input type='submit' value='Odstranit' name='delete_file' />\n\
-				<input type='reset' onclick='CloseDialog()' value='Zrušit' /></form>"
-			);
-			$("#dialog").show();
-		}
-		
 		function update_file(file) {
 			$(".input_origin_file").val(file);
 			$(".origin_file").text(file);
@@ -64,14 +53,14 @@
 			<td>
 				<form method="post" enctype="multipart/form-data">
 					<?= HToken::html() ?>
-					<input type="file" name="files[]" multiple="multiple" id="file"><br>
+					<input type="file" class="" name="files[]" multiple="multiple" id="file"><br>
 					<input type="submit" class="btn btn-primary"  name="submit" value="<?= HLoc::l("Save") ?>">
 				</form>
 			</td>
 		</tr>
 	</table>
 	
-<h2 class="page-header"><?= HLoc::l("Uploaded files") ?></h2>
+<h3><?= HLoc::l("Uploaded files") ?></h3>
 
 <?php $scanned_directory = array_diff(scandir($output), array('..', '.')); ?>
 <table class="table">

@@ -302,6 +302,8 @@ class Template {
         $Article = new Article($ID);
         $Author = new User($Article->Author);
         $Page = new Template;
+
+        Events::Execute("Article", array(&$Article, &$Author));
         
         // Add new comment
         
@@ -320,8 +322,8 @@ class Template {
                 $author = (new User($_SESSION["user"]))->ID;
             
             if (!empty($text) && (($author == -1 && $this->AllowUnregistredComments) || $author != -1)) {
+            	Events::Execute("CommentSubmit", array(&$author, &$ip, &$text, &$Article));
                 Comment::Create($text, $ID, $author, $ip);
-                Events::Execute("CommentSubmit", array($author, $ip));
             } else {
                 Events::Execute("CommentSubmitError");
             }

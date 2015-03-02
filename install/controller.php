@@ -80,7 +80,7 @@
 				Bundle\DB::Connect()->query("UPDATE " . DB_PREFIX . "users SET Role = 0");
 				$result .= "Administrátorský účet vytvořen <br />";
 				
-				require("themes/bootstrap/install.php");
+				require("themes/default/install.php");
 				(new InstallTheme)->Install();
 				
 				$result .= "Šablona nainstalována <br />";

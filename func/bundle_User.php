@@ -13,7 +13,7 @@ class User extends DatabaseBase{
 		$this->ID = $ID;
 		
         if ($this->ID == -1) {
-			$this->Username = "Anonymní uživatel";
+			$this->Username = HLoc::l("Anonymous");
 			$this->Role = -1;
 		} else {
 			parent::__construct($ID, "users");

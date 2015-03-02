@@ -36,15 +36,25 @@
 				$info = "<a class='btn btn-xs btn-success' href='administration-install-package-" . $name . "'>" . HLoc::l("Install") . "</a>";
 				$icon = "packages/" . $name ."/ico.png";
 				
-				if ($packages->IsPackageInstalled($name))
-					$info = "<a class='btn btn-primary btn-xs' href='administration-package-" . $name . "'>" . HLoc::l("Manage") . "</a> <span class='light'></span>
-					<a class='btn btn-danger btn-xs' href='administration-uninstall-package-" . $name . "'>" . HLoc::l("Uninstall") . "</a>";	
+				$IsActive = false;
+
+				if ($packages->IsPackageInstalled($name)) {
+					$info = "<a class='btn btn-primary btn-xs' href='administration-package-" . $name . "'>" . HLoc::l("Manage") 
+						. "</a> <span class='light'></span><a class='btn btn-danger btn-xs' href='administration-uninstall-package-" 
+						. $name . "'>" . HLoc::l("Uninstall") . "</a>";	
+
+					$IsActive = Bundle\Package::IsActive($name);
+				}
+
+				$color = "orange";
+				if ($IsActive)
+					$color="green";
 					
 				if (!file_exists(getcwd() . "/" . $icon))
 					$icon = "images/Plugins.png";
 			?>
 		<?php if (!$package->Error): ?>
-		<tr>
+		<tr class="<?= $color ?>">
 			<td style="vertical-align:middle;"><strong><?= $i ?></strong></td>
 			<td class="package_main"><img class="package-image-info" src="./<?= $icon ?>" /><strong class="package_title"><?= HLoc::l($package->name) ?></strong> 
 				<p class="package-sub-info"><?= $info ?></p></td>

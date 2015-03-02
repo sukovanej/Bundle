@@ -1,0 +1,2 @@
+<script type="text/javascript" src="<?= HPackage::getPath("ckeditor") ?>/ckeditor/ckeditor.js"></script>
+<script  type="text/javascript" src="<?= HPackage::getPath("ckeditor") ?>/ckeditor/adapters/jquery.js"></script>

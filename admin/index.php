@@ -45,7 +45,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Bundle</a>
+                    <a class="navbar-brand" href="./">Bundle</a>
                 </div>
                 <?php if ($User->Role < 2): ?>
                 <div class="nav-header-creates">

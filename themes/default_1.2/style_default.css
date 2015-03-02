@@ -1,0 +1,16 @@
+#content blockquote p:last-child {margin-bottom:0;}
+#article > h1 > a > .comments_count {float:right; font-size:14px; color:#444; font-weight:bold; position:relative; top:-1px; background-color:#eee; height:13px; padding:5px;
+	border:1px solid #ccc; border-radius:5px;}
+#article > h1 > a > .comments_count img {width:22px; float:right; margin-left:3px; position:relative; bottom:5px;}
+#full_content * {width:100%;}
+
+.panel_content img {margin-bottom:-3px !important;}
+.panel_content * {max-width:100%; height:auto;}
+.coment-text {padding-bottom:5px; line-height:1.2em; text-align:justify;}
+#content i, #content em {color:#888;}
+#content p img {margin-bottom:-2px !important;}
+
+#content #text {width:74%; float:left;}
+#content #panel {width:25%; float:right;}
+
+#content blockquote {line-height: 1.5em;}
