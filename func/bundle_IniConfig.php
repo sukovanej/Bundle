@@ -1,24 +1,22 @@
 <?php
-
-/**
- * iniConfig
- *
- * @author sukovanej
- */
- 
-namespace Bundle;  
-
+namespace Bundle;
 class IniConfig {
 	public $Array;
 	
-    public function __construct($url, $trim = true) {  
+	/**
+	 * Parsovat soubor
+	 *
+	 * @param string $url Adresa k souboru
+	 * @param bool $trim Odstranit bílé znaky na konci a zaèátku øetìzcù?
+	 *
+	 */		
+	public function __construct($url, $trim = true) {
 		$this->Array = array();
-		      
-        if (!file_exists($url)) {
+		
+		if (!file_exists($url)) {
 			$this->Error = true;
-		} else { 
+		} else {
 			$handle = @fopen($url, "r");
-			
 			if ($handle) {
 				if ($trim) {
 					while (($buffer = fgets($handle, 4096)) !== false) {
@@ -37,8 +35,8 @@ class IniConfig {
 			}
 			
 			$this->Error = false;
-			
 			fclose($handle);
-		}       
-    }
+			
+		}
+	}
 }

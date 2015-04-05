@@ -2,10 +2,21 @@
 namespace Bundle; 
 
 class GetParser {
+	/**
+	 * Parsovat parametry v URL
+	 *
+	 *
+	 */	
 	public function __construct() {
 		$this->parse();
 	}
 	
+	/**
+	 * Parsovat parametry v adrese URL
+	 *
+	 * @return object This
+	 *
+	 */	
 	public function parse() {
 		$url = $_SERVER["REQUEST_URI"];
 		$this->Data = preg_split("[\\?]", $url);

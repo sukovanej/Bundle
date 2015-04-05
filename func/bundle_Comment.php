@@ -23,6 +23,15 @@ class Comment extends DatabaseBase{
 		}
     }
     
+	/**
+	 * Vytvoøit novı èlánek
+	 *
+	 * @param string $text Obsah komentáøe
+	 * @param int $page Stránka (resp. èlánek) s komentáøi
+	 * @param int $author Autor komentáøe
+	 * @param string $ip IP autora komentáøe
+	 *
+	 */	
     public static function Create($text, $page, $author, $ip) {
         $connect = DB::Connect();
         
@@ -33,11 +42,24 @@ class Comment extends DatabaseBase{
                 . $page . ", " . $author . ", '" . $ip . "')");
     }
     
+	/**
+	 * Pøevést speciální znaky na entity
+	 *
+	 * @param string $text Vstup
+	 * @return string Vıstup
+	 *
+	 */	
     public static function SimpleFormat($text) {
         $result = htmlspecialchars($text);
         return nl2br($result);
     }
     
+	/**
+	 * Vrátit pole objektù tøídy Bundle\Comment
+	 *
+	 * @return mixed Pole s objekty Bundle\Comment
+	 *
+	 */	
     public static function GetList() {
 		$connect = DB::Connect();
 		$re = $connect->query("SELECT ID FROM " . DB_PREFIX . "comments ORDER BY Datetime DESC");
@@ -51,6 +73,12 @@ class Comment extends DatabaseBase{
 		return $array;
 	}
     
+	/**
+	 * Spoèítat všechny existující komentáøe
+	 *
+	 * @return int Poèet existujích komentáøù
+	 *
+	 */	
 	public static function CountAll() {
 		return count(self::GetList());
 	}

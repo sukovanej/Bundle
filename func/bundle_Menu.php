@@ -8,6 +8,12 @@
 namespace Bundle;  
  
 class Menu {
+	/**
+	 * Vytvoøiti nstanci
+	 *
+	 * @param int $parent Nadøazená položka (výchozí: 0)
+	 *
+	 */	
 	public function __construct($parent = 0) {
 		$this->Menu = array();
 		$config = new Template(1);
@@ -64,6 +70,20 @@ class Menu {
 		}
 	}
 	
+	/**
+	 * Nový objekt (položka) menu
+	 *
+	 * @param strign $Url URL adresa položky
+	 * @param string $Title Titulek
+	 * @param string $Type Typ záznamu
+	 * @param int $Order Poøadí
+	 * @param int $Data ID záznamu
+	 * @param int $ID ID
+	 * @param array $Children Podøazené položky
+	 * @param bool $Current Je právì zobrazovaná položka?
+	 * @return object Nový objekt
+	 *
+	 */	
 	private static function MenuObject($Url, $Title, $Type, $Order, $Data, $ID, $Children, $Current = false) {
 		$obj = new \stdclass();
 		$obj->Url = $Url;
@@ -83,7 +103,14 @@ class Menu {
 		return $obj;
 	}
 	
-	public static function Items($parent) {
+	/**
+	 * Vrátit položky menu
+	 *
+	 * @param int $parent Nadøazená položka (výchozí: 0)
+	 * @return array Pole objektù tøídy MenuItem
+	 *
+	 */	
+	public static function Items($parent = 0) {
 		$re = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "menu WHERE Parent = " . $parent);
 		$array = array();
 		
@@ -93,6 +120,15 @@ class Menu {
 		return $array;
 	}		
 	
+	/**
+	 * Vytvoøit novou položka
+	 *
+	 * @param int $url URL
+	 * @param int $parent Nadøazená položka (výchozí: 0)
+	 * @param int $order Poøadí (výchozí: -1)
+	 * @return int ID záznamu
+	 *
+	 */	
 	public static function Create($url, $parent = 0, $order = -1) {
 		$connect = DB::Connect();
 		
@@ -107,14 +143,34 @@ class Menu {
 		return $connect->insert_id;
 	}
 	
+	/**
+	 * Vrátit celé menu
+	 *
+	 * @return array Pole s položky navigace
+	 *
+	 */	
 	public function Menu() {
 		return $this->Menu;
 	}
 	
+	/**
+	 * Vrátit pouze rodièovské prvky (" + WHERE Parent = 0")
+	 *
+	 * @return array Rodièovské položky menu
+	 *
+	 */	
 	public static function ParentsOnly() {
 		return self::Items(0);
 	}
 	
+	/**
+	 * Existuje položka?
+	 *
+	 * @param itn $data ID záznamu
+	 * @param string $type Typ záznamu
+	 * @return bool Existuje Položka?
+	 *
+	 */	
 	public static function Exists($data, $type) {
 		$connect = DB::Connect();
 		

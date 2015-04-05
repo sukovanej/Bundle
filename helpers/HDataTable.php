@@ -21,13 +21,13 @@ class HDataTable {
 	}
 	
 	public function render() {
-		$result = "\n<table class=\"table\">\n";
-		$result .= "\t<tr>\n";
+		$result = "\n<table class=\"table table-hover\">\n";
+		$result .= "\t<thead><tr>\n";
 		
 		foreach ($this->Columns as $key => $value)
 			$result .= "\t\t<th>" . $value . "</th>\n";
 			
-		$result .= "\t<tr>\n";	
+		$result .= "\t<tr></thead><tbody>\n";	
 		
 		while ($item = $this->simple_db_result->fetch_object()) {
 			$result .= "\t<tr>\n";
@@ -45,7 +45,7 @@ class HDataTable {
 			$result .= "\t<tr>\n";
 		}
 		
-		$result .= "</table>\n";
+		$result .= "</tbody></table>\n";
 		
 		echo $result;
 	}

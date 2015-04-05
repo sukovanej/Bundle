@@ -18,7 +18,7 @@
 			<form method="POST">
 				<table class="table">
 					<tr>
-						<td><textarea name="bundle_comment_text" class="form-control"></textarea></td>
+						<td><textarea name="bundle_comment_text" class="form-control input-xxlarge comment-textarea"></textarea></td>
 					</tr>
 					<tr>
 						<td><input type="submit" class="btn btn-block btn-primary" name="bundle_comment_submit" value="Přidat komentář" /></td>

@@ -41,6 +41,13 @@ class HFormItem {
 		} else if ($this->Type == self::TYPE_CHECKBOX) {
 			$this->Value = $this->Name;
 		}
+
+		if (in_array($this->Type, array(self::TYPE_TEXT, self::TYPE_PASSWORD, self::TYPE_TEXTAREA, self::TYPE_SELECT))) {
+			$this->addClass("form-control");
+		} else if (in_array($this->Type, array(self::TYPE_SUBMIT, self::TYPE_RESET, self::TYPE_FILE))) {
+			$this->addClass("btn");
+			$this->addClass("btn-primary");
+		}
 	}
 	
 	public function setValue($value) {

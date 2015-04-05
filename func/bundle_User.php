@@ -13,7 +13,7 @@ class User extends DatabaseBase{
 		$this->ID = $ID;
 		
         if ($this->ID == -1) {
-			$this->Username = HLoc::l("Anonymous");
+			$this->Username = \HLoc::l("Anonymous");
 			$this->Role = -1;
 		} else {
 			parent::__construct($ID, "users");
@@ -103,7 +103,7 @@ class User extends DatabaseBase{
 	public static function Anonymous() {
 		$user = new \stdclass();
 		$user->ID = -1;
-		$user->Username = HLoc::l("Anonymous");
+		$user->Username = \HLoc::l("Anonymous");
 		$user->Role = 3;
 		
 		return $user;

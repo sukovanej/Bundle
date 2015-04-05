@@ -64,6 +64,7 @@ New article has been created=Nový článek byl vytvořen
 Add to a navigation=Přidat do navigace
 
 % comments
+Created by=Vytvořil
 Comments are enabled=Komentáře jsou povoleny
 Comments are diabled=Komentáře jsou zakázány
 Only registred users can add comments=Pouze registrovaní mohou přidávat komentáře
@@ -102,6 +103,7 @@ Enable profile photos=Povolit profilové fotografie
 Max profile photos size (kB)=Maximální velikost fotografií (kB)
 Changes have been saved=Změny byly uloženy
 Default=Výchozí
+Anonymous=Anonymní
 
 % info
 Welcome back=Vítej zpět

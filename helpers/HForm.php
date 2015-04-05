@@ -84,7 +84,7 @@ class HForm {
 			}
 		}
 		
-		$result = "\n" . '<form method="' . $this->Method . '" ' . $this->generateAttributesString() . ' ' . $this->generateClassesString() . ' >' . "\n\t" . '<table>';
+		$result = "\n" . '<form method="' . $this->Method . '" ' . $this->generateAttributesString() . ' ' . $this->generateClassesString() . ' >' . "\n\t" . '<table class="table table-hover">';
 		
 		if ($style == self::TABLE_STYLE_DEFAULT)
 			$style = "width:100px; white_space:nowrap;";
@@ -98,6 +98,9 @@ class HForm {
 			$result .= "\t<tr>\n\t\t<td style=\"" . $style . "\">" . $item->Label . "</td>\n\t\t<td>" . $item->render() . "</td>\n\t</tr>\n";
 		}
 			
+		// Token
+		$result .= HToken::html();
+
 		$result .= "\t</table>\n\t";
 		$result .= '<input type="hidden" name="__HFormSubmitHelpInput_' . $this->Name . '" />' . "\n" . '</form>';
 		echo $result;

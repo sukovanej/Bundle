@@ -1,14 +1,17 @@
 <?php
 
-/**
- * Article
- *
- * @author sukovanej
- */
-
 namespace Bundle;  
- 
+/**
+ * Èlánek
+ *
+ */
 class Article extends DatabaseBase {
+	/**
+	 * Kategorie
+	 *
+	 * @var mixed 
+	 *
+	 */	
     public $CategoriesString;
     
     public function __construct($ID) {
@@ -34,6 +37,19 @@ class Article extends DatabaseBase {
 		return array(1 => \HLoc::l("Published"), 2 => \HLoc::l("Concept"));
 	}
     
+	/**
+	 * Vytvoøit Nový èlánek
+	 *
+	 * @param string $title Titulek
+	 * @param string $content Obsah èlánku
+	 * @param bool $show_datetime Zobrazit datum?
+	 * @param int $author Autor èlánku
+	 * @param bool $show_comments Zobrazit komentáøe?
+	 * @param bool $show_in_view Zobrazit mezi ostatními èlánky
+	 * @param int $status Status [1 = Publikovaný, 2 = Koncept]
+	 * @return int ID èlánku
+	 *
+	 */	
     public static function Create($title, $content, $show_datetime, $author, $show_comments, $show_in_view, $status = 2) {
         $connect = DB::Connect();
         
@@ -53,6 +69,10 @@ class Article extends DatabaseBase {
         return $ID;
     }
     
+	/**
+	 * This is method DeleteSmazat èlánek
+	 *
+	 */	
     public function Delete() {
         parent::Delete();
         $this->connect->query("DELETE FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID);
@@ -62,6 +82,10 @@ class Article extends DatabaseBase {
         $url->Delete();
     }
     
+	/**
+	 * Generovat komentáøe èlánku (jako výstup pro šablonu)
+	 *
+	 */	
     public function Comments() {
         $result = $this->connect->query("SELECT ID, Author FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID . " ORDER BY Datetime DESC");
         
@@ -86,6 +110,10 @@ class Article extends DatabaseBase {
         }
     }
     
+	/**
+	 * Generovat HTML výstup s kategoriemi (pro èlánek)
+	 *
+	 */	
     public function Categories() {
         $result = $this->connect->query("SELECT Category FROM " . DB_PREFIX . "article_categories WHERE Article = " 
                 . $this->ID);
@@ -108,22 +136,46 @@ class Article extends DatabaseBase {
         return $return;
     }
     
+	/**
+	 * Smazat kategorie pøiøazené k èlánku
+	 *
+	 */		
     public function DeleteCategories() {
         $this->connect->query("DELETE FROM " . DB_PREFIX . "article_categories WHERE Article = " . $this->ID);
     }
     
+	/**
+	 * Aktualizovat instanci tøídy Bundle\Article
+	 *
+	 * @return object Vrátit vlastní instanci
+	 *
+	 */	 
     public function InstUpdate() {
         parent::InstUpdate();
         $this->Url = Url::InstByData($this->ID, "article")->Url;
         $this->Datetime = (new \DateTime($this->Datetime))->format("d. m. Y  H:i");
+		return $this;
     }
     
+	/**
+	 * Spouèítat všechny èlánky
+	 *
+	 * @return int Poèet všech existujících èlánkù
+	 *
+	 */	
     public static function CountAll() {
 		$connect = DB::Connect();
 		$re = $connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "articles")->fetch_object();
 		return $re->Count;
 	}
 	
+	/**
+	 * Získat pole s objekty všech èlánkù
+	 *
+	 * @param int $author (nepovinné) Podle autora
+	 * @return array Pole s èlánkys
+	 *
+	 */	
 	public static function GetAll($author = -1) {
 		if ($author == -1)
 			$result = DB::Connect()->query("SELECT ID FROM " . DB_PREFIX . "articles ORDER BY Datetime DESC");

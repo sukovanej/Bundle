@@ -12,7 +12,13 @@ class DB {
 	private static $instance;
 	
 	private function __construct() {}
-	
+		
+	/**
+	 * Vrátit instanci singleton tøídy DB = pøipojení k databázi
+	 *
+	 * @return object Pøipojení k databázi
+	 *
+	 */	
     public static function Connect() {
 		if (!isset(self::$instance)) {		
 			$config = new IniConfig("config.ini");
@@ -31,7 +37,13 @@ class DB {
         
         return self::$instance;
     }
-    
+	
+	/**
+	 * Vrátit velikost databáze
+	 *
+	 * @return int Velikost databáze
+	 *
+	 */	
     public static function Size() {
 		$db = self::Connect();
 		

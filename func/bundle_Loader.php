@@ -1,5 +1,11 @@
 <?php
-    
+
+	/**
+	 * Zavést všechny tøídy, poøadí je zvolené podle míry závisloti na pøedešlích tøídách.
+	 * V tomto ohledu jsou v systému naprosto bázové tøídy: IniConfig a DB.
+	 * Všechny tøídy jsou uzavøeny jmenných prostorem Bundle. 
+	 */
+
     require("bundle_IniConfig.php");
     require("bundle_DB.php");
     require("bundle_DatabaseBase.php");
