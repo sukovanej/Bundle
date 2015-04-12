@@ -30,11 +30,10 @@
 ?>
 <form method="POST">
 	<?= HToken::html() ?>
-    <div class="col-md-8 pull-left">
+    <div class="col-md-12">
         <table class="table">
             <tr>
-                <td width="110"><span class="table-td-title"><?= HLoc::l("Title") ?></span></td>
-                <td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" /></td>
+                <td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" placeholder="<?= HLoc::l("Title") ?>..." /></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -43,24 +42,29 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-4 pull-right">
+    <div class="col-md-6 pull-right">
         <div class="well">
-            <h4><?= HLoc::l("Options") ?></h4>
             <table>    
                 <tr>
-                    <td width="130"><?= HLoc::l("Add to a navigation") ?></td>
-                    <td><input type="checkbox" value="1" name="menu" checked="" /></td>
-                </tr> 
+                    <td width="150"><?= HLoc::l("Add to a navigation") ?></td>
+                    <td><input type="checkbox" value="1" name="menu" class="form-control" checked="" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6 pull-left">
+        <div class="well">
+            <table>
                 <tr>
-        			<td><?= HLoc::l("Parent page") ?></td>
-        			<td>
-        				<select class="form-control" name="pages">
-        					<option value="0"> - </option>
-        					<?php foreach($pages as $page): ?>
-        					<option value="<?= $page->ID ?>"><?= $page->Title ?></option>"
-        					<?php endforeach; ?>
-        				</select>
-        			</td>
+                    <td width="160"><?= HLoc::l("Parent page") ?></td>
+                    <td>
+                        <select class="form-control" name="pages">
+                            <option value="0"> - </option>
+                            <?php foreach($pages as $page): ?>
+                            <option value="<?= $page->ID ?>"><?= $page->Title ?></option>"
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
                 </tr>
             </table>
         </div>

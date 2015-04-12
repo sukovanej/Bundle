@@ -12,7 +12,7 @@ class User extends DatabaseBase{
     public function __construct($ID) {
 		$this->ID = $ID;
 		
-        if ($this->ID == -1) {
+        if ($this->ID == -1) { // Anonymní uživatel
 			$this->Username = \HLoc::l("Anonymous");
 			$this->Role = -1;
 		} else {

@@ -7,14 +7,18 @@ class IniConfig {
 	 * Parsovat soubor
 	 *
 	 * @param string $url Adresa k souboru
-	 * @param bool $trim Odstranit bílé znaky na konci a zaèátku øetìzcù?
+	 * @param bool $trim Odstranit bÃ­lÃ© znaky na konci a zaÄÃ¡tku Å™etÄ›zcÅ¯?
 	 *
 	 */		
 	public function __construct($url, $trim = true) {
 		$this->Array = array();
 		
+		if (!file_exists($url) && file_exists("../../" . $url)) { // modifikace kvÅ¯li ajaxovÃ©mu volÃ¡nÃ­
+			$url = "../../" . $url;
+		}
+
 		if (!file_exists($url)) {
-			$this->Error = true;
+			throw new \Exception("Soubor " . $url . " nebyl nalezen!");
 		} else {
 			$handle = @fopen($url, "r");
 			if ($handle) {

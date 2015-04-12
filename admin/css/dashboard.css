@@ -133,3 +133,7 @@ body {
 
 .green {border-left:10px solid #55AA22;}
 .orange {border-left:10px solid #962323;}
+.table-td-title {color:#666;}
+
+.result-ajax {position:fixed; left:50%; top:0px; right:0; z-index:9999; height:80px; display:none; padding:5px;}
+.result-ajax > .alert {padding:10px; width:100%; margin:0; margin-bottom:5px; border-radius:0; box-shadow:0px 0px 8px #000;}

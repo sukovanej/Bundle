@@ -1,8 +1,12 @@
 <article>
-    <h2 class="page-header"><a href="<?= $Article->Url ?>"><?= $Article->Title ?></a></h2>
+    <h2 class="page-header"><a href="<?= $Article->Url ?>"><?= $Article->Title ?></a>
+	<?php if (Bundle\User::CurrentUser()->Role < 2): ?>
+		<a class="pull-right btn btn-success" href="administration-edit-article-<?= $Article->ID ?>"><?= HLoc::l("Edit article") ?></a>
+ 	<?php endif; ?>
+    </h2>
     <div class="article-content"><?= $Article->Content ?></div> 
 	<h5>
-		<span class="label label-success"><?= HLoc::l("Created by") ?> <strong><?= $Author->Username ?></strong><?php if($Article->ShowDatetime): ?></span> 
+		<span class="label label-success"><?= HLoc::l("Created by") ?> <strong><?= $Author->Username ?></strong></span> <?php if($Article->ShowDatetime): ?>
 		<strong class="label label-primary"><?= $Article->Datetime ?></strong><?php endif; ?>
 		<span class="label label-primary" data-toggle="tooltip" data-placement="right" title="Počet komentářů"><?= $Article->Comments ?></span>
 		<div class="clear-fix"></div>

@@ -33,6 +33,9 @@ Author=Autor
 Status=Stav
 Edit=Upravit
 Article has been removed=Článek byl odstraněn
+Store by pressing the key combination=Uložte stisknutím kombinace kláves
+Hint=Tip
+No article has been created yet=Žádný článek ještě nebyl vytvořen
 
 % edit page
 Page=Stránka
@@ -43,6 +46,7 @@ Options=Možnosti
 View the page=Zobrazit stránku
 Add to the navigation=Přidat do navigace
 Parent page=Nadřazená stránka
+Page has been updated=Stránka bylo aktualizována
 
 % edit article
 Edit article=Upravit článek
@@ -55,6 +59,7 @@ Comments are disabled by system=Komentáře jsou systémem zakázány
 Show with other articles=Zobrazit s ostatními články
 Concept=Koncept
 Published=Publikováno
+Article has been updated=Článek byl aktualizován
 
 % create article
 New page has been created=Nová stránka byla úspěšně vytvořena
@@ -74,7 +79,7 @@ Datetime=Datum a čas
 Author=Autor
 Comment has been deleted=Komentář byl odstraněn
 Comment has been flagged as inappropriate comment=Komentář byl označen jako nevhodný
-
+Comments are disabled=Komentáře jsou vypnuty
 
 % configpage
 Configuration=Nastavení

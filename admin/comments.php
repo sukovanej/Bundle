@@ -37,6 +37,7 @@
 	<?php endif; ?>
 	</h4>
 </div>
+<div class="clearfix"></div>
 <?php if (Bundle\Comment::CountAll() == 0): ?>
 	<?php Admin::WarningMessage(HLoc::l("No comment has been created yet")) ?>
 <?php else: ?>

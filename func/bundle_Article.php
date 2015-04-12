@@ -2,7 +2,7 @@
 
 namespace Bundle;  
 /**
- * Èlánek
+ * ÃˆlÃ¡nek
  *
  */
 class Article extends DatabaseBase {
@@ -19,7 +19,11 @@ class Article extends DatabaseBase {
         $this->Url = Url::InstByData($ID, "article")->Url;
         $this->Datetime = (new \DateTime($this->Datetime))->format("d. m. Y  H:i"); 
         $this->CategoriesString = "";
-        $this->Perex = explode("<!-- pagebreak -->", $this->Content)[0];
+
+        // Perex je oddÄ›len buÄ: hr tagem, [perex], <!-- pagebreak -->,
+        $this->Perex = preg_split("/<hr \/>|<hr\/>|<hr>|\[perex\]/", $this->Content)[0];
+
+
         $this->Comments = $this->connect->query("SELECT COUNT(*) AS Count FROM " . DB_PREFIX . "comments WHERE Page = " . $this->ID)->fetch_object()->Count;
         
         $this->Categories();
@@ -38,16 +42,16 @@ class Article extends DatabaseBase {
 	}
     
 	/**
-	 * Vytvoøit Novı èlánek
+	 * VytvoÃ¸it NovÃ½ Ã¨lÃ¡nek
 	 *
 	 * @param string $title Titulek
-	 * @param string $content Obsah èlánku
+	 * @param string $content Obsah Ã¨lÃ¡nku
 	 * @param bool $show_datetime Zobrazit datum?
-	 * @param int $author Autor èlánku
-	 * @param bool $show_comments Zobrazit komentáøe?
-	 * @param bool $show_in_view Zobrazit mezi ostatními èlánky
-	 * @param int $status Status [1 = Publikovanı, 2 = Koncept]
-	 * @return int ID èlánku
+	 * @param int $author Autor Ã¨lÃ¡nku
+	 * @param bool $show_comments Zobrazit komentÃ¡Ã¸e?
+	 * @param bool $show_in_view Zobrazit mezi ostatnÃ­mi Ã¨lÃ¡nky
+	 * @param int $status Status [1 = PublikovanÃ½, 2 = Koncept]
+	 * @return int ID Ã¨lÃ¡nku
 	 *
 	 */	
     public static function Create($title, $content, $show_datetime, $author, $show_comments, $show_in_view, $status = 2) {
@@ -70,7 +74,7 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * This is method DeleteSmazat èlánek
+	 * This is method DeleteSmazat Ã¨lÃ¡nek
 	 *
 	 */	
     public function Delete() {
@@ -83,7 +87,7 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * Generovat komentáøe èlánku (jako vıstup pro šablonu)
+	 * Generovat komentÃ¡Ã¸e Ã¨lÃ¡nku (jako vÃ½stup pro Å¡ablonu)
 	 *
 	 */	
     public function Comments() {
@@ -111,7 +115,7 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * Generovat HTML vıstup s kategoriemi (pro èlánek)
+	 * Generovat HTML vÃ½stup s kategoriemi (pro Ã¨lÃ¡nek)
 	 *
 	 */	
     public function Categories() {
@@ -137,7 +141,7 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * Smazat kategorie pøiøazené k èlánku
+	 * Smazat kategorie pÃ¸iÃ¸azenÃ© k Ã¨lÃ¡nku
 	 *
 	 */		
     public function DeleteCategories() {
@@ -145,9 +149,9 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * Aktualizovat instanci tøídy Bundle\Article
+	 * Aktualizovat instanci tÃ¸Ã­dy Bundle\Article
 	 *
-	 * @return object Vrátit vlastní instanci
+	 * @return object VrÃ¡tit vlastnÃ­ instanci
 	 *
 	 */	 
     public function InstUpdate() {
@@ -158,9 +162,9 @@ class Article extends DatabaseBase {
     }
     
 	/**
-	 * Spouèítat všechny èlánky
+	 * SpouÃ¨Ã­tat vÅ¡echny Ã¨lÃ¡nky
 	 *
-	 * @return int Poèet všech existujících èlánkù
+	 * @return int PoÃ¨et vÅ¡ech existujÃ­cÃ­ch Ã¨lÃ¡nkÃ¹
 	 *
 	 */	
     public static function CountAll() {
@@ -170,10 +174,10 @@ class Article extends DatabaseBase {
 	}
 	
 	/**
-	 * Získat pole s objekty všech èlánkù
+	 * ZÃ­skat pole s objekty vÅ¡ech Ã¨lÃ¡nkÃ¹
 	 *
-	 * @param int $author (nepovinné) Podle autora
-	 * @return array Pole s èlánkys
+	 * @param int $author (nepovinnÃ©) Podle autora
+	 * @return array Pole s Ã¨lÃ¡nkys
 	 *
 	 */	
 	public static function GetAll($author = -1) {

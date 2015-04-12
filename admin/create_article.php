@@ -38,20 +38,19 @@
 ?>
 <form method="POST">
 	<?= HToken::html() ?>
-	<div class="col-md-8 pull-left">
+	<div class="col-md-12">
 		<table class="table">
 			<tr>
-				<td width="110"><span class="table-td-title"><?= HLoc::l("Title") ?></span></td>
-				<td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" /></td>
+				<td><input type="text" class="form-control" name="title" value="<?= __POST("title") ?>" placeholder="<?= HLoc::l("Title") ?>..." /></td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<textarea name="content" cols="80" rows="20" class="editor" id="editor"><?= __POST("content") ?></textarea>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<div class="col-md-4 pull-left">
+	<div class="col-md-6">
 		<div class="well">
 			<h4><?= HLoc::l("Options") ?></h4>
 				<div class="checkbox">
@@ -83,6 +82,8 @@
 				</select>
 			</table>
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="well">
 			<h4><?= HLoc::l("Categories") ?></h4>
 			<div class="list-overflow-y">

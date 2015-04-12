@@ -1,52 +1,12 @@
-<h1 class="page-header"><?= HLoc::l("Edit article") ?></h1>
 <?php
 	$ID = @explode("-", $subrouter)[2];
-	$Article = new Bundle\Article($ID);
-	
-	if (isset($_POST["edit"])) {
-		if (empty($_POST["title"]) || empty($_POST["content"])) {
-			Admin::ErrorMessage(HLoc::l("You must complete all fields"));
-		} else if (Bundle\Url::IsDefinedUrl($_POST["url"]) && $_POST["url"] != $Article->Url) {
-			Admin::ErrorMessage(HLoc::l("The URL is already used") . ".");
-		} else {
-			$show_datetime = 0;
-			$show_comments = 0;
-			$show_in_view = 0;
-			
-			$urlObj = Bundle\Url::InstByUrl($Article->Url);
-			$urlObj->Update("Url", $_POST["url"]);
-			
-			if (isset($_POST["show_datetime"])) { $show_datetime = 1; }
-			if (isset($_POST["show_comments"])) { $show_comments = 1; }
-			if (isset($_POST["show_in_view"])) { $show_in_view = 1; }
-			
-			// pokud se změní status z "koncept" na "publikován", vygenerovat aktuální datum
-			if ($Article->Status == 2 && $_POST["status"] == 1)
-				$Article->Update("Datetime", date('Y-m-d H:i:s'));
-				
-			$Article->Update("ShowDatetime", $show_datetime);
-			$Article->Update("Title", $_POST["title"]);
-			$Article->Update("Content", $_POST["content"]);
-			$Article->Update("AllowComments", $show_comments);
-			$Article->Update("ShowInView", $show_in_view);
-			$Article->Update("Status", $_POST["status"]);
-			$Article->DeleteCategories();
-			
-			
-			
-			$Article->InstUpdate();
-		
-			if (isset($_POST["categories"])) {
-				foreach($_POST["categories"] as $cat) {
-					Bundle\ArticleCategories::Create($Article->ID, $cat);
-				}
-			}
-		
-			$Article->InstUpdate();
-			Admin::Message(HLoc::l("Article") . " <strong>" . $Article->Title . "</strong> " . HLoc::l("has been updated") . " .");
-		}
-	}
-	
+	$Article = new Bundle\Article($ID);	
+?>
+<h1 class="page-header"><?= HLoc::l("Edit article") ?>
+	<a class="btn btn-primary pull-right article-url-clicker" href="<?= $Article->Url ?>" target="_blank"><?= HLoc::l("View the article") ?></a>
+</h1>
+
+<?php
 	$datetime = "";
 	$comments = "";
 	$inview = "";
@@ -55,58 +15,27 @@
 	if ($Article->AllowComments) { $comments = "checked"; }
 	if ($Article->ShowInView) { $inview = "checked"; }
 ?>
+
 <form method="POST">
 	<?= HToken::html() ?>
-	<div class="col-md-8 pull-left">
+	<div class="col-md-12">
 		<table class="table">
 			<tr>
 				<td width="120"><span class="table-td-title"><?= HLoc::l("Title") ?></span></td>
-				<td><input type="text" class="form-control" name="title" value="<?= $Article->Title ?>" /></td>
-			</tr>
-			<tr>
-				<td><span class="table-td-title"><?= HLoc::l("URL") ?></span></td>
-				<td><input type="text" class="form-control width-long" name="url" value="<?= $Article->Url ?>" /></td>
+				<td><input type="text" class="form-control article-title" name="title" value="<?= $Article->Title ?>" /></td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<textarea name="content" cols="80" rows="20" class="editor"><?= $Article->Content ?></textarea>
+					<textarea name="content" cols="80" rows="20" class="editor article-content"><?= $Article->Content ?></textarea>
 				</td>
+			</tr>
+			<tr>
+				<td><span class="table-td-title"><?= HLoc::l("URL") ?></span></td>
+				<td><input type="text" class="form-control width-long article-url" name="url" value="<?= $Article->Url ?>" /></td>
 			</tr>
 		</table>
 	</div>
-	<div class="col-md-4 pull-right">
-		<div class="well">
-			<h4><?= HLoc::l("Options") ?></h4>
-			<a class="btn btn-primary btn-block" href="<?= $Article->Url ?>" target="_blank"><?= HLoc::l("View the article") ?></a>
-			<div class="checkbox">
-				<label>
-					<input type='checkbox' name='show_datetime' <?= $datetime ?> /> <?= HLoc::l("Enable datetime") ?>
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-			<?php if($Page->AllowComments): ?>
-				<input type='checkbox' name='show_comments' <?= $comments ?> /> <?= HLoc::l("Enable comments") ?>
-			<?php else: ?>
-			<div class="checkbox">
-				<label>
-				<input type='checkbox' name='show_comments' title="<?= HLoc::l("Comments are disabled by system") ?>" 
-					style="cursor:help;" readonly /> <?= HLoc::l("Enable comments") ?>
-			<?php endif; ?>
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type='checkbox' name='show_in_view' <?= $inview ?> /> <?= HLoc::l("Show with other articles") ?>
-				</label>
-			</div>
-			<select class="form-control" name="status">
-				<?php foreach(Bundle\Article::getStatuses() as $id => $status) : ?>
-					<?php $select=""; if ($id == $Article->Status) $select = " selected" ?>
-					<option value="<?= $id ?>"<?= $select ?>><?= $status ?></option>
-				<?php endforeach; ?>
-			</select>
-		</div>
+	<div class="col-md-6 pull-right">
 		<div class="well">
 			<h4><?= HLoc::l("Categories") ?></h4>
 			<div class="list-overflow-y">
@@ -145,6 +74,80 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-md-6">
+		<div class="well">
+			<h4><?= HLoc::l("Options") ?></h4>
+			<div class="checkbox">
+				<label>
+					<input type='checkbox' class="article-show_datetime" name='show_datetime' <?= $datetime ?> /> <?= HLoc::l("Enable datetime") ?>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+			<?php if($Page->AllowComments): ?>
+				<input type='checkbox' class="article-show_comments" name='show_comments' <?= $comments ?> /> <?= HLoc::l("Enable comments") ?>
+			<?php else: ?>
+			<div class="checkbox">
+				<label>
+				<input type='checkbox' class="article-show_comments" name='show_comments' title="<?= HLoc::l("Comments are disabled by system") ?>" 
+					style="cursor:help;" readonly /> <?= HLoc::l("Enable comments") ?>
+			<?php endif; ?>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type='checkbox' class="article-show_in_view" name='show_in_view' <?= $inview ?> /> <?= HLoc::l("Show with other articles") ?>
+				</label>
+			</div>
+			<select class="form-control article-status" name="status">
+				<?php foreach(Bundle\Article::getStatuses() as $id => $status) : ?>
+					<?php $select=""; if ($id == $Article->Status) $select = " selected" ?>
+					<option value="<?= $id ?>"<?= $select ?>><?= $status ?></option>
+				<?php endforeach; ?>
+			</select>
+			<br />
+			<p><strong><?= HLoc::l("Hint") ?></strong>: <?= HLoc::l("Store by pressing the key combination") ?> <kbd><kbd>ctrl</kbd> + <kbd>c</kbd></kbd></p>
+		</div>
+	</div>
 	<div class="clearfix"></div>
-	<input type="submit" class="btn btn-lg btn-primary btn-block" value="<?= HLoc::l("Save") ?>" name="edit" />
+	<input type="submit" class="btn btn-lg btn-primary btn-block btn-submit-article" value="<?= HLoc::l("Save") ?>" name="edit" />
 </form>
+
+<script type="text/javascript">
+	$("form").submit(function(event) {
+		var title = $(".article-title").val();
+		var content = $(".article-content").val();
+		var show_comments = $(".article-show_comments").is(':checked');
+		var show_datetime = $(".article-show_datetime").is(':checked');
+		var show_in_view = $(".article-show_in_view").is(':checked');
+		var status = $(".article-status").val();
+		var url = $(".article-url").val();
+		var categories = new Array();
+
+		$(".article-url-clicker").attr("href", url);
+
+		var i = 0;
+
+		$("input[name='categories[]']").each(function () {
+			if (this.checked)
+				categories[i] = $(this).val();
+
+			i++;
+		});
+
+		$.ajax({
+			asyc: true,
+			method: "POST",
+			url: "admin/ajax/edit_article.php",
+			data: { id: <?= $ID ?>, token: <?= HToken::get() ?>, title: title, content: content, show_comments: show_comments, 
+				show_datetime: show_datetime, show_in_view: show_in_view, categories: categories, status: status, url: url }
+		}).done(function(data) {
+			$(".result-ajax").fadeIn(200).html(data).delay(2000).fadeOut(1000);
+			//alert(data);
+		}).fail(function(jqXHR, textStatus) {
+			console.log("Nastala chyba: " + textStatus + "; " + jqXHR);
+		});
+
+		event.preventDefault();
+	});
+</script>

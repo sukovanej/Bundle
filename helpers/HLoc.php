@@ -47,7 +47,12 @@ class HLoc {
 		$result = array();
 
 		$url = "localization/" . $lang;
-		      
+
+		// úprava kvůli AJAXovým požadavkům
+        if (!file_exists($url) && file_exists("../../localization/" . $lang)) {
+        	$url = "../../localization/" . $lang;
+        }
+
         if (!file_exists($url)) {
 			throw new Exception(self::l("File doesn't exist."));
 		} else { 
